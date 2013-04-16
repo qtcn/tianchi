@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>tianchi/alignCenter.png</file>
+        <file>tianchi/alignLeft.png</file>
+        <file>tianchi/alignRight.png</file>
+        <file>tianchi/alignTop.png</file>
+        <file>tianchi/alignBottom.png</file>
+
+    </qresource>
+</RCC>

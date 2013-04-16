@@ -18,3 +18,18 @@ moc_*.cpp
 qrc_*.cpp
 Makefile
 *-build-*
+
+###################
+# Jonix Fu
+###################
+
+#*.pro.user
+~*
+*.bak
+
+dll_lib
+staticlib
+
+tianchi-build-*
+tianchi_s-build-*
+
