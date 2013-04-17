@@ -47,7 +47,7 @@ QString JSONObject::quote(const QString& Text)
         default:
             if ( *ptr > 255 )
             {
-                unsigned __int16 v = *ptr;
+                quint16 v = *ptr;
                 QString S = QString::number(v, 16);
                 ret += "\\u" + S;
             }else
