@@ -1,77 +1,135 @@
-// ********************************************************************************************************************
+// **************************************************************************
 // Tianchi share library for Qt (C++)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
-// ********************************************************************************************************************
+// **************************************************************************
 // 文档说明：常用功能函数
-// ====================================================================================================================
+// ==========================================================================
 // 开发日志：
 // 日期         人员        说明
-// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // 2013.04.11   cnhemiya    建立
+// 2013.04.17   XChinux     参照Qt/qglobal.h文件重写Global.h
+// ==========================================================================
+// 注意事项:
+// 1. 编译Tianchi共享库或Tianchi静态库时请在 .pro 中添加：
+//      DEFINES += TIANCHI_BUILD_LIB
+// 2. 如果编译Tianchi库时要自定义名字空间,则在.pro中添加:
+//      DEFINES += TIANCHI_NAMESPACE=mynamespace
+//    如未定义TIANCHI_NAMESPACE,则默认定义为Tianchi
+// 3. TIANCHI_EXPORT与TIANCHI_API同义
+// ==========================================================================
 
-// ====================================================================================================================
 #ifndef TIANCHI_GLOBAL_H
 #define TIANCHI_GLOBAL_H
 
-#include <QtGlobal>
-
-// 编译 dll 时请在 .pro 中添加：
-// DEFINES += TIANCHI_EXPORT
-
-// 编译 exe 并引入 dll 时请在 .pro 中添加：
-// DEFINES += TIANCHI_IMPORT
-
-// 直接引入源码编译时，不要定义 TIANCHI_EXPORT 或 TIANCHI_IMPORT
-// DEFINES -= TIANCHI_EXPORT
-// DEFINES -= TIANCHI_IMPORT
-
-#if defined(TIANCHI_EXPORT)
-#   define TIANCHI_API Q_DECL_EXPORT
-#elif defined(TIANCHI_IMPORT)
-#   define TIANCHI_API Q_DECL_IMPORT
-#else
-#   define TIANCHI_API
+#ifndef __cplusplus
+#    error "Tianchi library only support C++ Compilers"
 #endif
 
-#ifndef TIANCHI_VERSION
-#   define TIANCHI_VERSION 0x000002
-#endif
 
-// 名字空间，如果名字空间有冲突修改 Tianchi 就可以
+/**
+ * TIANCHI_NAMESPACE 应该在.pro中定义,但为了防止名字冲突,这里强制定义
+ */
 #ifndef TIANCHI_NAMESPACE
 #   define TIANCHI_NAMESPACE Tianchi
-#   define TIANCHI_BEGIN_NAMESPACE namespace TIANCHI_NAMESPACE {
-#   define TIANCHI_END_NAMESPACE } // namespace TIANCHI_NAMESPACE
 #endif
 
-// 常用操作系统预定义
-// Q_OS_WIN
-// Q_OS_WIN32
-// Q_OS_WIN64
-// Q_OS_WINCE
 
-// Q_OS_LINUX
+#include <QtCore/qglobal.h>
 
-// Q_OS_MAC
 
-// 常用编译器预定义
-// _MSC_VER
-// __GNUC__
-// __BORLANDC__
+#define TIANCHI_VERSION_STR   "0.0.1"
+/*
+   TIANCHI_VERSION is (major << 16) + (minor << 8) + patch.
+*/
+#define TIANCHI_VERSION 0x000001
+/*
+   can be used like #if (TIANCHI_VERSION >= TIANCHI_VERSION_CHECK(4, 4, 0))
+*/
+#define TIANCHI_VERSION_CHECK(major, minor, patch) ((major<<16)|(minor<<8)|(patch))
 
-// 类型
-//#ifndef TC_TYPE_DEFINE
-//#   define TC_TYPE_DEFINE
-//typedef tcint8      char;
-//typedef tcint16     short;
-//typedef tcint32     long;
-//typedef tcint64     long long;
-//typedef tcuint8     unsigned char;
-//typedef tcuint16    unsigned short;
-//typedef tcuint32    unsigned long;
-//typedef tcuint64    unsigned long long;
-//#endif
+#if !defined(TIANCHI_NAMESPACE) // user namespace, copy from qglobal.h
+
+# define TIANCHI_PREPEND_NAMESPACE(name) ::name
+# define TIANCHI_USE_NAMESPACE
+# define TIANCHI_BEGIN_NAMESPACE
+# define TIANCHI_END_NAMESPACE
+# define TIANCHI_BEGIN_INCLUDE_NAMESPACE
+# define TIANCHI_END_INCLUDE_NAMESPACE
+#ifndef TIANCHI_BEGIN_MOC_NAMESPACE
+# define TIANCHI_BEGIN_MOC_NAMESPACE
+#endif
+#ifndef TIANCHI_END_MOC_NAMESPACE
+# define TIANCHI_END_MOC_NAMESPACE
+#endif
+# define TIANCHI_FORWARD_DECLARE_CLASS(name) class name;
+# define TIANCHI_FORWARD_DECLARE_STRUCT(name) struct name;
+# define TIANCHI_MANGLE_NAMESPACE(name) name
+
+#else /* user namespace */
+
+# define TIANCHI_PREPEND_NAMESPACE(name) ::TIANCHI_NAMESPACE::name
+# define TIANCHI_USE_NAMESPACE using namespace ::TIANCHI_NAMESPACE;
+# define TIANCHI_BEGIN_NAMESPACE namespace TIANCHI_NAMESPACE {
+# define TIANCHI_END_NAMESPACE }
+# define TIANCHI_BEGIN_INCLUDE_NAMESPACE }
+# define TIANCHI_END_INCLUDE_NAMESPACE namespace TIANCHI_NAMESPACE {
+#ifndef TIANCHI_BEGIN_MOC_NAMESPACE
+# define TIANCHI_BEGIN_MOC_NAMESPACE TIANCHI_USE_NAMESPACE
+#endif
+#ifndef TIANCHI_END_MOC_NAMESPACE
+# define TIANCHI_END_MOC_NAMESPACE
+#endif
+# define TIANCHI_FORWARD_DECLARE_CLASS(name) \
+    TIANCHI_BEGIN_NAMESPACE class name; TIANCHI_END_NAMESPACE \
+    using TIANCHI_PREPEND_NAMESPACE(name);
+
+# define TIANCHI_FORWARD_DECLARE_STRUCT(name) \
+    TIANCHI_BEGIN_NAMESPACE struct name; TIANCHI_END_NAMESPACE \
+    using TIANCHI_PREPEND_NAMESPACE(name);
+
+# define TIANCHI_MANGLE_NAMESPACE0(x) x
+# define TIANCHI_MANGLE_NAMESPACE1(a, b) a##_##b
+# define TIANCHI_MANGLE_NAMESPACE2(a, b) TIANCHI_MANGLE_NAMESPACE1(a,b)
+# define TIANCHI_MANGLE_NAMESPACE(name) TIANCHI_MANGLE_NAMESPACE2( \
+        TIANCHI_MANGLE_NAMESPACE0(name), TIANCHI_MANGLE_NAMESPACE0(TIANCHI_NAMESPACE))
+
+namespace TIANCHI_NAMESPACE {}
+
+#endif /* user namespace */
+
+
+#define TIANCHI_BEGIN_HEADER
+#define TIANCHI_END_HEADER
+
+TIANCHI_BEGIN_HEADER
+TIANCHI_BEGIN_NAMESPACE
+
+
+#if defined(TIANCHI_SHARED) || !defined(TIANCHI_STATIC)
+#  ifdef TIANCHI_STATIC
+#    error "Both TIANCHI_SHARED and TIANCHI_STATIC defined, please make up your mind"
+#  endif
+#  ifndef QT_SHARED
+#    define QT_SHARED
+#  endif
+#  if defined(TIANCHI_BUILD_LIB)
+#    define TIANCHI_EXPORT Q_DECL_EXPORT
+#  else
+#    define TIANCHI_EXPORT Q_DECL_IMPORT
+#  endif
+#else
+#  define TIANCHI_EXPORT
+#endif
+
+TIANCHI_EXPORT const char *tianchiVersion() Q_DECL_NOTHROW;
+TIANCHI_EXPORT bool tianchiSharedBuild() Q_DECL_NOTHROW;
+
+TIANCHI_END_NAMESPACE
+TIANCHI_END_HEADER
+
+#define TIANCHI_API TIANCHI_EXPORT
 
 #endif // TIANCHI_GLOBAL_H
