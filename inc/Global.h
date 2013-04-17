@@ -13,23 +13,14 @@
 // 2013.04.17   XChinux     参照Qt/qglobal.h文件重写Global.h
 // ==========================================================================
 // 注意事项:
-// 1. 编译Tianchi共享库或Tianchi静态库时请在 .pro 中添加：
-//      DEFINES += TIANCHI_BUILD_LIB
-// 2. 如果编译Tianchi库时要自定义名字空间,则在.pro中添加:
-//      DEFINES += TIANCHI_NAMESPACE=mynamespace
-//    如未定义TIANCHI_NAMESPACE,则默认定义为Tianchi
-// 3. TIANCHI_EXPORT与TIANCHI_API同义
-// 4. 如果要编译Tianchi静态库,则在.pro中添加:
-//      DEFINES += TIANCHI_STATIC
-// 5. 如果用户要直接使用源代码,请定义TIANCHI_USE_SOURCE宏
+// 1. 编译Tianchi DLL时请在 .pro 中添加：
+//      DEFINES += TIANCHI_EXPORT
+// 2. 使用Tianchi DLL时请在.pro中添加
+//      DEFINES += TIANCHI_IMPORT
 // ==========================================================================
 
 #ifndef TIANCHI_GLOBAL_H
 #define TIANCHI_GLOBAL_H
-
-#ifndef __cplusplus
-#    error "Tianchi library only support C++ Compilers"
-#endif
 
 
 /**
@@ -41,6 +32,10 @@
 
 
 #include <QtCore/qglobal.h>
+
+#ifndef __cplusplus
+#    error "Tianchi library only support C++ Compilers"
+#endif
 
 
 #define TIANCHI_VERSION_STR   "0.0.1"
@@ -75,36 +70,13 @@ namespace TIANCHI_NAMESPACE {}
 #define TIANCHI_BEGIN_HEADER
 #define TIANCHI_END_HEADER
 
-TIANCHI_BEGIN_HEADER
-TIANCHI_BEGIN_NAMESPACE
-
-#if defined(TIANCHI_USE_SOURCE)
-#  if defined(TIANCHI_SHARED) || defined(TIANCHI_STATIC)
-#    error "Both TIANCHI_USE_SOURCE and TIANCHI_SHARED/TIANCHI_STATIC defined conflicted"
-#  endif
-#  define TIANCHI_EXPORT
-#elif defined(TIANCHI_SHARED) || !defined(TIANCHI_STATIC)
-#  ifdef TIANCHI_STATIC
-#    error "Both TIANCHI_SHARED and TIANCHI_STATIC defined conflicted"
-#  endif
-#  ifndef TIANCHI_SHARED
-#    define TIANCHI_SHARED
-#  endif
-#  if defined(TIANCHI_BUILD_LIB)
-#    define TIANCHI_EXPORT Q_DECL_EXPORT
-#  else
-#    define TIANCHI_EXPORT Q_DECL_IMPORT
-#  endif
+#if defined(TIANCHI_EXPORT)
+#  define TIANCHI_API Q_DECL_EXPORT
+#elif defined(TIANCHI_IMPORT)
+#  define TIANCHI_API Q_DECL_IMPORT
 #else
-#  define TIANCHI_EXPORT
+#  define TIANCHI_API
 #endif
 
-TIANCHI_EXPORT const char *tianchiVersion() Q_DECL_NOTHROW;
-TIANCHI_EXPORT bool tianchiSharedBuild() Q_DECL_NOTHROW;
-
-TIANCHI_END_NAMESPACE
-TIANCHI_END_HEADER
-
-#define TIANCHI_API TIANCHI_EXPORT
 
 #endif // TIANCHI_GLOBAL_H

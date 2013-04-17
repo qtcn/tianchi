@@ -82,7 +82,9 @@ inline void MsgBox(const QString& s)
 /// @param [in] text 显示文本内容
 inline void debug_out(const char* file, int line, const QString& text="")
 {
+#if defined(QT_DEBUG)
     cout<<QDateTime::currentDateTime().toString("yyyy/MM/dd HH:mm:ss->").toLocal8Bit().data()<<file<<"("<<line<<"): "<<text.toLocal8Bit().data()<<endl;
+#endif // defined(QT_DEBUG)
 }
 /// @brief 调试信息快速显示类
 /// @param [in] file 源文件名
