@@ -19,6 +19,8 @@
 //      DEFINES += TIANCHI_NAMESPACE=mynamespace
 //    如未定义TIANCHI_NAMESPACE,则默认定义为Tianchi
 // 3. TIANCHI_EXPORT与TIANCHI_API同义
+// 4. 如果要编译Tianchi静态库,则在.pro中添加:
+//      DEFINES += TIANCHI_STATIC
 // ==========================================================================
 
 #ifndef TIANCHI_GLOBAL_H
