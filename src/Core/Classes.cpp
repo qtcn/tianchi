@@ -3,6 +3,8 @@
 
 TIANCHI_BEGIN_NAMESPACE
 
+QT_USE_NAMESPACE
+
 Player::Player()
     : QObject()
 {
@@ -159,5 +161,7 @@ QHash<QString, QByteArray> DBFields::getFields(const QByteArray& fieldBytes)
     }
     return ret;
 }
+
+#include "moc_Classes.cpp"
 
 TIANCHI_END_NAMESPACE

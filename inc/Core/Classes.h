@@ -27,6 +27,8 @@
 
 TIANCHI_BEGIN_NAMESPACE
 
+QT_USE_NAMESPACE
+
 /// @brief 玩家信息类，常用在 C/S 中的客户端用户信息保存
 class TIANCHI_API Player : public QObject
 {

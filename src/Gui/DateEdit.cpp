@@ -82,4 +82,7 @@ void DateEdit::unsetDate()
     setEditText("");
 }
 
+
+#include "moc_DateEdit.cpp"
+
 TIANCHI_END_NAMESPACE
