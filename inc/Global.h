@@ -114,8 +114,8 @@ TIANCHI_BEGIN_NAMESPACE
 #  ifdef TIANCHI_STATIC
 #    error "Both TIANCHI_SHARED and TIANCHI_STATIC defined, please make up your mind"
 #  endif
-#  ifndef QT_SHARED
-#    define QT_SHARED
+#  ifndef TIANCHI_SHARED
+#    define TIANCHI_SHARED
 #  endif
 #  if defined(TIANCHI_BUILD_LIB)
 #    define TIANCHI_EXPORT Q_DECL_EXPORT
