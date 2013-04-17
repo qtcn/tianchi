@@ -110,4 +110,6 @@ void TreeWidgetHeaderSetupDialog::on_bnRight_clicked()
     }
 }
 
+#include "moc_TreeWidgetHeaderSetupDialog.cpp"
+
 TIANCHI_END_NAMESPACE
