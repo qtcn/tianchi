@@ -22,15 +22,19 @@
 #include <QString>
 #include <QStringList>
 
+#if defined(Q_OS_WIN)
 #include <ActiveQt/QAxWidget>
 #include <ActiveQt/QAxObject>
 
+
 #ifdef QT_WIDGETS_LIB
 #include <QTreeWidget>
-#endif
+#endif // QT_WIDGETS_LIB
+#endif // Q_OS_WIN
 
 TIANCHI_BEGIN_NAMESPACE
 
+#if defined(Q_OS_WIN)
 /// @brief 通过 OLE 方式操作 Microsoft Excel
 class TIANCHI_API MSExcel
 {
@@ -116,8 +120,9 @@ public:
         int                 m_col;
         int                 m_mode;
     };
-#endif
+#endif // QT_WIDGETS_LIB
 };
+#endif // Q_OS_WIN
 
 TIANCHI_END_NAMESPACE
 

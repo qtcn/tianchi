@@ -5,6 +5,8 @@
 
 TIANCHI_BEGIN_NAMESPACE
 
+#if defined(Q_OS_WIN)
+
 MSExcel::MSExcel()
     : m_excel(NULL)
     , m_books(NULL)
@@ -299,5 +301,7 @@ int MSExcel::Exporter::exec()
     return ret;
 }
 #endif // QT_WIDGETS_LIB
+
+#endif // Q_OS_WIN
 
 TIANCHI_END_NAMESPACE

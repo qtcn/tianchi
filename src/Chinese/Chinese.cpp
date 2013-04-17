@@ -1,11 +1,13 @@
 #include "Chinese/Chinese.h"
 
 //#include "IMEEngine.h"
-#include <QGlobal.h>
+#include <qglobal.h>
 
 #include <QString>
 
+#if defined(Q_OS_WIN)
 #include "msime.h"
+#endif
 
 TIANCHI_BEGIN_NAMESPACE
 
