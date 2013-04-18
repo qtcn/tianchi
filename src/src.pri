@@ -63,7 +63,8 @@ HEADERS += \
     $$TC_INCL/Gui/DateEdit.h \
     $$TC_INCL/Gui/GuiUtils.h \
     $$TC_INCL/Gui/TreeWidgetHeaderSetupDialog.h \
-    $$TC_INCL/OS/OS.h
+    $$TC_INCL/OS/OS.h \
+    $$TC_INCL/Sql/MSSQL.h
 SOURCES += \
     $$PWD/Chinese/Chinese.cpp \
     $$PWD/Core/Classes.cpp \
@@ -79,7 +80,8 @@ SOURCES += \
     $$PWD/Gui/DateEdit.cpp \
     $$PWD/Gui/TreeWidgetHeaderSetupDialog.cpp \
     $$PWD/Gui/GuiUtils.cpp \
-    $$PWD/OS/OS.cpp
+    $$PWD/OS/OS.cpp \
+    $$PWD/Sql/MSSQL.cpp
 FORMS += \
     $$PWD/Gui/TreeWidgetHeaderSetupDialog.ui
 
