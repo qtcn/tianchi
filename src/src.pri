@@ -1,9 +1,5 @@
 # ===========================================================================
-# Date          Qt / OS / Compiler              Name        Description
-# ---------------------------------------------------------------------------
-# 2013.04.15    Qt5.0.1-x32 / Win8 / VC2010     Jonix       编译(dll/lib)成功
-#               Qt5.0.2-x64 / Win8 / VC2012     Jonix       编译(dll/lib)成功
-#
+# 2013.04.17    XChinux created
 #
 #
 # ===========================================================================
@@ -12,7 +8,7 @@ TEMPLATE = lib
 TARGET = tianchi
 QT += sql network script
 greaterThan(QT_MAJOR_VERSION, 4) { 
-    QT += gui widgets
+    QT += gui widgets concurrent
     win32:QT += axcontainer
 } else {
     QT += gui
@@ -62,6 +58,7 @@ HEADERS += \
     $$TC_INCL/File/LogTiny.h \
     $$TC_INCL/File/MSExcel.h \
     $$TC_INCL/File/FileUtils.h \
+    $$TC_INCL/Gui/MarqueeLabel.h \
     $$TC_INCL/Gui/ClickLabel.h \
     $$TC_INCL/Gui/DateEdit.h \
     $$TC_INCL/Gui/GuiUtils.h \
@@ -77,6 +74,7 @@ SOURCES += \
     $$PWD/File/LogTiny.cpp \
     $$PWD/File/MSExcel.cpp \
     $$PWD/File/FileUtils.cpp \
+    $$PWD/Gui/MarqueeLabel.cpp \
     $$PWD/Gui/ClickLabel.cpp \
     $$PWD/Gui/DateEdit.cpp \
     $$PWD/Gui/TreeWidgetHeaderSetupDialog.cpp \
