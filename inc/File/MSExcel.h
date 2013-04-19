@@ -1,5 +1,5 @@
 // ********************************************************************************************************************
-// Tianchi share library for Qt (C++)
+// Tianchi C++ library for Qt (open source)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
@@ -26,15 +26,15 @@
 #include <ActiveQt/QAxWidget>
 #include <ActiveQt/QAxObject>
 
-
 #ifdef QT_WIDGETS_LIB
 #include <QTreeWidget>
-#endif // QT_WIDGETS_LIB
+#endif
+#else
+class QAxObject;
 #endif // Q_OS_WIN
 
 TIANCHI_BEGIN_NAMESPACE
 
-#if defined(Q_OS_WIN)
 /// @brief 通过 OLE 方式操作 Microsoft Excel
 class TIANCHI_API MSExcel
 {
@@ -120,9 +120,8 @@ public:
         int                 m_col;
         int                 m_mode;
     };
-#endif // QT_WIDGETS_LIB
+#endif
 };
-#endif // Q_OS_WIN
 
 TIANCHI_END_NAMESPACE
 

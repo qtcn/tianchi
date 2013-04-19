@@ -1,6 +1,9 @@
 #include "Core/String.h"
 
 #include <QTextCodec>
+#include <QFile>
+#include <QTextStream>
+
 
 TIANCHI_BEGIN_NAMESPACE
 
@@ -134,6 +137,50 @@ QString String::getTextByIndex(const char* strings, int index)
 {
     QStringList ss = QTextCodec::codecForLocale()->toUnicode(strings).split("\n", QString::SkipEmptyParts);
     return ss.at(index);
+}
+
+// class StringList
+bool StringList::loadFrom(const QString& fileName)
+{
+    bool ret = false;
+    QFile f(fileName);
+    if ( f.open(QFile::Text | QFile::ReadOnly) )
+    {
+        clear();
+        QTextStream in(&f);
+        while(!in.atEnd())
+        {
+            this->append(in.readLine());
+        }
+        f.close();
+        ret = false;
+    }
+    return ret;
+}
+
+bool StringList::saveTo(const QString& fileName)
+{
+    bool ret = false;
+    QFile f(fileName);
+    if ( f.open(QFile::Text | QFile::WriteOnly) )
+    {
+        QTextStream out(&f);
+        foreach(QString s, *this)
+        {
+            out<<s<<
+          #if defined(Q_OS_WIN)
+            "\r\n";
+          #elif defined(Q_OS_LINUX)
+            "\n";
+          #elif defined(Q_OS_MAC)
+            "\n";
+          #else
+            #error ...
+          #endif
+        }
+        f.close();
+    }
+    return ret;
 }
 
 TIANCHI_END_NAMESPACE

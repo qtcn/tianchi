@@ -45,6 +45,7 @@ INCLUDEPATH += $$TC_INCL
 win32:!win32-g++{
     LIBS += -lversion -ladvapi32 -lole32
 }
+win32:RC_FILE = $$PWD/tianchi.rc
 
 HEADERS += \
     $$TC_INCL/Global.h \
@@ -63,8 +64,11 @@ HEADERS += \
     $$TC_INCL/Gui/DateEdit.h \
     $$TC_INCL/Gui/GuiUtils.h \
     $$TC_INCL/Gui/TreeWidgetHeaderSetupDialog.h \
+    $$TC_INCL/Network/DownloadHttp.h \
+    $$TC_INCL/Network/SingleInstance.h \
     $$TC_INCL/OS/OS.h \
     $$TC_INCL/Sql/MSSQL.h
+
 SOURCES += \
     $$PWD/Chinese/Chinese.cpp \
     $$PWD/Core/Classes.cpp \
@@ -80,6 +84,8 @@ SOURCES += \
     $$PWD/Gui/DateEdit.cpp \
     $$PWD/Gui/TreeWidgetHeaderSetupDialog.cpp \
     $$PWD/Gui/GuiUtils.cpp \
+    $$PWD/Network/DownloadHttp.cpp \
+    $$PWD/Network/SingleInstance.cpp \
     $$PWD/OS/OS.cpp \
     $$PWD/Sql/MSSQL.cpp
 FORMS += \

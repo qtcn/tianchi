@@ -1,10 +1,10 @@
 // ********************************************************************************************************************
-// Tianchi share library for Qt (C++)
+// Tianchi C++ library for Qt (open source)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
 // ********************************************************************************************************************
-// 文档说明：字符串功能扩展
+// 文档说明：字符串功能增强与扩展
 // ====================================================================================================================
 // 开发日志：
 // 日期         人员        说明
@@ -12,7 +12,7 @@
 // 2013.04.16   圣域天子    建立
 //
 // ====================================================================================================================
-/// @file String.h 公共单元，此单元不使用 namespace Tianchi
+/// @file String.h 字符串功能增强与扩展
 #ifndef TIANCHI_STRING_H
 #define TIANCHI_STRING_H
 
@@ -23,13 +23,14 @@
 
 TIANCHI_BEGIN_NAMESPACE
 
+/// @brief 字符串功能增强与扩展
 class TIANCHI_API String
 {
 public:
     String();
 
     /// @brief 截取字符串的首部分
-    /// @param [in|out] str 被截取的字符串
+    /// @param [in,out] str 被截取的字符串
     /// @param [in] split 字符串的分隔符
     /// @return 截取出的字符串
     /// @note 分隔符将被丢弃，不含分隔符时截取整个字符串，被截取的字符串将被修改
@@ -61,6 +62,14 @@ public:
     /// @brief 分割中文全名中的姓氏、名字和英文名
     static int  splitHumanName(QString full, QString& sur, QString& real, QString& english);
 
+};
+
+/// @brief 字符串集功能增强与扩展
+class TIANCHI_API StringList : public QStringList
+{
+public:
+    bool loadFrom(const QString& fileName);
+    bool saveTo(const QString& fileName);
 };
 
 TIANCHI_END_NAMESPACE

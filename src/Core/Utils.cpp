@@ -200,5 +200,26 @@ QDateTime Utils::complieDateTime(const QString& complieDate, const QString& time
                      QTime(Hour.toInt(), Minute.toInt(), Second.toInt()));
 }
 
+QStringList Utils::searchFiles(const QString& path)
+{
+    QStringList ret;
+    // 这个函数可以执行任何任务，
+    // 这里只是简单地输出各个文件（夹）的名字
+    QDir dir(path);
+    QStringList list = dir.entryList(QDir::Dirs, QDir::Name);
+    for ( QStringList::Iterator it=list.begin();it!=list.end();it++ )
+    {
+        if ( "." != *it && ".." != *it )
+        {
+            ret.append(searchFiles(path + QDir::separator() + *it));
+        }
+    }
+    list = dir.entryList(QDir::Files, QDir::Name);
+    for ( QStringList::Iterator it=list.begin();it!=list.end();it++ )
+    {
+        ret.append(*it);
+    }
+    return ret;
+}
 
 TIANCHI_END_NAMESPACE

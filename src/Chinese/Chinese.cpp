@@ -1,7 +1,7 @@
 #include "Chinese/Chinese.h"
 
 //#include "IMEEngine.h"
-#include <qglobal.h>
+#include <QGlobal.h>
 
 #include <QString>
 
@@ -122,149 +122,6 @@ void IMEEngine::UnsetIMEEngine(void)
     m_dwCaps = 0;
 }
 // ---------------------------------------------------------------------------------------------------------------------
-/*
-QString chineseToPinyin(const QString& Str, bool Tonality)
-{
-    QString ret;
-    IMEEngine imee;
-    imee.GetJMorphResult(FELANG_REQ_REV,
-                         FELANG_CMODE_PINYIN | FELANG_CMODE_NOINVISIBLECHAR, // 紧凑演示拼音，中间不显示空格分隔符
-                         Str.toStdWString().c_str());
-    if ( imee.m_pmorrslt ) // && imee.m_pmorrslt->cchOutput >0 )
-    {
-        wchar_t*  wsptr = imee.m_pmorrslt->pwchOutput;
-        int       len   = imee.m_pmorrslt->cchOutput -1;
-
-        for( int i=0;i<=len;i++ )
-        {
-            ret += QChar(uint(*wsptr));
-            wsptr++;
-        }
-        if ( ! Tonality )
-        {
-            //const QString Initial1 = QString::fromWCharArray(L"āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡ");
-            const QString Initial1 = QString::fromLocal8Bit("āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡ");
-            const QString Initial2 = "aaaaooooeeeeiiiiuuuuvvvvveamnnng";
-            for( int i=0;i<Initial1.length();i++ )
-            {
-                ret.replace(Initial1.at(i), Initial2.at(i));
-            }
-        }
-    }
-    return ret;
-}
-
-QString chineseToChars(const QString& Str, bool Tonality)
-{
-    QString ret = "";
-    for( int i=0;i<Str.length();i++ )
-    {
-        QString s = Str[i];
-        if ( s.size() >0 )
-        {
-            ret += chineseToPinyin(s, Tonality);
-        }else
-        {
-            ret += s;
-        }
-    }
-    return ret;
-}
-
-QString firstPinyins(const QString& HzString)
-{
-    QString ret;
-    foreach(QChar c, HzString)
-    {
-        QString s(c);
-        s = chineseToPinyin(s, false).trimmed();
-        if ( ! s.isEmpty() )
-        {
-            ret += s.mid(0, 1);
-        }
-    }
-    return ret;
-}
-
-QString firstPinyins(const QString& HzString)
-{
-    static int   li_SecPosValue[]  = {1601,1637,1833,2078,2274,2302,2433,2594,2787,3106,3212,3472,3635,3722,3730,3858,4027,4086,4390,4558,4684,4925,5249};
-    static char* lc_FirstLetter[]  = {"a",   "b","c","d","e","f","g","h","j","k","l","m","n","o","p","q","r","s","t","w","x","y","z"};
-    static char* ls_SecondSecTable =
-    "cjwgnspgcgne[y[btyyzdxykygt[jnnjqmbsgzscyjsyy[pgkbzgy[ywjkgkljywkpjqhy[w[dzlsgmrypywwcckznkyygttnjjnykkzytcjnmcylqlypyqfqrpzslwbtgkjfyxjwzltbncxjjjjtxdttsqzycdxxhgck[phffss[ybgxlppbyll[hlxs[zm[jhsojnghdzqyklgjhsgqzhxqgkezzwyscscjxyeyxadzpmdssmzjzqjyzc[j[wqjbyzpxgznzcpwhkxhqkmwfbpbydtjzzkqhy"
-    "lygxfptyjyyzpszlfchmqshgmxxsxj[[dcsbbqbefsjyhxwgzkpylqbgldlcctnmayddkssngycsgxlyzaybnptsdkdylhgymylcxpy[jndqjwxqxfyyfjlejpzrxccqwqqsbnkymgplbmjrqcflnymyqmsqyrbcjthztqfrxqhxmjjcjlxqgjmshzkbswyemyltxfsydswlycjqxsjnqbsctyhbftdcyzdjwyghqfrxwckqkxebptlpxjzsrmebwhjlbjslyysmdxlclqkxlhxjrzjmfqhxhwy"
-    "wsbhtrxxglhqhfnm[ykldyxzpylgg[mtcfpajjzyljtyanjgbjplqgdzyqyaxbkysecjsznslyzhsxlzcghpxzhznytdsbcjkdlzayfmydlebbgqyzkxgldndnyskjshdlyxbcghxypkdjmmzngmmclgwzszxzjfznmlzzthcsydbdllscddnlkjykjsycjlkwhqasdknhcsganhdaashtcplcpqybsdmpjlpzjoqlcdhjjysprchn[nnlhlyyqyhwzptczgwwmzffjqqqqyxaclbhkdjxdgmmy"
-    "djxzllsygxgkjrywzwyclzmssjzldbyd[fcxyhlxchyzjq[[qagmnyxpfrkssbjlyxysyglnscmhzwwmnzjjlxxhchsy[[ttxrycyxbyhcsmxjsznpwgpxxtaybgajcxly[dccwzocwkccsbnhcpdyznfcyytyckxkybsqkkytqqxfcwchcykelzqbsqyjqcclmthsywhmktlkjlycxwheqqhtqh[pq[qscfymndmgbwhwlgsllysdlmlxpthmjhwljzyhzjxhtxjlhxrswlwzjcbxmhzqxsdzp"
-    "mgfcsglsxymjshxpjxwmyqksmyplrthbxftpmhyxlchlhlzylxgsssstclsldclrpbhzhxyyfhb[gdmycnqqwlqhjj[ywjzyejjdhpblqxtqkwhlchqxagtlxljxmsl[htzkzjecxjcjnmfby[sfywybjzgnysdzsqyrsljpclpwxsdwejbjcbcnaytwgmpapclyqpclzxsbnmsggfnzjjbzsfzyndxhplqkzczwalsbccjx[yzgwkypsgxfzfcdkhjgxdlqfsgdslqwzkxtmhsbgzmjzrglyjb"
-    "pmlmsxlzjqqhzyjczydjwbmyklddpmjegxyhylxhlqyqhkycwcjmyyxnatjhyccxzpcqlbzwwytwbqcmlpmyrjcccxfpznzzljplxxyztzlgdldcklyrzzgqtgjhhgjljaxfgfjzslcfdqzlclgjdjcsnzlljpjqdcclcjxmyzftsxgcgsbrzxjqqctzhgyqtjqqlzxjylylbcyamcstylpdjbyregklzyzhlyszqlznwczcllwjqjjjkdgjzolbbzppglghtgzxyghzmycnqsycyhbhgxkamtx"
-    "yxnbskyzzgjzlqjdfcjxdygjqjjpmgwgjjjpkqsbgbmmcjssclpqpdxcdyyky[cjddyygywrhjrtgznyqldkljszzgzqzjgdykshpzmtlcpwnjafyzdjcnmwescyglbtzcgmssllyxqsxsbsjsbbsgghfjlypmzjnlyywdqshzxtyywhmzyhywdbxbtlmsyyyfsxjc[dxxlhjhf[sxzqhfzmzcztqcxzxrttdjhnnyzqqmnqdmmg[ydxmjgdhcdyzbffallztdltfxmxqzdngwqdbdczjdxbzgs"
-    "qqddjcmbkzffxmkdmdsyyszcmljdsynsbrskmkmpcklgdbqtfzswtfgglyplljzhgj[gypzltcsmcnbtjbqfkthbyzgkpbbymtdssxtbnpdkleycjnyddykzddhqhsdzsctarlltkzlgecllkjlqjaqnbdkkghpjtzqksecshalqfmmgjnlyjbbtmlyzxdcjpldlpcqdhzycbzsczbzmsljflkrzjsnfrgjhxpdhyjybzgdlqcsezgxlblgyxtwmabchecmwyjyzlljjyhlg[djlslygkdzpzxj"
-    "yyzlwcxszfgwyydlyhcljscmbjhblyzlycblydpdqysxqzbytdkyxjy[cnrjmpdjgklcljbctbjddbblblczqrppxjcjlzcshltoljnmdddlngkaqhqhjgykheznmshrp[qqjchgmfprxhjgdychghlyrzqlcyqjnzsqtkqjymszswlcfqqqxyfggyptqwlmcrnfkkfsyylqbmqammmyxctpshcptxxzzsmphpshmclmldqfyqxszyydyjzzhqpdszglstjbckbxyqzjsgpsxqzqzrqtbdkyxzk"
-    "hhgflbcsmdldgdzdblzyycxnncsybzbfglzzxswmsccmqnjqsbdqsjtxxmbltxzclzshzcxrqjgjylxzfjphymzqqydfqjjlzznzjcdgzygctxmzysctlkphtxhtlbjxjlxscdqxcbbtjfqzfsltjbtkqbxxjjljchczdbzjdczjdcprnpqcjpfczlclzxzdmxmphjsgzgszzqlylwtjpfsyasmcjbtzkycwmytcsjjljcqlwzmalbxyfbpnlsfhtgjwejjxxglljstgshjqlzfkcgnnnszfdeq"
-    "fhbsaqtgylbxmmygszldydqmjjrgbjtkgdhgkblqkbdmbylxwcxyttybkmrtjzxqjbhlmhmjjzmqasldcyxyqdlqcafywyxqhz";
-    QByteArray ret;
-
-//    unsigned stringlen = HzString.length();
-    const char* ptrHz = HzString.toAscii().data();
-    while(*ptrHz)
-    {
-        int H = (int)(*ptrHz);
-        int L = (int)(*(ptrHz+1));
-        if ( H < 0xA1 || L < 0xA1 )
-        {
-            ret += *ptrHz;
-        }else
-        {
-            int W = (H-160)*100+L-160;
-            if ( W > 1600 && W < 5590 )
-            {
-                for ( int j=22;j>=0;j-- )
-                {
-                    if ( W >= li_SecPosValue[j] )
-                    {
-                        ret += lc_FirstLetter[j];
-                    }
-                }
-           }else
-           {
-                W = (H-160-56)*94+L-161;
-                if ( W >= 0 && W <= 3007 )
-                {
-                    ret += ls_SecondSecTable[W];
-                }else
-                {
-                    ret += (char)H;
-                    ret += (char)L;
-                }
-            }
-        }
-        ptrHz++;
-    }
-    return QString(ret);
-}
-*/
-
-//wchar_t GetFirstPinyin(String HzString)
-//{
-//    wchar_t Result = '\0';
-//    String Pinyin = ChineseToPinyin(HzString, false);
-//    if ( ! Pinyin.IsEmpty() )
-//    {
-//        Result = Pinyin.UpperCase()[1];
-//    }
-//    return Result;
-//}
-//String FirstPinyin(String HzString)
-//{
-//    String Result;
-//    String Pinyin = ChineseToPinyin(HzString, false);
-//    if ( ! Pinyin.IsEmpty() )
-//    {
-//        Result = Pinyin.UpperCase()[1];
-//    }
-//    return Result;
-//}
-
 #endif
 
 QString Chinese::toChars(const QString& Str, bool Tonality)
@@ -333,3 +190,5 @@ QString Chinese::firstPinyins(const QString& HzString)
 }
 
 TIANCHI_END_NAMESPACE
+
+

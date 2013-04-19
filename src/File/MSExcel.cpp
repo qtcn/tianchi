@@ -5,8 +5,6 @@
 
 TIANCHI_BEGIN_NAMESPACE
 
-#if defined(Q_OS_WIN)
-
 MSExcel::MSExcel()
     : m_excel(NULL)
     , m_books(NULL)
@@ -42,6 +40,8 @@ MSExcel::~MSExcel()
 
 bool MSExcel::create(const QString& filename)
 {
+	bool ret = false;
+#if defined(Q_OS_WIN)
     close();
     m_excel = new QAxWidget("Excel.Application");
     m_books = m_excel->querySubObject("WorkBooks");
@@ -52,36 +52,44 @@ bool MSExcel::create(const QString& filename)
 
     m_filename = filename;
 
-    return true;
+    ret = true;
+#endif // Q_OS_WIN	
+    return ret;
 }
 
 bool MSExcel::open(const QString& filename)
 {
+	bool ret = false;
+#if defined(Q_OS_WIN)
     close();
     m_excel  = new QAxWidget("Excel.Application");
     m_books  = m_excel->querySubObject("WorkBooks");
     m_book   = m_books->querySubObject("Open(const QString&)", filename);
     m_sheets = m_book ->querySubObject("WorkSheets");
 
-    bool ret = m_book != NULL;
+    ret = m_book != NULL;
     if ( ret )
     {
         m_filename = filename;
     }
+#endif // Q_OS_WIN
     return ret;
 }
 
 void MSExcel::save(const QString& filename)
 {
+#if defined(Q_OS_WIN)
     if ( ! filename.isEmpty() )
     {
         m_filename = filename;
     }
     m_books->dynamicCall("SaveAs(const QString&)", m_filename);
+#endif // Q_OS_WIN	
 }
 
 void MSExcel::close()
 {
+#if defined(Q_OS_WIN)
     m_sheet  = NULL;
     m_sheets = NULL;
     if ( m_book != NULL )
@@ -95,10 +103,12 @@ void MSExcel::close()
         m_excel->dynamicCall("Quit(void)");
         m_excel = NULL;
     }
+#endif // Q_OS_WIN	
 }
 
 void MSExcel::kick()
 {
+#if defined(Q_OS_WIN)
     if ( m_excel != NULL )
     {
         m_excel->setProperty("Visible", true);
@@ -106,11 +116,13 @@ void MSExcel::kick()
     m_book  = NULL;
     m_excel = NULL;
     close();
+#endif // Q_OS_WIN	
 }
 
 QStringList MSExcel::sheetNames()
 {
     QStringList ret;
+#if defined(Q_OS_WIN)
     if ( m_sheets != NULL )
     {
         int sheetCount = m_sheets->property("Count").toInt();
@@ -120,104 +132,119 @@ QStringList MSExcel::sheetNames()
             ret.append(sheet->property("Name").toString());
         }
     }
+#endif // Q_OS_WIN		
     return ret;
 }
 
 void MSExcel::setVisible(bool value)
 {
+#if defined(Q_OS_WIN)
     m_excel->setProperty("Visible", value);
+#endif // Q_OS_WIN		
 }
 
 void MSExcel::setCaption(const QString& value)
 {
+#if defined(Q_OS_WIN)
     m_excel->setProperty("Caption", value);
+#endif // Q_OS_WIN		
 }
 
 QAxObject* MSExcel::addBook()
 {
+#if defined(Q_OS_WIN)
     return m_excel->querySubObject("WorkBooks");
+#else
+    return NULL;
+#endif // Q_OS_WIN		
 }
 
 QAxObject* MSExcel::currentSheet()
 {
+#if defined(Q_OS_WIN)
     return m_excel->querySubObject("ActiveWorkBook");
+#else
+    return NULL;
+#endif // Q_OS_WIN		
 }
 
 int MSExcel::sheetCount()
 {
     int ret = 0;
+#if defined(Q_OS_WIN)
     if ( m_sheets != NULL )
     {
         ret = m_sheets->property("Count").toInt();
     }
+#endif // Q_OS_WIN		
     return ret;
 }
 
 QAxObject* MSExcel::sheet(int index)
 {
     m_sheet = NULL;
+#if defined(Q_OS_WIN)
     if ( m_sheets != NULL )
     {
         m_sheet = m_sheets->querySubObject("Item(int)", index);
         m_sheetName = m_sheet->property("Name").toString();
     }
+#endif // Q_OS_WIN		
     return m_sheet;
 }
 
 void MSExcel::cellFormat(int row, int col, const QString& format)
 {
+#if defined(Q_OS_WIN)
     if ( m_sheet != NULL )
     {
         QAxObject* range = m_sheet->querySubObject("Cells(int, int)", row, col);
         range->setProperty("NumberFormatLocal", format);
-
-//        m_books->dynamicCall("SaveAs(const QString&)", m_filename);
-
-
-//        String RC1 = m_CurrSheet.OlePropertyGet("Cells", R1, C1).OlePropertyGet("Address", 0, 0);
-//        String RC2 = m_CurrSheet.OlePropertyGet("Cells", R2, C2).OlePropertyGet("Address", 0, 0);
-//        try {
-//            Variant Range = m_CurrSheet.OlePropertyGet("Range", StringToOleStr(RC1+":"+RC2));
-//            Range.OlePropertySet("NumberFormatLocal", StringToOleStr(Format));
-//        } catch (...) {
-//        }
     }
+#endif // Q_OS_WIN		
 }
 
 void MSExcel::cellAlign(int row, int col, Alignment hAlign, Alignment vAlign)
 {
+#if defined(Q_OS_WIN)
     if ( m_sheet != NULL )
     {
         QAxObject* range = m_sheet->querySubObject("Cells(int, int)", row, col);
         range->setProperty("HorizontalAlignment", hAlign);
         range->setProperty("VerticalAlignment",   vAlign);
     }
+#endif // Q_OS_WIN		
 }
 
 QVariant MSExcel::read(int row, int col)
 {
     QVariant ret;
+#if defined(Q_OS_WIN)
     if ( m_sheet != NULL )
     {
         QAxObject* range = m_sheet->querySubObject("Cells(int, int)", row, col);
         ret = range->property("Value");
     }
+#endif // Q_OS_WIN		
     return ret;
 }
 
 void MSExcel::write(int row, int col, const QVariant& value)
 {
+#if defined(Q_OS_WIN)
     QVariant ret;
     if ( m_sheet != NULL )
     {
         QAxObject* range = m_sheet->querySubObject("Cells(int, int)", row, col);
         range->setProperty("Value", value);
     }
+#endif // Q_OS_WIN		
 }
 
 bool MSExcel::usedRange()
 {
     bool ret = false;
+#if defined(Q_OS_WIN)
     if ( m_sheet != NULL )
     {
         QAxObject* urange  = m_sheet->querySubObject("UsedRange");
@@ -230,6 +257,7 @@ bool MSExcel::usedRange()
         m_colEnd = columns->property("Count").toInt();
         ret = true;
     }
+#endif // Q_OS_WIN		
     return ret;
 }
 
@@ -237,6 +265,7 @@ bool MSExcel::usedRange()
 #ifdef QT_WIDGETS_LIB
 MSExcel::Exporter::Exporter(QTreeWidget* view, int mode, TIANCHI_NAMESPACE::MSExcel* excel, int row, int col)
 {
+#if defined(Q_OS_WIN)
     m_view  = view;
     m_mode  = mode;
     m_excel = excel;
@@ -249,12 +278,13 @@ MSExcel::Exporter::Exporter(QTreeWidget* view, int mode, TIANCHI_NAMESPACE::MSEx
         formats<<"";
         cellTypes<<"t";
     }
+#endif // Q_OS_WIN		
 }
 
 int MSExcel::Exporter::exec()
 {
     int ret = 0;
-
+#if defined(Q_OS_WIN)
     QTreeWidgetItem* header = m_view->headerItem();
     for( int i=0;i<header->columnCount();i++ )
     {
@@ -298,10 +328,9 @@ int MSExcel::Exporter::exec()
             ret ++;
         }
     }
+#endif // Q_OS_WIN		
     return ret;
 }
 #endif // QT_WIDGETS_LIB
-
-#endif // Q_OS_WIN
 
 TIANCHI_END_NAMESPACE

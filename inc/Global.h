@@ -1,5 +1,5 @@
 // **************************************************************************
-// Tianchi share library for Qt (C++)
+// Tianchi C++ library for Qt (open source)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
@@ -27,6 +27,7 @@
  * TIANCHI_NAMESPACE 应该在.pro中定义,但为了防止名字冲突,这里强制定义
  */
 #ifndef TIANCHI_NAMESPACE
+#   define TIANCHI Tianchi
 #   define TIANCHI_NAMESPACE Tianchi
 #endif
 
