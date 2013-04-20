@@ -24,6 +24,8 @@
 
 TIANCHI_BEGIN_NAMESPACE
 
+QT_USE_NAMESPACE
+
 /// @brief 可以输入或显示为空的日期选择控件
 class TIANCHI_API DateEdit : public QComboBox
 {
