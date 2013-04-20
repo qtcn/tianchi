@@ -18,16 +18,14 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
 TC_OUTPUT = $${PWD}/../output
 
-isEmpty(QMAKESPEC) {
-win32-g++*     : QMAKESPEC = win32-g++
-win32-msvc2005 : QMAKESPEC = win32-msvc2005
-win32-msvc2008 : QMAKESPEC = win32-msvc2008
-win32-msvc2010 : QMAKESPEC = win32-msvc2010
-win32-msvc2012 : QMAKESPEC = win32-msvc2012
-linux-g++*     : QMAKESPEC = linux-g++
-}
+TC_SPEC = qt$${QT_VERSION}
 
-TC_SPEC = $${QT_VERSION}-$${QMAKESPEC}
+win32-g++*     : TC_SPEC = $${TC_SPEC}-mingw32
+win32-msvc2005 : TC_SPEC = $${TC_SPEC}-vc2005_x86
+win32-msvc2008 : TC_SPEC = $${TC_SPEC}-vc2008_x86
+win32-msvc2010 : TC_SPEC = $${TC_SPEC}-vc2010_x86
+win32-msvc2012 : TC_SPEC = $${TC_SPEC}-vc2012_x86
+
 
 CONFIG(debug, debug|release) {
     TARGET = $${TARGET}d
@@ -51,7 +49,7 @@ CONFIG(debug, debug|release) {
 
 MOC_DIR = $$TC_TMP
 OBJECTS_DIR = $$TC_TMP
-UI_HEADERS_DIR = $$TC_TMP
+UI_DIR = $$TC_TMP
 RCC_DIR = $$TC_TMP
 
 TC_INCL = $$PWD/../inc
