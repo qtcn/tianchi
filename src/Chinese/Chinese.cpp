@@ -1,8 +1,5 @@
 #include "Chinese/Chinese.h"
 
-//#include "IMEEngine.h"
-#include <QGlobal.h>
-
 #include <QString>
 
 #if defined(Q_OS_WIN)
