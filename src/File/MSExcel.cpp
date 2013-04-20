@@ -1,6 +1,15 @@
 #include "File/MSExcel.h"
 #include "Core/Utils.h"
 
+#ifdef Q_OS_WIN
+#include <QAxObject>
+#include <QAxWidget>
+#endif
+
+#ifdef QT_WIDGETS_LIB
+#include <QTreeWidget>
+#endif
+
 #include <QList>
 
 TIANCHI_BEGIN_NAMESPACE

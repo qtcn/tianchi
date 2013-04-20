@@ -133,6 +133,8 @@ void DownloadList::SubPartFinished()
     }
 }
 
+
+#include "moc_DownloadHttp.cpp"
 /*
 #include "main.moc"
 
