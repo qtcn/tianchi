@@ -16,21 +16,37 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES += QT_WIDGETS_LIB
 }
 
-TC_TMP = $$PWD/../tmp
+TC_OUTPUT = $${PWD}/../output
+
+isEmpty(QMAKESPEC) {
+win32-g++*     : QMAKESPEC = win32-g++
+win32-msvc2005 : QMAKESPEC = win32-msvc2005
+win32-msvc2008 : QMAKESPEC = win32-msvc2008
+win32-msvc2010 : QMAKESPEC = win32-msvc2010
+win32-msvc2012 : QMAKESPEC = win32-msvc2012
+linux-g++*     : QMAKESPEC = linux-g++
+}
+
+TC_SPEC = $${QT_VERSION}-$${QMAKESPEC}
 
 CONFIG(debug, debug|release) {
     TARGET = $${TARGET}d
-    TC_TMP = $${TC_TMP}/debug
-} else {
-    TC_TMP = $${TC_TMP}/release
 }
 
 CONFIG(static, static|shared) | CONFIG(staticlib, staticlib|shared) {
-    DESTDIR = $$PWD/../dll_lib
-    TARGET = $${TARGET}_s
+    TC_OUTPUT = $${TC_OUTPUT}/$${TC_SPEC}/static
+    DESTDIR = $$TC_OUTPUT
 } else { 
-    DESTDIR = $$PWD/../dll_lib
+    TC_OUTPUT = $${TC_OUTPUT}/$${TC_SPEC}/shared
+    DESTDIR = $$TC_OUTPUT
     DEFINES += TIANCHI_EXPORT
+    win32:RC_FILE = $$PWD/tianchi.rc
+}
+
+CONFIG(debug, debug|release) {
+    TC_TMP = $${TC_OUTPUT}/debug
+} else {
+    TC_TMP = $${TC_OUTPUT}/release
 }
 
 MOC_DIR = $$TC_TMP
@@ -45,7 +61,6 @@ INCLUDEPATH += $$TC_INCL
 win32:!win32-g++{
     LIBS += -lversion -ladvapi32 -lole32
 }
-win32:RC_FILE = $$PWD/tianchi.rc
 
 HEADERS += \
     $$TC_INCL/Global.h \

@@ -24,6 +24,8 @@
 
 TIANCHI_BEGIN_NAMESPACE
 
+QT_USE_NAMESPACE
+
 /// @brief 光标形态变化类的根类，一般不直接使用
 /// @see class CursorWait
 /// @see class CursorBusy

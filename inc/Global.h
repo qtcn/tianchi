@@ -29,6 +29,8 @@
 #ifndef TIANCHI_NAMESPACE
 #   define TIANCHI Tianchi
 #   define TIANCHI_NAMESPACE Tianchi
+#else
+#   define TIANCHI TIANCHI_NAMESPACE
 #endif
 
 
