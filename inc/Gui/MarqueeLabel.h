@@ -20,14 +20,17 @@
 #include <Global.h>
 #include <QLabel>
 
+QT_BEGIN_NAMESPACE
+class QEvent;
+class QResizeEvent;
+QT_END_NAMESPACE
 
 TIANCHI_BEGIN_HEADER
 TIANCHI_BEGIN_NAMESPACE
 
-QT_USE_NAMESPACE
-
-class QT_PREPEND_NAMESPACE(QResizeEvent);
 class MarqueeLabelPrivate;
+
+QT_USE_NAMESPACE
 
 /// @brief 跑马灯类MarqueeLabel,点击时自动打开网址
 class TIANCHI_API MarqueeLabel : public QLabel

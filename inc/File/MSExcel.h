@@ -23,19 +23,19 @@
 #include <QStringList>
 
 
+QT_BEGIN_NAMESPACE
+
+class QAxObject;
+class QAxWidget;
 #ifdef QT_WIDGETS_LIB
-#include <QTreeWidget>
+class QTreeWidget;
 #endif
 
-
+QT_END_NAMESPACE
 
 TIANCHI_BEGIN_NAMESPACE
 
 QT_USE_NAMESPACE
-
-class QAxObject;
-class QAxWidget;
-
 
 /// @brief 通过 OLE 方式操作 Microsoft Excel
 class TIANCHI_API MSExcel

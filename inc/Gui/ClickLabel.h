@@ -24,11 +24,9 @@ TIANCHI_BEGIN_HEADER
 
 TIANCHI_BEGIN_NAMESPACE
 
-
-QT_USE_NAMESPACE
-
 class ClickLabelPrivate;
 
+QT_USE_NAMESPACE
 
 /// @brief emit clicked() signal's label while mouse clicked
 class TIANCHI_API ClickLabel : public QLabel
