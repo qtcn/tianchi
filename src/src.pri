@@ -74,6 +74,7 @@ HEADERS += \
     $$TC_INCL/File/FileUtils.h \
     $$TC_INCL/Gui/MarqueeLabel.h \
     $$TC_INCL/Gui/ClickLabel.h \
+    $$TC_INCL/Gui/FlowLayout.h \
     $$TC_INCL/Gui/DateEdit.h \
     $$TC_INCL/Gui/GuiUtils.h \
     $$TC_INCL/Gui/TreeWidgetHeaderSetupDialog.h \
@@ -94,6 +95,7 @@ SOURCES += \
     $$PWD/File/FileUtils.cpp \
     $$PWD/Gui/MarqueeLabel.cpp \
     $$PWD/Gui/ClickLabel.cpp \
+    $$PWD/Gui/FlowLayout.cpp \
     $$PWD/Gui/DateEdit.cpp \
     $$PWD/Gui/TreeWidgetHeaderSetupDialog.cpp \
     $$PWD/Gui/GuiUtils.cpp \
