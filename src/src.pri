@@ -81,7 +81,8 @@ HEADERS += \
     $$TC_INCL/Network/DownloadHttp.h \
     $$TC_INCL/Network/SingleInstance.h \
     $$TC_INCL/OS/OS.h \
-    $$TC_INCL/Sql/MSSQL.h
+    $$TC_INCL/Sql/MSSQL.h \
+    $$TC_INCL/Core/DirTree.h
 
 SOURCES += \
     $$PWD/Chinese/Chinese.cpp \
@@ -102,7 +103,9 @@ SOURCES += \
     $$PWD/Network/DownloadHttp.cpp \
     $$PWD/Network/SingleInstance.cpp \
     $$PWD/OS/OS.cpp \
-    $$PWD/Sql/MSSQL.cpp
+    $$PWD/Sql/MSSQL.cpp \
+    $$PWD/Core/DirTree.cpp
+
 FORMS += \
     $$PWD/Gui/TreeWidgetHeaderSetupDialog.ui
 

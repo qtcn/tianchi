@@ -7,4 +7,4 @@
                              class Network/SingleInstance
 			     class Core/StringList  (String.cpp)
                              method Core/Utils::searchFiles()
-
+2013.04.21  cnhemiya    增加 class Core/DirTree 可以复制目录树的类，也可查找所有文件
