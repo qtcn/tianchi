@@ -52,7 +52,6 @@ private:
     Q_DECLARE_PRIVATE(MarqueeLabel)
     Q_PRIVATE_SLOT(d_func(), void _q_openLink(const QString &))
     MarqueeLabelPrivate *d_ptr;
-
 };
 
 TIANCHI_END_HEADER
