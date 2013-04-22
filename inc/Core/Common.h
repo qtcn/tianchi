@@ -51,6 +51,8 @@
 /// }
 /// @endcode
 /// @return 转换后的汉字字符串类型
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-15
 inline QString QS(const char* s)
 {
     return QTextCodec::codecForLocale()->toUnicode(s);
@@ -75,28 +77,33 @@ inline void MsgBox(const QString& s)
 }
 #endif
 
-/// @brief 调试信息快速显示类
-/// @param [in] file 源文件名
-/// @param [in] line 行位置
-/// @param [in] text 显示文本内容
-inline void debug_out(const char* file, int line, const QString& text="")
-{
 #if defined(QT_DEBUG)
-    cout<<QDateTime::currentDateTime().toString("yyyy/MM/dd HH:mm:ss->").toLocal8Bit().data()<<file<<"("<<line<<"): "<<text.toLocal8Bit().data()<<endl;
-#endif // defined(QT_DEBUG)
-}
-/// @brief 调试信息快速显示类
-/// @param [in] file 源文件名
-/// @param [in] line 行位置
-/// @param [in] value 显示数值
-inline void debug_out(const char* file, int line, int value)
-{
-    debug_out(file, line, QString::number(value));
-}
+    /// @brief 调试信息快速显示类
+    /// @param [in] file 源文件名
+    /// @param [in] line 行位置
+    /// @param [in] text 显示文本内容
+    inline void debug_out(const char* file, int line, const QString& text="")
+    {
+        cout<<QDateTime::currentDateTime().toString("yyyy/MM/dd HH:mm:ss->").toLocal8Bit().data()<<file<<"("<<line<<"): "<<text.toLocal8Bit().data()<<endl;
+    }
+    /// @brief 调试信息快速显示类
+    /// @param [in] file 源文件名
+    /// @param [in] line 行位置
+    /// @param [in] value 显示数值
+    inline void debug_out(const char* file, int line, int value)
+    {
+        debug_out(file, line, QString::number(value));
+    }
 
-/// @brief 为了方便运行时调试显示当前文件和行号，用于运行时跟踪执行步骤。
-#define DEBUG_STEP    debug_out(__FILE__, __LINE__);
-/// @brief 为了方便运行时调试设置的宏
-#define DEBUG_OUT(x)  debug_out(__FILE__, __LINE__, x);
+    /// @brief 为了方便运行时调试显示当前文件和行号，用于运行时跟踪执行步骤。
+    #define DEBUG_STEP    debug_out(__FILE__, __LINE__);
+    /// @brief 为了方便运行时调试设置的宏
+    #define DEBUG_OUT(x)  debug_out(__FILE__, __LINE__, x);
+#else
+    /// @brief 为了方便运行时调试显示当前文件和行号，用于运行时跟踪执行步骤。
+    #define DEBUG_STEP
+    /// @brief 为了方便运行时调试设置的宏
+    #define DEBUG_OUT(x)
+#endif
 
 #endif // TIANCHI_COMMON_H

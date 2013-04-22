@@ -22,24 +22,6 @@ MSExcel::MSExcel()
     , m_sheet(NULL)
     , m_sheetName("")
 {
-//    excel = new QAxWidget("Excel.Application");
-
-//    QAxObject* workbooks = excel->querySubObject("WorkBooks");
-//    workbooks->dynamicCall("Add");
-//    //workbooks->dynamicCall("New(const QString&)", QString("F:/QtProject/odbcTest/book.xls"));
-//    QAxObject* workbook = excel.querySubObject("ActiveWorkBook");
-//    //QAxObject * worksheets = workbook->querySubObject("WorkSheets");
-//    QAxObject* worksheet = workbook->querySubObject("Worksheets(int)", 1);
-//    while(query.next())
-//    {
-//        for( int i=1;i<=intCols;i++ )
-//        {
-//            QAxObject* range = worksheet->querySubObject("Cells(int,int)", i, j);
-//            range->setProperty("Value", query.value(j-1));
-//            qDebug() << i << j << range->property("Value");
-//        }
-//        i++;
-//    }
 }
 
 MSExcel::~MSExcel()

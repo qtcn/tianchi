@@ -23,6 +23,8 @@
 TIANCHI_BEGIN_NAMESPACE
 
 /// @brief 与操作系统相关的操作类
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-10
 class TIANCHI_API OS
 {
 public:

@@ -30,6 +30,8 @@ TIANCHI_BEGIN_NAMESPACE
 QT_USE_NAMESPACE
 
 /// @brief 玩家信息类，常用在 C/S 中的客户端用户信息保存
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-10
 class TIANCHI_API Player : public QObject
 {
     Q_OBJECT
@@ -51,51 +53,63 @@ public:
         AUTH_GUEST    =   1,  ///< 用户级：访客级权限
     };
 
-
+    /// @brief 构造方法
     Player();
+
+    /// @brief 复制对象
     Player &operator=(const Player&);
 
-    inline int          userNo() const { return m_userNo; }
+    /// @brief 返回用户的 No
+    inline int userNo() const { return m_userNo; }
     /// @brief 指定用户的 No
-    inline void         setUserNo(int value) { m_userNo = value; }
-    inline QString      userID() const { return m_userID; }
+    inline void setUserNo(int value) { m_userNo = value; }
+    /// @brief 返回用户的 ID
+    inline QString userID() const { return m_userID; }
     /// @brief 指定用户的 ID
-    inline void         setUserID(const QString& value) { m_userID = value.trimmed(); }
-    inline QString      username() const { return m_username; }
+    inline void setUserID(const QString& value) { m_userID = value.trimmed(); }
+    /// @brief 返回用户姓名
+    inline QString username() const { return m_username; }
     /// @brief 指定用户的 username
-    inline void         setUsername(const QString& value) { m_username = value.trimmed(); }
-    inline int          userLevel() const { return m_userLevel; }
+    inline void setUsername(const QString& value) { m_username = value.trimmed(); }
+    /// @brief 返回用户的级别
+    inline int userLevel() const { return m_userLevel; }
     /// @brief 指定用户的权限级别
-    inline void         setUserLevel(int value) { m_userLevel = value; }
+    inline void setUserLevel(int value) { m_userLevel = value; }
 
-    int                 authority(const QString& key) const;
+    /// @brief 根据权限单元返回用户权限
+    /// @param key 权限单元
+    /// @return 权限级别，参见 AuthLevel
+    /// @see AuthLevel
+    int authority(const QString& key) const;
     /// @brief 指定用户的权限模块级别
-    inline void         setAuthority(const QString& key, int auth) { m_authority[key] = auth; }
+    inline void setAuthority(const QString& key, int auth) { m_authority[key] = auth; }
     /// @brief 快速设置用户的全部权限级别
-    void                setAuthorityText(const QString& value);
+    void setAuthorityText(const QString& value);
     /// @brief 快速设置用户的全部权限级别
-    void                setAuthorityText(const QStringList& value);
+    void setAuthorityText(const QStringList& value);
 
-    inline QString      loginID() const { return m_loginID; }
+    /// @brief 返回登录ID
+    inline QString loginID() const { return m_loginID; }
     /// @brief 保存用户的登录名称
-    inline void         setLoginID(const QString& value) { m_loginID = value.trimmed(); }
-    inline QString      password() const { return m_password; }
-    /// @brief 保存用户的登录密码
-    inline void         setPassword(const QString& value) { m_password = value.trimmed(); }
+    inline void setLoginID(const QString& value) { m_loginID = value.trimmed(); }
+    /// @brief 返回用户的密码
+    inline QString password() const { return m_password; }
+    /// @brief 保存用户的密码
+    inline void setPassword(const QString& value) { m_password = value.trimmed(); }
     /// @brief 玩家是否已登录
-    inline bool         loggedIn() const { return m_loggedIn; }
+    inline bool loggedIn() const { return m_loggedIn; }
     /// @brief 指定玩家是否已登录
-           void         setLoggedIn(bool value);
+    void setLoggedIn(bool value);
     /// @brief 将玩家设为已登录
-    inline void         setLoggedIn() { setLoggedIn(true); }
+    inline void setLoggedIn() { setLoggedIn(true); }
     /// @brief 玩家的登录时间
-    inline QDateTime    loginTime() const { return m_loginTime; }
+    inline QDateTime loginTime() const { return m_loginTime; }
     /// @brief 指定玩家的登录时间
-    inline void         setLoginTime(QDateTime value) { m_loginTime = value; m_loggedIn = true; }
+    inline void setLoginTime(QDateTime value) { m_loginTime = value; m_loggedIn = true; }
 
-    /// @brief 返回玩家距今未登录的秒数
+    /// @brief 返回玩家距今未登录的秒数<br>
     /// 常用于意外断线后，显示已脱机的时间
-    inline int          noLoginTime() { return m_loggedIn ? 0 : m_noLoginTimer.elapsed()/1000; }
+    inline int noLoginTime() { return m_loggedIn ? 0 : m_noLoginTimer.elapsed()/1000; }
 
     /// @brief 清除玩家的所有信息
     void clear();
@@ -116,11 +130,17 @@ private:
 };
 
 /// @brief 映射执行对象类
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-10
 class TIANCHI_API CInvokeObject
 {
 public:
+    /// @brief 构造方法
     CInvokeObject(QObject* o=NULL, QByteArray m="")
-            { init(o, m); }
+    {
+        init(o, m);
+    }
+    /// @brief 复制对象
     CInvokeObject &operator=(const CInvokeObject& from)
     {
         if ( this != &from )
@@ -130,9 +150,8 @@ public:
         }
         return *this;
     }
-    inline void init(QObject* o, QByteArray m)
-            { m_object = o; m_method = m; }
 
+    /// @brief 以队列方式调用映射方法
     inline bool queued(QGenericArgument val0 = QGenericArgument(0),
                        QGenericArgument val1 = QGenericArgument(),
                        QGenericArgument val2 = QGenericArgument(),
@@ -155,6 +174,8 @@ public:
             return false;
         }
     }
+
+    /// @brief 调用映射方法
     bool invoke(QGenericArgument val0 = QGenericArgument(0),
                        QGenericArgument val1 = QGenericArgument(),
                        QGenericArgument val2 = QGenericArgument(),
@@ -166,14 +187,25 @@ public:
                        QGenericArgument val8 = QGenericArgument(),
                        QGenericArgument val9 = QGenericArgument());
 
+    /// @brief 返回当前对象是否有效？
+    /// @return true: 有效，可以进行映射方式的调用
     inline bool isValid() const { return m_object != NULL && ! m_method.isEmpty(); }
+
 private:
     QObject*    m_object;
     QByteArray  m_method;
+
+    inline void init(QObject* o, QByteArray m)
+    {
+        m_object = o;
+        m_method = m;
+    }
 };
 
 /// @brief key=value 数据格式转换类
 /// @note C/S 架构中，所以信息都以 key=value 格式传递，此类用于 k=v 信息的读取
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-10
 class TIANCHI_API DBFields
 {
 public:

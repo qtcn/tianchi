@@ -1,5 +1,5 @@
 // ********************************************************************************************************************
-// Tianchi share library for Qt (C++)
+// Tianchi C++ library for Qt (open source)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
@@ -24,6 +24,8 @@
 TIANCHI_BEGIN_NAMESPACE
 
 /// @brief 简单的文本文件输出日志。
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-10
 class TIANCHI_API LogTiny
 {
 public:

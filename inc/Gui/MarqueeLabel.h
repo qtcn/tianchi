@@ -33,6 +33,8 @@ class MarqueeLabelPrivate;
 QT_USE_NAMESPACE
 
 /// @brief 跑马灯类MarqueeLabel,点击时自动打开网址
+/// @author XChinux XChinux@163.com
+/// @date 2013-04-18
 class TIANCHI_API MarqueeLabel : public QLabel
 {
     Q_OBJECT
