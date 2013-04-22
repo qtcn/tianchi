@@ -1,5 +1,5 @@
 // ********************************************************************************************************************
-// Tianchi share library for Qt (C++)
+// Tianchi C++ library for Qt (open source)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
@@ -24,6 +24,8 @@
 TIANCHI_BEGIN_NAMESPACE
 
 /// @brief 文件操作常用处理类
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-15
 class TIANCHI_API FileUtils
 {
 public:
@@ -39,6 +41,9 @@ public:
     /// @param [in] exeFile 包含版本信息的文件名(.exe, .dll等)
     /// @return 版本信息(xxx.xxx.xxx.xxx)
     static QString fileVersion(const QString& exeFile);
+
+    /// @brief 从目录及子目录中检索出所有文件名
+    static QStringList searchFiles(const QString& path);
 };
 
 TIANCHI_END_NAMESPACE

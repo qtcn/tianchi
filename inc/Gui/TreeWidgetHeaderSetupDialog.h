@@ -27,6 +27,8 @@ class TreeWidgetHeaderSetupDialog;
 }
 
 /// @brief 设置 QTreeWidget 标题的对话框
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-10
 class TIANCHI_API TreeWidgetHeaderSetupDialog : public QDialog
 {
     Q_OBJECT

@@ -5,6 +5,10 @@
 #include <QFileInfo>
 #include <QTextStream>
 
+#if defined(Q_OS_WIN)
+  #include <Windows.h>
+#endif
+
 TIANCHI_BEGIN_NAMESPACE
 
 bool FileUtils::loadFromFile(QString& context, const QString& filename)
@@ -62,7 +66,7 @@ QString FileUtils::fileVersion(const QString& exeFile)
 {
     QString ret = "";
 
-  #if defined(TC_OS_WIN32_CXX_MSC_BCB)
+  #if defined(Q_OS_WIN)
     int size = GetFileVersionInfoSize(exeFile.toStdWString().c_str(), NULL);
     if ( size >0 )
     {
@@ -86,6 +90,29 @@ QString FileUtils::fileVersion(const QString& exeFile)
         delete data;
     }
   #endif
+    return ret;
+}
+
+QStringList FileUtils::searchFiles(const QString& path)
+{
+    QStringList ret;
+    // 这个函数可以执行任何任务，
+    // 这里只是简单地输出各个文件（夹）的名字
+    QDir dir(path);
+    QStringList
+    list = dir.entryList(QDir::Dirs, QDir::Name);
+    for ( QStringList::Iterator it=list.begin();it!=list.end();it++ )
+    {
+        if ( "." != *it && ".." != *it )
+        {
+            ret.append(searchFiles(path + QDir::separator() + *it));
+        }
+    }
+    list = dir.entryList(QDir::Files, QDir::Name);
+    for ( QStringList::Iterator it=list.begin();it!=list.end();it++ )
+    {
+        ret.append(*it);
+    }
     return ret;
 }
 

@@ -13,7 +13,6 @@
 //
 // ====================================================================================================================
 /// @file DownloadHttp.h HTTP 文件多线程下载器
-// ====================================================================================================================
 #ifndef TIANCHI_DOWNLOADHTTP_H
 #define TIANCHI_DOWNLOADHTTP_H
 
@@ -26,6 +25,8 @@ TIANCHI_BEGIN_NAMESPACE
 
 /// @brief 用于下载文件（或文件的一部分）
 /// 注意：此类尚未进行严格测试
+/// @author 来自互联网
+/// @date 2013-04-19
 class TIANCHI_API Download : public QObject
 {
     Q_OBJECT

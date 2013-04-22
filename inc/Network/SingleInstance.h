@@ -46,25 +46,35 @@ TIANCHI_BEGIN_NAMESPACE
 ///     ...
 /// }
 /// @endcode
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-19
 class TIANCHI_API SingleInstance
 {
 public:
+    /// @brief 初始化方法
+    /// @param [in] instanceName 识别是否重复开启的实例名称
     SingleInstance(QString instanceName)
     {
         init(0, instanceName);
     }
+    /// @brief 初始化方法
+    /// @param [in] parent app对象
+    /// @param [in] instanceName 识别是否重复开启的实例名称
     SingleInstance(QObject* parent, QString instanceName)
     {
         init(parent, instanceName);
     }
+    /// @brief 是否首次运行的实例
+    /// @return true: 首次运行的实例
     bool first() const { return m_first; }
 
 protected:
-    bool            m_first;
-    QString         m_instanceName;
-    QLocalSocket    m_localSocket;
-    QLocalServer*   m_localServer;
+    bool            m_first;        ///< 首次运行实例
+    QString         m_instanceName; ///< 实例名称
+    QLocalSocket    m_localSocket;  ///< 外访 socket 句柄
+    QLocalServer*   m_localServer;  ///< 受访 socket 句柄
 
+private:
     void init(QObject* parent, QString instanceName);
 };
 
