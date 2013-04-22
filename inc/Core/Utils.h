@@ -47,6 +47,8 @@ const int Delete = 4; ///< 删除
 };
 
 /// @brief 常用小功能综合函数集
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-04-10
 class TIANCHI_API Utils
 {
 public:
@@ -75,9 +77,6 @@ public:
 
     /// @brief 取编译日期和时间，调用处的代码必须重新编译
     static QDateTime complieDateTime(const QString& complieDate, const QString& time);
-
-    /// @brief 从目录及子目录中检索出所有文件名
-    static QStringList searchFiles(const QString& path);
 };
 
 TIANCHI_END_NAMESPACE
