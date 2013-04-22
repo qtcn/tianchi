@@ -74,6 +74,7 @@ HEADERS += \
     $$TC_INCL/File/FileUtils.h \
     $$TC_INCL/Gui/MarqueeLabel.h \
     $$TC_INCL/Gui/ClickLabel.h \
+    $$TC_INCL/Gui/LineEdit.h \
     $$TC_INCL/Gui/FlowLayout.h \
     $$TC_INCL/Gui/GlowEffect.h \
     $$TC_INCL/Gui/DateEdit.h \
@@ -97,6 +98,7 @@ SOURCES += \
     $$PWD/File/FileUtils.cpp \
     $$PWD/Gui/MarqueeLabel.cpp \
     $$PWD/Gui/ClickLabel.cpp \
+    $$PWD/Gui/LineEdit.cpp \
     $$PWD/Gui/FlowLayout.cpp \
     $$PWD/Gui/GlowEffect.cpp \
     $$PWD/Gui/DateEdit.cpp \
