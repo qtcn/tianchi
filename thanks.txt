@@ -1,13 +1,15 @@
 感谢对天池共享源码库作为贡献的人：
-=======================================================================================================================
+=============================================================================
 2013.04.10  Jonix               创建天池共享源码库的原型
 2013.04.10  cnhemiya            整理文件结构, 并参与规范制定
 2013.04.18  XChinux             提供 ClickLabel / MarqueeLabel 两个标签类
 2013.04.18  XChinux             增加 Sql/MSSQL::availableODBCDrivers() 函数
 2013.04.19  Jonix               增加 class Network/DownloadHttp
                                      class Network/SingleInstance
-			                         class Core/StringList  (String.cpp)
+			             class Core/StringList  (String.cpp)
                                      method Core/FileUtils::searchFiles()
-2013.04.21  cnhemiya            增加 class Core/DirTree 可以复制目录树的类，也可查找所有文件
+2013.04.21  cnhemiya            增加 class Core/DirTree 
+                                     可以复制目录树的类，也可查找所有文件
 2013.04.21  XChinux             增加 class Gui/FlowLayout
 2013.04.22  roywillow/XChinux   增加 class Gui/GlowEffect
+2012.04.22  XChinux             增加 class Gui/LineEdit, 增强型LineEdit

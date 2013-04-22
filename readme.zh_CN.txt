@@ -47,16 +47,16 @@ Tianchi C++ library for Qt
     Windows 下建议为 D:\Projects\Tianchi
 
     编译静态链接库：
-        打开并编译：D:\Projects\Tianchi\build\tianchi_s.pro
-        生成静态库：D:\Projects\Tianchi\build\staticlib\
+        打开并编译：D:\Projects\Tianchi\build\static\static.pro
+        生成静态库：D:\Projects\Tianchi\output\qtx.y.z-platform-spec\static\
 
         ※ 编译静态链接库，或直接引入源码编译器，不要定义 TIANCHI_EXPORT 或 TIANCHI_IMPORT
            DEFINES -= TIANCHI_EXPORT
            DEFINES -= TIANCHI_IMPORT
 
     编译动态链接库：
-        打开并编译：D:\Projects\Tianchi\build\tianchi.pro
-        生成静态库：D:\Projects\Tianchi\build\dll_lib\
+        打开并编译：D:\Projects\Tianchi\build\shared\shared.pro
+        生成静态库：D:\Projects\Tianchi\output\qtx.y.z-platform-spec\shared
 
         ※ 编译 dll 时请在 .pro 中添加：
            DEFINES += TIANCHI_EXPORT
@@ -64,7 +64,7 @@ Tianchi C++ library for Qt
         ※ 编译使用 tianchi.dll 的 exe 时请在 .pro 中添加：
         DEFINES += TIANCHI_IMPORT
  
-        ※※ debug 版的 exe 请使用 debug 版的 dll 
+        ※※ debug 版的 exe 请使用 debug 版的 dll (文件名末尾加有d字样)
              release 版的 exe 请使用 relase 版的 dll
              否则可能会出现运行错误。
 
