@@ -73,7 +73,7 @@ void LineEdit::setLabelText(const QString &labelText)
     }
     d->labelText = labelText;
     update();
-    emit labelTextChanged(labelText);
+    Q_EMIT labelTextChanged(labelText);
 }
 
 void LineEdit::setData(const QVariant &userData)
@@ -84,7 +84,7 @@ void LineEdit::setData(const QVariant &userData)
         return;
     }
     d->userData = userData;
-    emit dataChanged(userData);
+    Q_EMIT dataChanged(userData);
 }
 
 void LineEdit::paintEvent(QPaintEvent *event)
@@ -120,7 +120,7 @@ void LineEdit::paintEvent(QPaintEvent *event)
 void LineEdit::mouseDoubleClickEvent(QMouseEvent *event)
 {
     QLineEdit::mouseDoubleClickEvent(event);
-    emit doubleClicked();
+    Q_EMIT doubleClicked();
 }
 
 void LineEdit::contextMenuEvent(QContextMenuEvent *event)
