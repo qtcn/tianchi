@@ -56,9 +56,8 @@ TC_INCL = $$PWD/../inc
 
 INCLUDEPATH += $$TC_INCL
 
-win32:!win32-g++{
-    LIBS += -lversion -ladvapi32 -lole32
-}
+win32:LIBS += -lversion
+win32-msvc*:LIBS += -ladvapi32 -lole32
 
 HEADERS += \
     $$TC_INCL/Global.h \
