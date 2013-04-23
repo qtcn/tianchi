@@ -57,14 +57,14 @@ public:
     virtual ~LineEdit();
     QString labelText() const;
     QVariant data() const;
-signals:
+Q_SIGNALS:
     /// @brief emit this signal when labelText property changed
     void labelTextChanged(const QString &labelText);
     /// @brief emit this signal when data property changed
     void dataChanged(const QVariant &userData);
     /// @brief emit this signal when mouse double clicked
     void doubleClicked();
-public slots:
+public Q_SLOTS:
     /// @brief set labelText property
     void setLabelText(const QString &labelText);
     /// @brief set data property
