@@ -72,6 +72,7 @@ public:
 class TIANCHI_API StringList : public QStringList
 {
 public:
+    StringList();
     /// @brief 装入一个文本文件的全部内容
     /// @param [in] fileName 路径文件名
     /// @return 操作成功
@@ -80,6 +81,20 @@ public:
     /// @param [in] fileName 路径文件名
     /// @return 操作成功
     bool saveTo(const QString& fileName);
+
+    /// @brief 返回文本文件的行结尾符
+    inline QString lineBreak() const
+    {
+        return m_lineBreak;
+    }
+    /// @brief 设置文本文件的行结尾符
+    inline void lineBreak(const QString& value)
+    {
+        m_lineBreak = value;
+    }
+
+private:
+    QString m_lineBreak;
 };
 
 TIANCHI_END_NAMESPACE

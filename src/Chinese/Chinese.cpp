@@ -121,13 +121,28 @@ void IMEEngine::UnsetIMEEngine(void)
 // ---------------------------------------------------------------------------------------------------------------------
 #endif
 
+QString Chinese::firstPinyins(const QString& HzString)
+{
+    QString ret;
+    foreach(QChar c, HzString)
+    {
+        QString s(c);
+        s = toPinyin(s, false).trimmed();
+        if ( ! s.isEmpty() )
+        {
+            ret += s.mid(0, 1);
+        }
+    }
+    return ret;
+}
+
 QString Chinese::toChars(const QString& Str, bool Tonality)
 {
     QString ret = "";
     for( int i=0;i<Str.length();i++ )
     {
         QString s = Str[i];
-        if ( s.size() >0 )
+        if ( s.length() < s.toLocal8Bit().length() )
         {
             ret += toPinyin(s, Tonality);
         }else
@@ -158,7 +173,6 @@ QString Chinese::toPinyin(const QString& Str, bool Tonality)
         }
         if ( ! Tonality )
         {
-            //const QString Initial1 = QString::fromWCharArray(L"¨¡¨¢¨£¨¤¨­¨®¨¯¨°¨¥¨¦¨§¨¨¨©¨ª¨«¨¬¨±¨²¨³¨´¨µ¨¶¨·¨¸¨¹¨º¨»¨¼¨½¨¾¨¿¨À");
             const QString Initial1 = QString::fromLocal8Bit("¨¡¨¢¨£¨¤¨­¨®¨¯¨°¨¥¨¦¨§¨¨¨©¨ª¨«¨¬¨±¨²¨³¨´¨µ¨¶¨·¨¸¨¹¨º¨»¨¼¨½¨¾¨¿¨À");
             const QString Initial2 = "aaaaooooeeeeiiiiuuuuvvvvveamnnng";
             for( int i=0;i<Initial1.length();i++ )
@@ -168,21 +182,6 @@ QString Chinese::toPinyin(const QString& Str, bool Tonality)
         }
     }
 #endif
-    return ret;
-}
-
-QString Chinese::firstPinyins(const QString& HzString)
-{
-    QString ret;
-    foreach(QChar c, HzString)
-    {
-        QString s(c);
-        s = toPinyin(s, false).trimmed();
-        if ( ! s.isEmpty() )
-        {
-            ret += s.mid(0, 1);
-        }
-    }
     return ret;
 }
 

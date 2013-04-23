@@ -76,7 +76,7 @@ public:
     static char getIDCardVerifyCode(const QByteArray& id);
 
     /// @brief 取编译日期和时间，调用处的代码必须重新编译
-    static QDateTime complieDateTime(const QString& complieDate, const QString& time);
+    static QDateTime complieDateTime(const QString& complieDate, const QString& complieTime);
 };
 
 TIANCHI_END_NAMESPACE

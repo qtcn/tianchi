@@ -153,26 +153,39 @@ public:
     inline int colEnd() const { return m_colEnd; }
 
 #ifdef QT_WIDGETS_LIB
+    /// @brief 把 QTreeWidget 的内容，直接输出到 Excel 中
+    /// @author 圣域天子 Jonix@qtcn.org
     class TIANCHI_API Exporter
     {
     public:
-        Exporter(QTreeWidget* view, int mode, TIANCHI_NAMESPACE::MSExcel* excel, int row=1, int col=1);
+        /// @brief 构造函数
+        /// @param [in] view 需要导出的 QTreeWidget 对象
+        /// @param [in] mode 0:导出全部<br> 1:导出选中的行
+        /// @param [in] excel Excel 对象实例
+        /// @param [in] row 导出到 Excel 的开始行
+        /// @param [in] col 导出到 Excel 的开始列
+        Exporter(QTreeWidget* view, int mode, TIANCHI::MSExcel* excel, int row=1, int col=1);
 
+        /// @brief 重置导出模式
+        /// @param [in] mode 0:导出全部<br> 1:导出选中的行
+        void setMode(int mode) { m_mode = mode; }
+        /// @brief 重置导出到 Excel 的开始行和开始列
         void setStart(int row, int col) { m_row = row; m_col = col; }
-        void setExcel(TIANCHI_NAMESPACE::MSExcel* excel) { m_excel = excel; }
-        void setMode(int mode) { m_mode = mode; } // 0:all, 1:selected
+        /// @brief 重置 Excel 的对象实例
+        void setExcel(TIANCHI::MSExcel* excel) { m_excel = excel; }
 
+        /// @brief 执行导出操作
         int  exec();
-
-        QStringList     formats;
-        QStringList     cellTypes;
 
     private:
         QTreeWidget*        m_view;
-        TIANCHI_NAMESPACE::MSExcel*   m_excel;
+        int                 m_mode;
+        TIANCHI::MSExcel*   m_excel;
         int                 m_row;
         int                 m_col;
-        int                 m_mode;
+
+        QStringList     formats;
+        QStringList     cellTypes;
     };
 #endif
 };

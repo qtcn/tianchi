@@ -6,12 +6,11 @@
 
 TEMPLATE = lib
 TARGET = tianchi
-QT += sql network script
-greaterThan(QT_MAJOR_VERSION, 4) { 
-    QT += gui widgets concurrent
+QT += gui sql network script
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += widgets concurrent
     win32:QT += axcontainer
 } else {
-    QT += gui
     win32:CONFIG += qaxcontainer
     DEFINES += QT_WIDGETS_LIB
 }
@@ -66,7 +65,7 @@ win32-msvc*:LIBS += -ladvapi32 -lole32
 
 HEADERS += \
     $$TC_INCL/Global.h \
-	$$TC_INCL/tianchi.h \
+    $$TC_INCL/tianchi.h \
     $$TC_INCL/Chinese/Chinese.h \
     $$TC_INCL/Core/Classes.h \
     $$TC_INCL/Core/Common.h \

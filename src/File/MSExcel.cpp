@@ -254,7 +254,7 @@ bool MSExcel::usedRange()
 
 
 #ifdef QT_WIDGETS_LIB
-MSExcel::Exporter::Exporter(QTreeWidget* view, int mode, TIANCHI_NAMESPACE::MSExcel* excel, int row, int col)
+MSExcel::Exporter::Exporter(QTreeWidget* view, int mode, TIANCHI::MSExcel* excel, int row, int col)
 {
 #if defined(Q_OS_WIN)
     m_view  = view;
@@ -279,7 +279,7 @@ int MSExcel::Exporter::exec()
     QTreeWidgetItem* header = m_view->headerItem();
     for( int i=0;i<header->columnCount();i++ )
     {
-        m_excel->cellAlign(m_row, m_col, TIANCHI_NAMESPACE::MSExcel::xlCenter, TIANCHI_NAMESPACE::MSExcel::xlCenter);
+        m_excel->cellAlign(m_row, m_col, TIANCHI::MSExcel::xlCenter, TIANCHI::MSExcel::xlCenter);
         m_excel->write(m_row, m_col++, header->text(i));
     }
     QList<QTreeWidgetItem*> list;

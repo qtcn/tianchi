@@ -140,6 +140,19 @@ QString String::getTextByIndex(const char* strings, int index)
 }
 
 // class StringList
+StringList::StringList()
+{
+    #if defined(Q_OS_WIN)
+        m_lineBreak = "\r\n";
+    #elif defined(Q_OS_LINUX)
+        m_lineBreak = "\n";
+    #elif defined(Q_OS_MAC)
+        m_lineBreak = "\r";
+    #else
+        m_lineBreak = "\n";
+    #endif
+}
+
 bool StringList::loadFrom(const QString& fileName)
 {
     bool ret = false;
@@ -167,16 +180,7 @@ bool StringList::saveTo(const QString& fileName)
         QTextStream out(&f);
         foreach(QString s, *this)
         {
-            out<<s<<
-          #if defined(Q_OS_WIN)
-            "\r\n";
-          #elif defined(Q_OS_LINUX)
-            "\n";
-          #elif defined(Q_OS_MAC)
-            "\n";
-          #else
-            #error ...
-          #endif
+            out<<s<<lineBreak();
         }
         f.close();
     }

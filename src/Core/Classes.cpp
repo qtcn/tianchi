@@ -76,7 +76,7 @@ int Player::authority(const QString& key) const
 
 void Player::setAuthorityText(const QString& value)
 {
-    QHash<QString, QString> map = TIANCHI_NAMESPACE::Utils::StringToMap(value);
+    QHash<QString, QString> map = TIANCHI::Utils::StringToMap(value);
 
     m_authority.clear();
 
@@ -93,7 +93,7 @@ void Player::setAuthorityText(const QString& value)
 
 void Player::setAuthorityText(const QStringList& value)
 {
-    QHash<QString, QString> map = TIANCHI_NAMESPACE::Utils::StringToMap(value);
+    QHash<QString, QString> map = TIANCHI::Utils::StringToMap(value);
 
     m_authority.clear();
 
@@ -136,7 +136,7 @@ void DBFields::addField(QByteArray& fieldBytes, const QString& name, const QVari
 {
     QByteArray bytes = value.toByteArray();
     fieldBytes.append(name).append('\0')
-            .append(TIANCHI_NAMESPACE::Utils::typeFrom(value.type())).append('\0')
+            .append(TIANCHI::Utils::typeFrom(value.type())).append('\0')
             .append(QByteArray::number(bytes.length())).append('\0')
             .append(bytes);
 }

@@ -38,7 +38,7 @@
 /// {
 ///     QApplication app(argc, argv);
 ///     // 先为应用程序设置字符集
-///     QTextCodec*pCodec=QTextCodec::codecForName("GBK");
+///     QTextCodec* pCodec=QTextCodec::codecForName("GBK");
 ///     QTextCodec::setCodecForLocale(pCodec);
 ///
 ///     ...
