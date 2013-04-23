@@ -23,7 +23,7 @@ QString OS::name()
 QString OS::language()
 {
     QString ret;
-  #if defined(TC_OS_WIN32_CXX_MSC_BCB)
+  #if defined(Q_OS_WIN)
     LANGID  LangID = GetSystemDefaultLangID();
     wchar_t LanguageName[100];
     VerLanguageName(LangID, LanguageName, 100);
