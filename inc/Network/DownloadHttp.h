@@ -35,10 +35,10 @@ public:
     Download(int index, QObject *parent = 0);
     void StartDownload(const QUrl &url, QFile* file, qint64 startPoint=0, qint64 endPoint=-1);
 
-signals:
+Q_SIGNALS:
     void DownloadFinished();
 
-public slots:
+public Q_SLOTS:
     void FinishedSlot();
     void HttpReadyRead();
 
@@ -65,10 +65,10 @@ public:
     void StartFileDownload(const QString &url, int count);
     qint64 GetFileSize(QUrl url);
 
-signals:
+Q_SIGNALS:
     void FileDownloadFinished();
 
-private slots:
+private Q_SLOTS:
     void SubPartFinished();
 
 private:

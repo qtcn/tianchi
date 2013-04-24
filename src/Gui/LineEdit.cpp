@@ -42,7 +42,7 @@ LineEditPrivate::~LineEditPrivate()
 {
 }
 
-LineEdit::LineEdit(QWidget * parent) 
+LineEdit::LineEdit(QWidget * parent)
     : QLineEdit(parent), d_ptr(new LineEditPrivate(this))
 {
 }

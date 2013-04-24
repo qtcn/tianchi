@@ -17,7 +17,7 @@
 #ifndef TIANCHI_FLOWLAYOUT_H
 #define TIANCHI_FLOWLAYOUT_H
 
-#include <Global.h>
+#include "Global.h"
 #include <QLayout>
 
 TIANCHI_BEGIN_HEADER
@@ -35,7 +35,7 @@ public:
             int vSpacing = -1);
     FlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1);
     virtual ~FlowLayout();
-    
+
     void addItem(QLayoutItem *item);
     int horizontalSpacing() const;
     int verticalSpacing() const;
@@ -48,6 +48,7 @@ public:
     void setGeometry(const QRect &rect);
     QSize sizeHint() const;
     QLayoutItem *takeAt(int index);
+
 private:
     Q_DISABLE_COPY(FlowLayout)
     Q_DECLARE_PRIVATE(FlowLayout)

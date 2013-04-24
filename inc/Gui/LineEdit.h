@@ -4,7 +4,7 @@
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
 // **************************************************************************
-// 文档说明：可发出clicked信号的Label部件
+// 文档说明：extended QLineEdit widget
 // ==========================================================================
 // 开发日志：
 // 日期         人员        说明
@@ -41,9 +41,9 @@ class TIANCHI_API LineEdit : public QLineEdit
     Q_OBJECT
 
     /// @brief labelText property, shown in non-edit mode
-    Q_PROPERTY(QString labelText 
-            READ labelText 
-            WRITE setLabelText 
+    Q_PROPERTY(QString labelText
+            READ labelText
+            WRITE setLabelText
             NOTIFY labelTextChanged
             DESIGNABLE true)
     /// @brief data property, save user's data

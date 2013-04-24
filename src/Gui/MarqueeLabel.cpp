@@ -12,7 +12,7 @@
 // 2013.04.18   XChinux     建立
 //
 // ==========================================================================
-/// @file MarqueeLabel.cpp 跑马灯Label,点击时自动打开网址
+/// @file MarqueeLabel.cpp 跑马灯Label, 点击时自动打开网址
 // ==========================================================================
 #include "Gui/MarqueeLabel.h"
 #include <QUrl>
@@ -38,7 +38,8 @@ public:
     MarqueeLabel *q_ptr;
 };
 
-MarqueeLabelPrivate::MarqueeLabelPrivate(MarqueeLabel *qptr) : q_ptr(qptr) 
+MarqueeLabelPrivate::MarqueeLabelPrivate(MarqueeLabel *qptr) 
+    : q_ptr(qptr)
 {
     animation = new QPropertyAnimation(q_ptr, "geometry", q_ptr);
     QObject::connect(q_ptr, SIGNAL(linkActivated(const QString &)),
@@ -63,7 +64,7 @@ MarqueeLabel::MarqueeLabel(QWidget * parent, Qt::WindowFlags f)
     setOpenExternalLinks(false);
 }
 
-MarqueeLabel::MarqueeLabel(const QString &text, QWidget *parent, 
+MarqueeLabel::MarqueeLabel(const QString &text, QWidget *parent,
         Qt::WindowFlags f )
     : QLabel(text, parent, f), d_ptr(new MarqueeLabelPrivate(this))
 {

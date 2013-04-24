@@ -4,7 +4,7 @@
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
 // **************************************************************************
-// 文档说明：可发出clicked信号的Label部件
+// 文档说明：发光效果的QGraphicsEffect
 // ==========================================================================
 // 开发日志：
 // 日期         人员        说明
@@ -49,8 +49,8 @@ GlowEffectPrivate::~GlowEffectPrivate()
 {
 }
 
-GlowEffect::GlowEffect(QObject *parent) :
-    QGraphicsEffect(parent), d_ptr(new GlowEffectPrivate(this)) 
+GlowEffect::GlowEffect(QObject *parent) 
+    : QGraphicsEffect(parent), d_ptr(new GlowEffectPrivate(this))
 {
     d_ptr->radius = 0;
     d_ptr->color = QColor(255, 255, 255, 255);
@@ -80,7 +80,7 @@ QRectF GlowEffect::boundingRectFor(const QRectF &sourceRect) const
 {
     Q_D(const GlowEffect);
     QRectF tmp(sourceRect);
-    tmp.setBottomRight(tmp.bottomRight() 
+    tmp.setBottomRight(tmp.bottomRight()
             + QPointF(d->radius * 2, d->radius * 2));
     return tmp;
 }
@@ -94,7 +94,7 @@ void GlowEffect::draw(QPainter *painter)
         return;
     }
     QPixmap source = sourcePixmap();
-    QImage sourceBlured(source.size() + QSize(d->radius * 2, d->radius * 2), 
+    QImage sourceBlured(source.size() + QSize(d->radius * 2, d->radius * 2),
             QImage::Format_ARGB32_Premultiplied);
     sourceBlured.fill(0);
     QPainter tmpPainter(&sourceBlured);

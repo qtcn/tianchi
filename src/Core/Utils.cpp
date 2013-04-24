@@ -173,15 +173,13 @@ char Utils::getIDCardVerifyCode(const QByteArray& id)
     return ret;
 }
 
-
-
-QDateTime Utils::complieDateTime(const QString& complieDate, const QString& time)
+QDateTime Utils::complieDateTime(const QString& complieDate, const QString& complieTime)
 {
-    QString DateString = __DATE__;
+    QString DateString = complieDate;
     QString Year  = DateString.right(4);
     QString Month = DateString.left(3).toUpper();
     QString Day   = DateString.mid(4, 2);
-    QString TimeString = __TIME__;
+    QString TimeString = complieTime;
     QString Hour   = TimeString.left(2);
     QString Minute = TimeString.mid(3, 2);
     QString Second = TimeString.right(2);

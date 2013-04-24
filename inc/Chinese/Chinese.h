@@ -23,7 +23,7 @@
 TIANCHI_BEGIN_NAMESPACE
 
 /// @brief 汉语相关处理类
-/// @note 使用此需要在 .pro 文件中加上 LIB += -lole32
+/// @note 此类仅限在 Windows 下有效，使用时需要在 .pro 文件中加上 LIB += -lole32
 class TIANCHI_API Chinese
 {
 public:

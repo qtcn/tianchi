@@ -35,7 +35,7 @@ class TIANCHI_API DateEdit : public QComboBox
 
     Q_PROPERTY(QDate date READ date WRITE setDate RESET unsetDate)
 
-private slots:
+private Q_SLOTS:
     void calendarClicked(QDate);
 
 private:

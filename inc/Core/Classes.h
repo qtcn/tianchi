@@ -43,7 +43,7 @@ class TIANCHI_API Player : public QObject
     Q_PROPERTY(QDateTime loginTime READ loginTime WRITE setLoginTime) ///< 登录时间
 
 public:
-    /// 用户权限
+    /// @brief 用户权限
     typedef enum AuthLevel
     {
         AUTH_SYSADMIN = 999,  ///< 最高系统级管理员权限

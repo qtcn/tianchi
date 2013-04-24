@@ -314,7 +314,7 @@ bool JSONObject::fromString(QString jsonText)
     return ptr != NULL;
 }
 
-const wchar_t* JSONObject::fromObject(const QString& Key, const wchar_t* ptr)
+const wchar_t* JSONObject::fromObject(const QString&, const wchar_t* ptr)
 {
     ptr = skip(ptr);
     if ( *ptr == L'{' )

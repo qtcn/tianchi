@@ -17,7 +17,7 @@ TreeWidgetHeaderSetupDialog::~TreeWidgetHeaderSetupDialog()
     delete ui;
 }
 
-void TreeWidgetHeaderSetupDialog::setHeader(QTreeWidget* view, int max)
+void TreeWidgetHeaderSetupDialog::setHeader(QTreeWidget* view, int)
 {
     m_view = view;
 
@@ -31,7 +31,7 @@ void TreeWidgetHeaderSetupDialog::setHeader(QTreeWidget* view, int max)
     }
 }
 
-void TreeWidgetHeaderSetupDialog::on_MasterView_itemClicked(QTreeWidgetItem *item, int column)
+void TreeWidgetHeaderSetupDialog::on_MasterView_itemClicked(QTreeWidgetItem* item, int)
 {
     int index = ui->MasterView->indexOfTopLevelItem(item);
     m_view->setColumnHidden(index, item->checkState(0) == Qt::Unchecked);

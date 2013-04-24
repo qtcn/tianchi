@@ -17,7 +17,8 @@
 #ifndef TIANCHI_MARQUEELABEL_H
 #define TIANCHI_MARQUEELABEL_H
 
-#include <Global.h>
+#include "Global.h"
+
 #include <QLabel>
 
 QT_BEGIN_NAMESPACE
