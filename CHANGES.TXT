@@ -1,0 +1,103 @@
+Tianchi 0.0.1 is the first public release. supported in x86/x64's win32/linux
+Qt desktop edition, compilers tested in msvc2010/2012 and mingw(with Qt5)/gcc
+
+Tianchi Repository: https://github.com/qtcn/tianchi
+Tianchi Forum & Bug Report: http://www.qtcn.org/bbs/thread-htm-fid-105.html
+Tianchi Docs: http://www.qtcn.org/tianchi/docs/0.0.1
+
+****************************************************************************
+*                          Library                                         *
+****************************************************************************
+
+Chinese
+-------
+ - Chinese
+   class Chinese:
+        1. 取得多个汉字的首字母
+        2. 取得多个汉字的全部拼音
+        3. 混合字符时转换中不过滤英数符号等
+
+Core
+----
+ - Classes
+   class Player: 玩家信息类,常用在C/S中的客户端用户信息保存
+   class CInvokeObject: 映射执行对象类
+   class DBFields: 数据格式转换类,用于key=value格式数据读取
+
+ - Common
+   function QS: 汉字字符集转换
+   function max/min: 最大最小判断
+   function iif: 分支逻辑判断
+   function MsgBox: 显示简易文本信息对话框
+   function debug_out: 输出debug日志信息(到控制台或文件)
+
+ - String
+   class String: 字符串功能增强与扩展
+   class StringList: 字符串列表功能增强与扩展
+
+ - Utils
+   class Utils: 常用小功能综合函数集
+
+File
+----
+ - Directory
+   class Directory: 可以复制目录树的类,也可以查找目录内所有的文件
+
+ - FileUtils
+   class FileUtils: 文件操作常用处理类
+
+ - Json
+   class JSONObject: 兼容Qt4.x的JSON文件生成和解析类
+
+ - LogTiny
+   class LogTiny: 简单的文本文件输出日志类
+
+ - MSExcel
+   class MSExcel: 通过OLE方式操作Microsoft Excel
+
+Gui
+---
+
+ - ClickLabel
+   class ClickLabel: 可发出clicked()信号的Label部件
+
+ - DateEdit
+   class DateEdit: 允许为空的日期选择部件
+
+ - FlowLayout
+   class FlowLayout: 流式布局类
+
+ - GlowEffect
+   class GlowEffect: 发光效果的QGraphicsEffect
+
+ - GuiUtils:
+   class CursorWait: 等待光标的设置和自动恢复处理类
+   class CursorBusy: 退出块时使光标自动恢复为原先光标形状
+
+ - LineEdit
+   class LineEdit: 增强型LineEdit部件,可发出doubleClicked()信号,并且可使编辑
+                   和非编辑状态时显示不同的字符
+
+ - MarqueeLabel
+   class MarqueeLabel: 跑马灯效果的Label,点击时自动打开链接
+
+ - TreeWidgetHeadersSetupDialog
+   class TreeWidgetHeaderSetupDialog: 设置QTreeWidget标题的对话框
+
+Network
+-------
+ - DownloadHttp
+   class Download: HTTP文件多线程下载器
+ 
+ - SingleInstance
+   class SingleInstance: 应用程序单例实现类
+
+OS
+--
+ - OS
+   class OS: 操作系统相关的操作类
+
+Sql
+-----
+ - MSSQL
+   static class function availableODBCDrivers: 读取可用MSSQL ODBC驱动和版本信息

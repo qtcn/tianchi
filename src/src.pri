@@ -37,7 +37,11 @@ CONFIG(static, static|shared) | CONFIG(staticlib, staticlib|shared) {
     TC_OUTPUT = $${TC_OUTPUT}/$${TC_SPEC}/shared
     DESTDIR = $$TC_OUTPUT
     DEFINES += TIANCHI_EXPORT
-    win32:RC_FILE = $$PWD/tianchi.rc
+    win32 {
+        RC_FILE = $$PWD/tianchi.rc
+    } else {
+        VERSION = 0.0.1
+    }
 }
 
 CONFIG(debug, debug|release) {
