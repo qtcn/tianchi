@@ -4,7 +4,7 @@
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
 // **************************************************************************
-// 文档说明：可发出clicked信号的Label部件
+// 文档说明：跑马灯Label,点击时自动打开网址
 // ==========================================================================
 // 开发日志：
 // 日期         人员        说明
@@ -17,7 +17,7 @@
 #ifndef TIANCHI_MARQUEELABEL_H
 #define TIANCHI_MARQUEELABEL_H
 
-#include "Global.h"
+#include <tianchi/Global.h>
 
 #include <QLabel>
 
@@ -26,7 +26,6 @@ class QEvent;
 class QResizeEvent;
 QT_END_NAMESPACE
 
-TIANCHI_BEGIN_HEADER
 TIANCHI_BEGIN_NAMESPACE
 
 class MarqueeLabelPrivate;
@@ -57,8 +56,28 @@ private:
     MarqueeLabelPrivate *d_ptr;
 };
 
-TIANCHI_END_HEADER
 TIANCHI_END_NAMESPACE
 
+#if 0
+class TIANCHI_API TcMarqueeLabel : 
+    public TIANCHI_PREPEND_NAMESPACE(MarqueeLabel)
+{
+    Q_OBJECT
+public:
+    TcMarqueeLabel(QT_PREPEND_NAMESPACE(QWidget) * parent = 0, 
+            QT_PREPEND_NAMESPACE(Qt)::WindowFlags f = 0)
+        : TIANCHI_PREPEND_NAMESPACE(MarqueeLabel)(parent, f)
+    {
+    }
+
+    TcMarqueeLabel(const QT_PREPEND_NAMESPACE(QString) &text, 
+            QT_PREPEND_NAMESPACE(QWidget) *parent = 0, 
+            QT_PREPEND_NAMESPACE(Qt)::WindowFlags f = 0)
+        : TIANCHI_PREPEND_NAMESPACE(MarqueeLabel)(text, parent, f)
+    {
+    }
+};
+#endif
+typedef TIANCHI_PREPEND_NAMESPACE(MarqueeLabel) TcMarqueeLabel;
 
 #endif

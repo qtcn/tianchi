@@ -1,23 +1,23 @@
-// ********************************************************************************************************************
+// **************************************************************************
 // Tianchi share library for Qt (C++)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
-// ********************************************************************************************************************
+// **************************************************************************
 // 文档说明：可以复制目录树的类，也可以查找文件夹内所有的文件
-// ====================================================================================================================
+// ==========================================================================
 // 开发日志：
 // 日期         人员                  说明
-// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // 2013.04.21   cnhemiya@gmail.com    建立
 //
-// ====================================================================================================================
+// ==========================================================================
 /// @file Directory.h 可以复制目录树的类，也可以查找文件夹内所有的文件
-// ====================================================================================================================
+// ==========================================================================
 #ifndef TIANCHI_DIRECTORY_H
 #define TIANCHI_DIRECTORY_H
 
-#include "Global.h"
+#include <tianchi/Global.h>
 
 #include <QObject>
 #include <QStringList>
@@ -31,7 +31,6 @@ QT_USE_NAMESPACE
 class TIANCHI_API Directory : public QObject
 {
     Q_OBJECT
-
 public:
     explicit Directory(QObject *parent = 0);
 
@@ -39,7 +38,8 @@ public:
     /// @param path 要查找的文件夹
     /// @param nameFilters 文件过滤
     /// @return 找到的文件列表
-    QStringList findFiles(const QString &path, const QStringList &nameFilters = QStringList());
+    QStringList findFiles(const QString &path, 
+            const QStringList &nameFilters = QStringList());
 
     /// @brief 复制目录树下所有的文件到新文件夹
     /// @param fromPath 源文件夹
@@ -48,14 +48,16 @@ public:
     /// @param overWrite 是否覆盖
     /// @return 复制的文件数量
     int copyDirectories(const QString &fromPath, const QString &toPath,
-                        const QStringList &nameFilters = QStringList(), bool overWrite = true);
+                        const QStringList &nameFilters = QStringList(), 
+                        bool overWrite = true);
 
     /// @brief 复制文件列表到新文件夹
     /// @param files 源文件列表
     /// @param toPath 目的文件夹
     /// @param overWrite 是否覆盖
     /// @return 复制的文件数量
-    int copyFiles(const QStringList &files, const QString &toPath, bool overWrite = true);
+    int copyFiles(const QStringList &files, const QString &toPath, 
+            bool overWrite = true);
 
     /// @brief 重置m_copyFileCount为0
     void resetCopyFileCount();
@@ -76,5 +78,18 @@ private:
 };
 
 TIANCHI_END_NAMESPACE
+
+#if 0
+class TIANCHI_API TcDirectory : public TIANCHI_PREPEND_NAMESPACE(Directory)
+{
+    Q_OBJECT
+public:
+    explicit TcDirectory(QT_PREPEND_NAMESPACE(QObject) *parent = 0)
+        : TIANCHI_PREPEND_NAMESPACE(Directory)(parent)
+    {
+    }
+};
+#endif
+typedef TIANCHI_PREPEND_NAMESPACE(Directory) TcDirectory;
 
 #endif // TIANCHI_DIRECTORY_H

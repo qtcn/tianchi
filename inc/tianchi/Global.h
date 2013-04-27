@@ -74,9 +74,6 @@ namespace TIANCHI_NAMESPACE {}
 #endif /* user namespace */
 
 
-#define TIANCHI_BEGIN_HEADER
-#define TIANCHI_END_HEADER
-
 #if defined(TIANCHI_EXPORT)
 #  define TIANCHI_API Q_DECL_EXPORT
 #elif defined(TIANCHI_IMPORT)

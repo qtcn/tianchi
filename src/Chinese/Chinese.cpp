@@ -1,4 +1,4 @@
-#include "Chinese/Chinese.h"
+#include <tianchi/Chinese/Chinese.h>
 
 #include <QString>
 
@@ -9,7 +9,7 @@
 TIANCHI_BEGIN_NAMESPACE
 
 #if defined(Q_OS_WIN)
-// ---------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 class IMEEngine
 {
 private:
@@ -186,5 +186,3 @@ QString Chinese::toPinyin(const QString& Str, bool Tonality)
 }
 
 TIANCHI_END_NAMESPACE
-
-

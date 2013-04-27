@@ -14,7 +14,7 @@
 // ==========================================================================
 /// @file MarqueeLabel.cpp 跑马灯Label, 点击时自动打开网址
 // ==========================================================================
-#include "Gui/MarqueeLabel.h"
+#include <tianchi/Gui/MarqueeLabel.h>
 #include <QUrl>
 #include <QtConcurrentRun>
 #include <QResizeEvent>

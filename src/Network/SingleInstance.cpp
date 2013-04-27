@@ -1,4 +1,4 @@
-#include "Network/SingleInstance.h"
+#include <tianchi/Network/SingleInstance.h>
 
 TIANCHI_BEGIN_NAMESPACE
 

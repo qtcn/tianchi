@@ -9,7 +9,7 @@
 #include <QStringList>
 
 // tianchi
-#include "../inc/Global.h"
+#include <tianchi/Global.h>
 
 #endif
 

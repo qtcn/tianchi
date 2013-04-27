@@ -17,10 +17,8 @@
 #ifndef TIANCHI_CLICKLABEL_H
 #define TIANCHI_CLICKLABEL_H
 
-#include <Global.h>
+#include <tianchi/Global.h>
 #include <QLabel>
-
-TIANCHI_BEGIN_HEADER
 
 TIANCHI_BEGIN_NAMESPACE
 
@@ -51,6 +49,25 @@ private:
 
 TIANCHI_END_NAMESPACE
 
-TIANCHI_END_HEADER
+#if 0
+class TIANCHI_API TcClickLabel : public TIANCHI_PREPEND_NAMESPACE(ClickLabel)
+{
+    Q_OBJECT
+public:
+    TcClickLabel(QT_PREPEND_NAMESPACE(QWidget) *parent = 0, 
+            QT_PREPEND_NAMESPACE(Qt)::WindowFlags f = 0)
+        : TIANCHI_PREPEND_NAMESPACE(ClickLabel)(parent, f)
+    {
+    }
+
+    TcClickLabel(const QT_PREPEND_NAMESPACE(QString) &text, 
+            QT_PREPEND_NAMESPACE(QWidget) *parent = 0, 
+            QT_PREPEND_NAMESPACE(Qt)::WindowFlags f = 0)
+        : TIANCHI_PREPEND_NAMESPACE(text, parent, f)
+    {
+    }
+};
+#endif
+typedef TIANCHI_PREPEND_NAMESPACE(ClickLabel) TcClickLabel;
 
 #endif
