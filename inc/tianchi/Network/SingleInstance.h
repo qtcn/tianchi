@@ -23,8 +23,8 @@
 #include <QLocalSocket>
 #include <QLocalServer>
 
-TIANCHI_BEGIN_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 应用程序单实例类
 /// @par 示例:
 /// @code
@@ -78,8 +78,7 @@ private:
     void init(QObject* parent, QString instanceName);
 };
 
-TIANCHI_END_NAMESPACE
-
-typedef TIANCHI_PREPEND_NAMESPACE(SingleInstance) TcSingleInstance;
+}
+typedef ::Tianchi::SingleInstance TcSingleInstance;
 
 #endif // TIANCHI_SINGLEINSTANCE_H

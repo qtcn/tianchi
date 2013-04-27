@@ -21,10 +21,8 @@
 
 #include <QString>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi 
+{
 /// @brief 简单的文本文件输出日志。
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-10
@@ -74,24 +72,18 @@ public:
 private:
     QString m_FileName;
 };
-
-TIANCHI_END_NAMESPACE
+}
 
 /// @brief 向日志输出代码所在文件和行号，用于运行时跟踪执行步骤。
-#define Log_Step TIANCHI_NAMESPACE::Log.write("<<STEP>>", __FILE__, __LINE__);
+#define Log_Step ::Tianchi::Log.write("<<STEP>>", __FILE__, __LINE__);
 
 /// @brief 调试模式下输出日志，自动添加代码所在文件和行号。
 #ifdef _DEBUG
-    #define Debug_Log(s)   TIANCHI_NAMESPACE::Log.write(s, __FILE__, __LINE__);
+    #define Debug_Log(s)   ::Tianchi::Log.write(s, __FILE__, __LINE__);
 #else
     #define Debug_Log(s)
 #endif
 
-#if 0
-class TIANCHI_API TcLogTiny : public TIANCHI_PREPEND_NAMESPACE(LogTiny)
-{
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(LogTiny) TcLogTiny;
+typedef ::Tianchi::LogTiny TcLogTiny;
 
 #endif // TIANCHI_LOGTINY_H

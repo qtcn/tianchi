@@ -21,10 +21,8 @@
 #include <QString>
 #include <QStringList>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi 
+{
 /// @brief 字符串功能增强与扩展
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-16
@@ -98,19 +96,9 @@ public:
 private:
     QString m_lineBreak;
 };
+}
 
-TIANCHI_END_NAMESPACE
-#if 0
-class TIANCHI_API TcString : public TIANCHI_PREPEND_NAMESPACE(String)
-{
-};
-
-class TIANCHI_API TcStringList : public TIANCHI_PREPEND_NAMESPACE(StringList)
-{
-};
-#endif
-
-typedef TIANCHI_PREPEND_NAMESPACE(String) TcString;
-typedef TIANCHI_PREPEND_NAMESPACE(StringList) TcStringList;
+typedef ::Tianchi::String TcString;
+typedef ::Tianchi::StringList TcStringList;
 
 #endif // TIANCHI_STRING_H

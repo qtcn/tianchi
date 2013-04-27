@@ -20,10 +20,8 @@
 
 #include <QString>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 汉语相关处理类
 /// @note 此类仅限在 Windows 下有效，使用时需要在 .pro 文件中加上 LIB += -lole32
 class TIANCHI_API Chinese
@@ -79,14 +77,8 @@ public:
     static QString toChars(const QString& Str, bool Tonality=false);
 };
 
-TIANCHI_END_NAMESPACE
+}
 
-#if 0
-class TIANCHI_API TcChinese : public TIANCHI_PREPEND_NAMESPACE(Chinese)
-{
-};
-#endif
-
-typedef TIANCHI_PREPEND_NAMESPACE(Chinese) TcChinese;
+typedef ::Tianchi::Chinese TcChinese;
 
 #endif // TIANCHI_CHINESE_H

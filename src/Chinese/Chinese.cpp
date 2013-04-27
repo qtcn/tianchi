@@ -6,8 +6,8 @@
 #include "msime.h"
 #endif
 
-TIANCHI_BEGIN_NAMESPACE
-
+namespace Tianchi
+{
 #if defined(Q_OS_WIN)
 // --------------------------------------------------------------------------
 class IMEEngine
@@ -184,5 +184,4 @@ QString Chinese::toPinyin(const QString& Str, bool Tonality)
 #endif
     return ret;
 }
-
-TIANCHI_END_NAMESPACE
+}

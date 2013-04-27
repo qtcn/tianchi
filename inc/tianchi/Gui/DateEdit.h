@@ -22,10 +22,8 @@
 #include <QComboBox>
 #include <QCalendarWidget>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 可以输入或显示为空的日期选择控件
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-10
@@ -56,19 +54,8 @@ public:
     inline void setDate(QDateTime value) { setDate(value.date()); }
 };
 
-TIANCHI_END_NAMESPACE
+}
 
-#if 0
-class TcDateEdit : public TIANCHI_PREPEND_NAMESPACE(DateEdit)
-{
-    Q_OBJECT
-public:
-    TcDateEdit(QT_PREPEND_NAMESPACE(QWidget) *parent = 0)
-        : TIANCHI_PREPEND_NAMESPACE(DateEdit)(parent)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(DateEdit) TcDateEdit;
+typedef ::Tianchi::DateEdit TcDateEdit;
 
 #endif

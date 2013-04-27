@@ -19,10 +19,8 @@
 #include <QContextMenuEvent>
 #include <QStyleOptionFrame>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 class LineEditPrivate
 {
     Q_DECLARE_PUBLIC(LineEdit)
@@ -134,7 +132,5 @@ void LineEdit::contextMenuEvent(QContextMenuEvent *event)
         event->ignore();
     }
 }
-
+}
 #include "moc_LineEdit.cpp"
-
-TIANCHI_END_NAMESPACE

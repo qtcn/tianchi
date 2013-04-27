@@ -21,10 +21,8 @@
 
 #include <QString>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 文件操作常用处理类
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-15
@@ -48,13 +46,8 @@ public:
     /// @brief 从目录及子目录中检索出所有文件名
     static QStringList searchFiles(const QString& path);
 };
+}
 
-TIANCHI_END_NAMESPACE
-#if 0
-class TIANCHI_API TcFileUtils : public TIANCHI_PREPEND_NAMESPACE(FileUtils)
-{
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(FileUtils) TcFileUtils;
+typedef ::Tianchi::FileUtils TcFileUtils;
 
 #endif // TIANCHI_FILEUTILS_H

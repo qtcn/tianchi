@@ -26,12 +26,9 @@ class QEvent;
 class QResizeEvent;
 QT_END_NAMESPACE
 
-TIANCHI_BEGIN_NAMESPACE
-
+namespace Tianchi
+{
 class MarqueeLabelPrivate;
-
-QT_USE_NAMESPACE
-
 /// @brief 跑马灯类MarqueeLabel,点击时自动打开网址
 /// @author XChinux XChinux@163.com
 /// @date 2013-04-18
@@ -56,28 +53,8 @@ private:
     MarqueeLabelPrivate *d_ptr;
 };
 
-TIANCHI_END_NAMESPACE
+}
 
-#if 0
-class TIANCHI_API TcMarqueeLabel : 
-    public TIANCHI_PREPEND_NAMESPACE(MarqueeLabel)
-{
-    Q_OBJECT
-public:
-    TcMarqueeLabel(QT_PREPEND_NAMESPACE(QWidget) * parent = 0, 
-            QT_PREPEND_NAMESPACE(Qt)::WindowFlags f = 0)
-        : TIANCHI_PREPEND_NAMESPACE(MarqueeLabel)(parent, f)
-    {
-    }
-
-    TcMarqueeLabel(const QT_PREPEND_NAMESPACE(QString) &text, 
-            QT_PREPEND_NAMESPACE(QWidget) *parent = 0, 
-            QT_PREPEND_NAMESPACE(Qt)::WindowFlags f = 0)
-        : TIANCHI_PREPEND_NAMESPACE(MarqueeLabel)(text, parent, f)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(MarqueeLabel) TcMarqueeLabel;
+typedef ::Tianchi::MarqueeLabel TcMarqueeLabel;
 
 #endif

@@ -22,10 +22,8 @@
 #include <QObject>
 #include <QStringList>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @author ÄÏ¹ûÀæ cnhemiya@gmail.com
 /// @date 2013-04-21
 class TIANCHI_API Directory : public QObject
@@ -77,19 +75,7 @@ private:
     QString formatPath(const QString &path);
 };
 
-TIANCHI_END_NAMESPACE
-
-#if 0
-class TIANCHI_API TcDirectory : public TIANCHI_PREPEND_NAMESPACE(Directory)
-{
-    Q_OBJECT
-public:
-    explicit TcDirectory(QT_PREPEND_NAMESPACE(QObject) *parent = 0)
-        : TIANCHI_PREPEND_NAMESPACE(Directory)(parent)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(Directory) TcDirectory;
+}
+typedef ::Tianchi::Directory TcDirectory;
 
 #endif // TIANCHI_DIRECTORY_H

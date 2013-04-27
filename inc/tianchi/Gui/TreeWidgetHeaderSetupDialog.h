@@ -20,11 +20,9 @@
 #include <QDialog>
 #include <QTreeWidget>
 
-TIANCHI_BEGIN_NAMESPACE
-
-namespace Ui {
-class TreeWidgetHeaderSetupDialog;
-}
+namespace Tianchi
+{
+namespace Ui {class TreeWidgetHeaderSetupDialog;}
 
 /// @brief 设置 QTreeWidget 标题的对话框
 /// @author 圣域天子 Jonix@qtcn.org
@@ -56,23 +54,8 @@ private:
 
     QTreeWidget* m_view;
 };
+}
 
-TIANCHI_END_NAMESPACE
-
-#if 0
-class TIANCHI_API TcTreeWidgetHeaderSetupDialog : 
-    public TIANCHI_PREPEND_NAMESPACE(TreeWidgetHeaderSetupDialog)
-{
-    Q_OBJECT
-public:
-    explicit TcTreeWidgetHeaderSetupDialog(
-            QT_PREPEND_NAMESPACE(QWidget) *parent = 0)
-        : TIANCHI_PREPEND_NAMESPACE(TreeWidgetHeaderSetupDialog)(parent)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(TreeWidgetHeaderSetupDialog) \
-            TcTreeWidgetHeaderSetupDialog;
+typedef ::Tianchi::TreeWidgetHeaderSetupDialog TcTreeWidgetHeaderSetupDialog;
 
 #endif // TIANCHI_DLGHEADERSETUP_H

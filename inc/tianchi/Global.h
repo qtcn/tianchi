@@ -22,26 +22,11 @@
 #ifndef TIANCHI_GLOBAL_H
 #define TIANCHI_GLOBAL_H
 
-
-/**
- * TIANCHI_NAMESPACE 应该在.pro中定义,但为了防止名字冲突,这里强制定义
- */
-#ifndef TIANCHI_NAMESPACE
-/// @brief 《天池共享源码库》统一类名字空间(namespace)
-#   define TIANCHI Tianchi
-/// @brief 《天池共享源码库》统一类名字空间(namespace)
-#   define TIANCHI_NAMESPACE Tianchi
-#else
-#   define TIANCHI TIANCHI_NAMESPACE
-#endif
-
-
-#include <QtCore/qglobal.h>
-
 #ifndef __cplusplus
 #    error "Tianchi library only support C++ Compilers"
 #endif
 
+#include <QtCore/qglobal.h>
 
 #define TIANCHI_VERSION_STR   "0.0.1"
 /*
@@ -52,27 +37,6 @@
    can be used like #if (TIANCHI_VERSION >= TIANCHI_VERSION_CHECK(4, 4, 0))
 */
 #define TIANCHI_VERSION_CHECK(major, minor, patch) ((major<<16)|(minor<<8)|(patch))
-
-#if !defined(TIANCHI_NAMESPACE) // user namespace, copy from qglobal.h
-
-# define TIANCHI_PREPEND_NAMESPACE(name) ::name
-# define TIANCHI_USE_NAMESPACE
-# define TIANCHI_BEGIN_NAMESPACE
-# define TIANCHI_END_NAMESPACE
-
-#else /* user namespace */
-
-# define TIANCHI_PREPEND_NAMESPACE(name) ::TIANCHI_NAMESPACE::name
-# define TIANCHI_USE_NAMESPACE using namespace ::TIANCHI_NAMESPACE;
-/// @brief 《天池共享源码库》统一类名字空间(namespace)开始
-# define TIANCHI_BEGIN_NAMESPACE namespace TIANCHI_NAMESPACE {
-/// @brief 《天池共享源码库》统一类名字空间(namespace)结束
-# define TIANCHI_END_NAMESPACE }
-
-namespace TIANCHI_NAMESPACE {}
-
-#endif /* user namespace */
-
 
 #if defined(TIANCHI_EXPORT)
 #  define TIANCHI_API Q_DECL_EXPORT

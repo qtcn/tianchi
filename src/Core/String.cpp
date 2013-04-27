@@ -5,7 +5,8 @@
 #include <QTextStream>
 
 
-TIANCHI_BEGIN_NAMESPACE
+namespace Tianchi
+{
 
 String::String()
 {
@@ -186,5 +187,4 @@ bool StringList::saveTo(const QString& fileName)
     }
     return ret;
 }
-
-TIANCHI_END_NAMESPACE
+}

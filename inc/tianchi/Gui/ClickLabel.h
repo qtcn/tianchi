@@ -20,11 +20,9 @@
 #include <tianchi/Global.h>
 #include <QLabel>
 
-TIANCHI_BEGIN_NAMESPACE
-
+namespace Tianchi 
+{
 class ClickLabelPrivate;
-
-QT_USE_NAMESPACE
 
 /// @brief emit clicked() signal's label while mouse clicked
 class TIANCHI_API ClickLabel : public QLabel
@@ -47,27 +45,8 @@ private:
     ClickLabelPrivate *d_ptr;
 };
 
-TIANCHI_END_NAMESPACE
+}
 
-#if 0
-class TIANCHI_API TcClickLabel : public TIANCHI_PREPEND_NAMESPACE(ClickLabel)
-{
-    Q_OBJECT
-public:
-    TcClickLabel(QT_PREPEND_NAMESPACE(QWidget) *parent = 0, 
-            QT_PREPEND_NAMESPACE(Qt)::WindowFlags f = 0)
-        : TIANCHI_PREPEND_NAMESPACE(ClickLabel)(parent, f)
-    {
-    }
-
-    TcClickLabel(const QT_PREPEND_NAMESPACE(QString) &text, 
-            QT_PREPEND_NAMESPACE(QWidget) *parent = 0, 
-            QT_PREPEND_NAMESPACE(Qt)::WindowFlags f = 0)
-        : TIANCHI_PREPEND_NAMESPACE(text, parent, f)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(ClickLabel) TcClickLabel;
+typedef ::Tianchi::ClickLabel TcClickLabel;
 
 #endif

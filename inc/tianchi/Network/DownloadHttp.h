@@ -20,10 +20,8 @@
 #include <QtCore>
 #include <QtNetwork>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 用于下载文件（或文件的一部分）
 /// 注意：此类尚未进行严格测试
 /// @author 来自互联网
@@ -79,31 +77,8 @@ private:
     QUrl m_Url;
     QFile *m_File;
 };
-
-TIANCHI_END_NAMESPACE
-
-#if 0
-class TIANCHI_API TcDownload : public TIANCHI_PREPEND_NAMESPACE(Download)
-{
-    Q_OBJECT
-public:
-    TcDownload(int index, QT_PREPEND_NAMESPACE(QObject) *parent = 0) 
-        : TIANCHI_PREPEND_NAMESPACE(Download)(index, parent)
-    {
-    }
-};
-class TIANCHI_API TcDownloadList : 
-    public TIANCHI_PREPEND_NAMESPACE(DownloadList)
-{
-    Q_OBJECT
-public:
-    TcDownloadList(QT_PREPEND_NAMESPACE(QObject) *parent = 0)
-        : TIANCHI_PREPEND_NAMESPACE(DownloadList)(parent)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(Download) TcDownload;
-typedef TIANCHI_PREPEND_NAMESPACE(DownloadList) TcDownloadList;
+}
+typedef ::Tianchi::Download     TcDownload;
+typedef ::Tianchi::DownloadList TcDownloadList;
 
 #endif // TIANCHI_DOWNLOADHTTP_H

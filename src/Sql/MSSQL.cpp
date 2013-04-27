@@ -3,10 +3,8 @@
 #include <QStringListIterator>
 #include <QtAlgorithms>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /**
  * get MSSQL ODBC drivers name and version, every item such as:
  * -------------------------------------------------------------
@@ -46,5 +44,4 @@ QStringList MSSQL::availableODBCDrivers()
 #endif
     return slDrivers;
 }
-
-TIANCHI_END_NAMESPACE
+}

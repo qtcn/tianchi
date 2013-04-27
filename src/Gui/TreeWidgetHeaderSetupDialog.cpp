@@ -1,7 +1,8 @@
 #include <tianchi/Gui/TreeWidgetHeaderSetupDialog.h>
 #include "ui_TreeWidgetHeaderSetupDialog.h"
 
-TIANCHI_BEGIN_NAMESPACE
+namespace Tianchi
+{
 
 TreeWidgetHeaderSetupDialog::TreeWidgetHeaderSetupDialog(QWidget *parent) :
     QDialog(parent),
@@ -109,7 +110,4 @@ void TreeWidgetHeaderSetupDialog::on_bnRight_clicked()
         header->setTextAlignment(index, Qt::AlignRight | Qt::AlignVCenter);
     }
 }
-
-#include "moc_TreeWidgetHeaderSetupDialog.cpp"
-
-TIANCHI_END_NAMESPACE
+}

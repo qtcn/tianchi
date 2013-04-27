@@ -79,10 +79,10 @@ HEADERS += \
     $$TC_INCL/tianchi/File/LogTiny.h \
     $$TC_INCL/tianchi/File/MSExcel.h \
     $$TC_INCL/tianchi/File/FileUtils.h \
-    $$TC_INCL/tianchi/Gui/MarqueeLabel.h \
     $$TC_INCL/tianchi/Gui/ClickLabel.h \
     $$TC_INCL/tianchi/Gui/LineEdit.h \
     $$TC_INCL/tianchi/Gui/FlowLayout.h \
+    $$TC_INCL/tianchi/Gui/MarqueeLabel.h \
     $$TC_INCL/tianchi/Gui/GlowEffect.h \
     $$TC_INCL/tianchi/Gui/DateEdit.h \
     $$TC_INCL/tianchi/Gui/GuiUtils.h \
@@ -103,11 +103,11 @@ SOURCES += \
     $$PWD/File/LogTiny.cpp \
     $$PWD/File/MSExcel.cpp \
     $$PWD/File/FileUtils.cpp \
-    $$PWD/Gui/MarqueeLabel.cpp \
     $$PWD/Gui/ClickLabel.cpp \
     $$PWD/Gui/LineEdit.cpp \
     $$PWD/Gui/FlowLayout.cpp \
     $$PWD/Gui/GlowEffect.cpp \
+    $$PWD/Gui/MarqueeLabel.cpp \
     $$PWD/Gui/DateEdit.cpp \
     $$PWD/Gui/TreeWidgetHeaderSetupDialog.cpp \
     $$PWD/Gui/GuiUtils.cpp \

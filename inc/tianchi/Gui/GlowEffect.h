@@ -29,11 +29,9 @@
 #include <tianchi/Global.h>
 #include <QGraphicsEffect>
 
-TIANCHI_BEGIN_NAMESPACE
-
+namespace Tianchi
+{
 class GlowEffectPrivate;
-
-QT_USE_NAMESPACE
 
 class TIANCHI_API GlowEffect : public QGraphicsEffect
 {
@@ -59,18 +57,7 @@ private:
     GlowEffectPrivate *d_ptr;
 };
 
-TIANCHI_END_NAMESPACE
+}
 
-#if 0
-class TIANCHI_API TcGlowEffect : public TIANCHI_PREPEND_NAMESPACE(GlowEffect)
-{
-    Q_OBJECT
-public:
-    TcGlowEffect(QT_PREPEND_NAMESPACE(QObject) *parent = 0)
-        : TIANCHI_PREPEND_NAMESPACE(GlowEffect)(parent)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(GlowEffect) TcGlowEffect;
+typedef ::Tianchi::GlowEffect TcGlowEffect;
 #endif // GLOWEFFECT_H

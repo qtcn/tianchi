@@ -4,7 +4,8 @@
 #include <QFile>
 #include <QDir>
 
-TIANCHI_BEGIN_NAMESPACE
+namespace Tianchi
+{
 
 Directory::Directory(QObject *parent)
     : QObject(parent)
@@ -132,6 +133,5 @@ QString Directory::formatPath(const QString &path)
     return new_path;
 }
 
-#include "moc_Directory.cpp"
+}
 
-TIANCHI_END_NAMESPACE
