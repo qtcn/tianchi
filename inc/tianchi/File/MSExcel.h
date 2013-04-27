@@ -35,9 +35,8 @@ class QTreeWidget;
 
 QT_END_NAMESPACE
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
+namespace Tianchi
+{
 
 /// @brief 通过 OLE 方式操作 Microsoft Excel
 /// @note 通过 OLE 方式操作 Microsoft Excel
@@ -166,7 +165,7 @@ public:
         /// @param [in] excel Excel 对象实例
         /// @param [in] row 导出到 Excel 的开始行
         /// @param [in] col 导出到 Excel 的开始列
-        Exporter(QTreeWidget* view, int mode, TIANCHI::MSExcel* excel, int row=1, int col=1);
+        Exporter(QTreeWidget* view, int mode, ::Tianchi::MSExcel* excel, int row=1, int col=1);
 
         /// @brief 重置导出模式
         /// @param [in] mode 0:导出全部<br> 1:导出选中的行
@@ -174,7 +173,7 @@ public:
         /// @brief 重置导出到 Excel 的开始行和开始列
         void setStart(int row, int col) { m_row = row; m_col = col; }
         /// @brief 重置 Excel 的对象实例
-        void setExcel(TIANCHI::MSExcel* excel) { m_excel = excel; }
+        void setExcel(::Tianchi::MSExcel* excel) { m_excel = excel; }
 
         /// @brief 执行导出操作
         int  exec();
@@ -182,7 +181,7 @@ public:
     private:
         QTreeWidget*        m_view;
         int                 m_mode;
-        TIANCHI::MSExcel*   m_excel;
+        ::Tianchi::MSExcel*   m_excel;
         int                 m_row;
         int                 m_col;
 
@@ -192,13 +191,7 @@ public:
 #endif
 };
 
-TIANCHI_END_NAMESPACE
-
-#if 0
-class TIANCHI_API TcMSExcel : public TIANCHI_PREPEND_NAMESPACE(MSExcel)
-{
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(MSExcel) TcMSExcel;
+}
+typedef ::Tianchi::MSExcel TcMSExcel;
 
 #endif // TIANCHI_MSEXCEL_H

@@ -22,10 +22,8 @@
 #include <QWidget>
 #include <QCursor>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 光标形态变化类的根类，一般不直接使用
 /// @see class CursorWait
 /// @see class CursorBusy
@@ -94,33 +92,11 @@ public:
     {
     }
 };
+}
 
-TIANCHI_END_NAMESPACE
-
-#if 0
-
-class TIANCHI_API TcCursorWait: public TIANCHI_PREPEND_NAMESPACE(CursorWait)
-{
-public:
-    TcCursorWait(QT_PREPEND_NAMESPACE(QWidget)* parent = 0)
-        : TIANCHI_PREPEND_NAMESPACE(CursorWait)(parent)
-    {
-    }
-};
-
-class TIANCHI_API TcCursorBusy: public TIANCHI_PREPEND_NAMESPACE(CursorBusy)
-{
-public:
-    TcCursorBusy(QT_PREPEND_NAMESPACE(QWidget)* parent = 0)
-        : TIANCHI_PREPEND_NAMESPACE(CursorBusy)(parent)
-    {
-    }
-};
-#endif
-
-typedef TIANCHI_PREPEND_NAMESPACE(CursorCustom) TcCursorCustom;
-typedef TIANCHI_PREPEND_NAMESPACE(CursorWait) TcCursorWait;
-typedef TIANCHI_PREPEND_NAMESPACE(CursorBusy) TcCursorBusy;
+typedef ::Tianchi::CursorCustom     TcCursorCustom;
+typedef ::Tianchi::CursorWait       TcCursorWait;
+typedef ::Tianchi::CursorBusy       TcCursorBusy;
 
 #endif // QT_GUI_LIB
 

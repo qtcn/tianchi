@@ -1,6 +1,7 @@
 #include <tianchi/File/Json.h>
 
-TIANCHI_BEGIN_NAMESPACE
+namespace Tianchi
+{
 // =====================================================================================================================
 
 JSONObject::JSONObject(const QString& key)
@@ -474,4 +475,4 @@ const wchar_t* JSONObject::parseNumber(QString& Value, const wchar_t* ptr)
 }
 
 // =====================================================================================================================
-TIANCHI_END_NAMESPACE
+}

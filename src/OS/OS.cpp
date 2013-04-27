@@ -7,7 +7,8 @@
 #endif
 
 
-TIANCHI_BEGIN_NAMESPACE
+namespace Tianchi
+{
 
 QString OS::name()
 {
@@ -62,5 +63,5 @@ bool OS::login(const QString& Domain, const QString& UserID, const QString& Pass
     return ret;
 }
 
-TIANCHI_END_NAMESPACE
+}
 

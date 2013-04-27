@@ -30,8 +30,6 @@
     using namespace std;
 #endif
 
-QT_USE_NAMESPACE
-
 /// @brief 汉字字符集转换
 /// @param [in] s 汉字常量，或 char* 型的变量
 /// @par 示例:

@@ -35,11 +35,8 @@
 
 #include <QThread>
 
-
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 操作模式的标识常量
 namespace OperMode
 {
@@ -80,14 +77,8 @@ public:
     /// @brief 取编译日期和时间，调用处的代码必须重新编译
     static QDateTime complieDateTime(const QString& complieDate, const QString& complieTime);
 };
+}
 
-TIANCHI_END_NAMESPACE
-
-#if 0
-class TIANCHI_API TcUtils : public TIANCHI_PREPEND_NAMESPACE(Utils)
-{
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(Utils) TcUtils;
+typedef ::Tianchi::Utils TcUtils;
 
 #endif // TIANCHI_UTILS_H

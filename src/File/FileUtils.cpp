@@ -9,7 +9,8 @@
   #include <Windows.h>
 #endif
 
-TIANCHI_BEGIN_NAMESPACE
+namespace Tianchi
+{
 
 bool FileUtils::loadFromFile(QString& context, const QString& filename)
 {
@@ -116,5 +117,4 @@ QStringList FileUtils::searchFiles(const QString& path)
     return ret;
 }
 
-TIANCHI_END_NAMESPACE
-
+}

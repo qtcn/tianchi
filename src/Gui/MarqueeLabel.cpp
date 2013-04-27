@@ -21,10 +21,8 @@
 #include <QDesktopServices>
 #include <QPropertyAnimation>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 class MarqueeLabelPrivate
 {
     Q_DECLARE_PUBLIC(MarqueeLabel)
@@ -128,7 +126,6 @@ void MarqueeLabel::setText(const QString &text)
     d->animation->setEndValue(QRect(-iWidth, 0, iWidth, iHeight));
     d->animation->start();
 }
+}
 
 #include "moc_MarqueeLabel.cpp"
-
-TIANCHI_END_NAMESPACE

@@ -25,10 +25,8 @@
 #include <QString>
 #include <QStringList>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi 
+{
 /// @brief 兼容 Qt 4.x 的 JSON文生成和解析类
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-10
@@ -129,19 +127,8 @@ public:
     bool    fromString(QString jsonText);
 };
 // ==========================================================================
+}
 
-TIANCHI_END_NAMESPACE
-
-#if 0
-class TIANCHI_API TcJSONObject : public TIANCHI_PREPEND_NAMESPACE(JSONObject)
-{
-public:
-    TcJSONObject(const QT_PREPEND_NAMESPACE(QString)& key="")
-        : TIANCHI_PREPEND_NAMESPACE(JSONObject)(key)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(JSONObject) TcJSONObject;
+typedef ::Tianchi::JSONObject TcJSONObject;
 
 #endif // TIANCHI_JSON_H

@@ -1,10 +1,8 @@
 #include <tianchi/Core/Classes.h>
 #include <tianchi/Core/Utils.h>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 Player::Player()
     : QObject()
 {
@@ -76,7 +74,7 @@ int Player::authority(const QString& key) const
 
 void Player::setAuthorityText(const QString& value)
 {
-    QHash<QString, QString> map = TIANCHI::Utils::StringToMap(value);
+    QHash<QString, QString> map = ::Tianchi::Utils::StringToMap(value);
 
     m_authority.clear();
 
@@ -93,7 +91,7 @@ void Player::setAuthorityText(const QString& value)
 
 void Player::setAuthorityText(const QStringList& value)
 {
-    QHash<QString, QString> map = TIANCHI::Utils::StringToMap(value);
+    QHash<QString, QString> map = ::Tianchi::Utils::StringToMap(value);
 
     m_authority.clear();
 
@@ -136,7 +134,7 @@ void DBFields::addField(QByteArray& fieldBytes, const QString& name, const QVari
 {
     QByteArray bytes = value.toByteArray();
     fieldBytes.append(name).append('\0')
-            .append(TIANCHI::Utils::typeFrom(value.type())).append('\0')
+            .append(::Tianchi::Utils::typeFrom(value.type())).append('\0')
             .append(QByteArray::number(bytes.length())).append('\0')
             .append(bytes);
 }
@@ -161,7 +159,4 @@ QHash<QString, QByteArray> DBFields::getFields(const QByteArray& fieldBytes)
     }
     return ret;
 }
-
-#include "moc_Classes.cpp"
-
-TIANCHI_END_NAMESPACE
+}
