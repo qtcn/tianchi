@@ -1,5 +1,4 @@
-#include "Core/Utils.h"
-
+#include <tianchi/Core/Utils.h>
 
 #include <QTextCodec>
 #include <QDateTime>

@@ -17,7 +17,7 @@
 #ifndef TIANCHI_LINEEDIT_H
 #define TIANCHI_LINEEDIT_H
 
-#include <Global.h>
+#include <tianchi/Global.h>
 #include <QLineEdit>
 
 QT_BEGIN_NAMESPACE
@@ -26,7 +26,6 @@ class QMouseEvent;
 class QContextMenuEvent;
 QT_END_NAMESPACE
 
-TIANCHI_BEGIN_HEADER
 TIANCHI_BEGIN_NAMESPACE
 
 class LineEditPrivate;
@@ -80,6 +79,18 @@ private:
 };
 
 TIANCHI_END_NAMESPACE
-TIANCHI_END_HEADER
+#if 0
+
+class TIANCHI_API TcLineEdit : public TIANCHI_PREPEND_NAMESPACE(LineEdit)
+{
+    Q_OBJECT
+public:
+    TcLineEdit(QT_PREPEND_NAMESPACE(QWidget) *parent = 0)
+        : TIANCHI_PREPEND_NAMESPACE(LineEdit)(parent)
+    {
+    }
+};
+#endif
+typedef TIANCHI_PREPEND_NAMESPACE(LineEdit) TcLineEdit;
 
 #endif

@@ -16,7 +16,7 @@
 #ifndef TIANCHI_GUIUTILS_H
 #define TIANCHI_GUIUTILS_H
 
-#include "Global.h"
+#include <tianchi/Global.h>
 
 #if defined(QT_GUI_LIB)
 #include <QWidget>
@@ -96,6 +96,31 @@ public:
 };
 
 TIANCHI_END_NAMESPACE
+
+#if 0
+
+class TIANCHI_API TcCursorWait: public TIANCHI_PREPEND_NAMESPACE(CursorWait)
+{
+public:
+    TcCursorWait(QT_PREPEND_NAMESPACE(QWidget)* parent = 0)
+        : TIANCHI_PREPEND_NAMESPACE(CursorWait)(parent)
+    {
+    }
+};
+
+class TIANCHI_API TcCursorBusy: public TIANCHI_PREPEND_NAMESPACE(CursorBusy)
+{
+public:
+    TcCursorBusy(QT_PREPEND_NAMESPACE(QWidget)* parent = 0)
+        : TIANCHI_PREPEND_NAMESPACE(CursorBusy)(parent)
+    {
+    }
+};
+#endif
+
+typedef TIANCHI_PREPEND_NAMESPACE(CursorCustom) TcCursorCustom;
+typedef TIANCHI_PREPEND_NAMESPACE(CursorWait) TcCursorWait;
+typedef TIANCHI_PREPEND_NAMESPACE(CursorBusy) TcCursorBusy;
 
 #endif // QT_GUI_LIB
 

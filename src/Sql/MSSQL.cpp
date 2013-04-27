@@ -1,4 +1,4 @@
-#include "Sql/MSSQL.h"
+#include <tianchi/Sql/MSSQL.h>
 #include <QSettings>
 #include <QStringListIterator>
 #include <QtAlgorithms>

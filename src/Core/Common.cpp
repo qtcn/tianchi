@@ -1,2 +1,2 @@
-#include "Core/Common.h"
+#include <tianchi/Core/Common.h>
 

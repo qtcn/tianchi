@@ -1,4 +1,4 @@
-#include "File/FileUtils.h"
+#include <tianchi/File/FileUtils.h>
 
 #include <QDir>
 #include <QFile>

@@ -1,4 +1,4 @@
-#include "OS/OS.h"
+#include <tianchi/OS/OS.h>
 
 #include <QSettings>
 

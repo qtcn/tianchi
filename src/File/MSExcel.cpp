@@ -1,5 +1,5 @@
-#include "File/MSExcel.h"
-#include "Core/Utils.h"
+#include <tianchi/File/MSExcel.h>
+#include <tianchi/Core/Utils.h>
 
 #ifdef Q_OS_WIN
 #include <QAxObject>

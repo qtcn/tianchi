@@ -1,27 +1,28 @@
-// ********************************************************************************************************************
+// **************************************************************************
 // Tianchi C++ library for Qt (open source)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
-// ********************************************************************************************************************
+// **************************************************************************
 // 文档说明：HTTP 文件多线程下载器
-// ====================================================================================================================
+// ==========================================================================
 // 开发日志：
 // 日期         人员        说明
-// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // 2013.04.19   圣域天子    建立
 //
-// ====================================================================================================================
+// ==========================================================================
 /// @file DownloadHttp.h HTTP 文件多线程下载器
 #ifndef TIANCHI_DOWNLOADHTTP_H
 #define TIANCHI_DOWNLOADHTTP_H
 
-#include "Global.h"
-
+#include <tianchi/Global.h>
 #include <QtCore>
 #include <QtNetwork>
 
 TIANCHI_BEGIN_NAMESPACE
+
+QT_USE_NAMESPACE
 
 /// @brief 用于下载文件（或文件的一部分）
 /// 注意：此类尚未进行严格测试
@@ -30,10 +31,10 @@ TIANCHI_BEGIN_NAMESPACE
 class TIANCHI_API Download : public QObject
 {
     Q_OBJECT
-
 public:
     Download(int index, QObject *parent = 0);
-    void StartDownload(const QUrl &url, QFile* file, qint64 startPoint=0, qint64 endPoint=-1);
+    void StartDownload(const QUrl &url, QFile* file, 
+            qint64 startPoint=0, qint64 endPoint=-1);
 
 Q_SIGNALS:
     void DownloadFinished();
@@ -80,5 +81,29 @@ private:
 };
 
 TIANCHI_END_NAMESPACE
+
+#if 0
+class TIANCHI_API TcDownload : public TIANCHI_PREPEND_NAMESPACE(Download)
+{
+    Q_OBJECT
+public:
+    TcDownload(int index, QT_PREPEND_NAMESPACE(QObject) *parent = 0) 
+        : TIANCHI_PREPEND_NAMESPACE(Download)(index, parent)
+    {
+    }
+};
+class TIANCHI_API TcDownloadList : 
+    public TIANCHI_PREPEND_NAMESPACE(DownloadList)
+{
+    Q_OBJECT
+public:
+    TcDownloadList(QT_PREPEND_NAMESPACE(QObject) *parent = 0)
+        : TIANCHI_PREPEND_NAMESPACE(DownloadList)(parent)
+    {
+    }
+};
+#endif
+typedef TIANCHI_PREPEND_NAMESPACE(Download) TcDownload;
+typedef TIANCHI_PREPEND_NAMESPACE(DownloadList) TcDownloadList;
 
 #endif // TIANCHI_DOWNLOADHTTP_H

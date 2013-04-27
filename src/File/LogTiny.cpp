@@ -5,7 +5,7 @@
 #include <QDateTime>
 #include <QTextStream>
 
-#include "File/LogTiny.h"
+#include <tianchi/File/LogTiny.h>
 
 TIANCHI_BEGIN_NAMESPACE
 

@@ -14,7 +14,7 @@
 // ==========================================================================
 /// @file LineEdit.cpp extended QLineEdit widget
 // ==========================================================================
-#include "Gui/LineEdit.h"
+#include <tianchi/Gui/LineEdit.h>
 #include <QPainter>
 #include <QContextMenuEvent>
 #include <QStyleOptionFrame>
