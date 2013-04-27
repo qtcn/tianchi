@@ -1,7 +1,5 @@
-#include "Gui/DateEdit.h"
-
-#include "Core/Utils.h"
-
+#include <tianchi/Gui/DateEdit.h>
+#include <tianchi/Core/Utils.h>
 #include <QMouseEvent>
 
 TIANCHI_BEGIN_NAMESPACE

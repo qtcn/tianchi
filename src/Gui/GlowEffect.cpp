@@ -15,7 +15,7 @@
 // ==========================================================================
 /// @file GlowEffect.cpp 可发光的QGraphicsEffect
 // ==========================================================================
-#include "Gui/GlowEffect.h"
+#include <tianchi/Gui/GlowEffect.h>
 #include <QPainter>
 #include <QPixmap>
 

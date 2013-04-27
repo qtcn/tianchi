@@ -14,7 +14,7 @@
 // ==========================================================================
 /// @file ClickLabel.h 可发出clicked信号的Label部件
 // ==========================================================================
-#include <Gui/ClickLabel.h>
+#include <tianchi/Gui/ClickLabel.h>
 #include <QPoint>
 #include <QMouseEvent>
 

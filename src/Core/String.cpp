@@ -1,4 +1,4 @@
-#include "Core/String.h"
+#include <tianchi/Core/String.h>
 
 #include <QTextCodec>
 #include <QFile>

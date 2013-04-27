@@ -14,7 +14,7 @@
 // ==========================================================================
 /// @file FlowLayout.cpp 流式布局FlowLayout
 // ==========================================================================
-#include "Gui/FlowLayout.h"
+#include <tianchi/Gui/FlowLayout.h>
 #include <QStyle>
 #include <QWidget>
 

@@ -1,21 +1,21 @@
-// ********************************************************************************************************************
+// **************************************************************************
 // Tianchi C++ library for Qt (open source)
 // 天池共享源码库
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
-// ********************************************************************************************************************
+// **************************************************************************
 // 文档说明：修改 QTreeWidget 列设置的对话框
-// ====================================================================================================================
+// ==========================================================================
 // 开发日志：
 // 日期         人员        说明
-// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // 2013.04.10   圣域天子    建立
-// ====================================================================================================================
+// ==========================================================================
 /// @file TreeWidgetHeaderSetupDialog.h 修改 QTreeWidget 列设置的对话框
 #ifndef TIANCHI_DLGHEADERSETUP_H
 #define TIANCHI_DLGHEADERSETUP_H
 
-#include "Global.h"
+#include <tianchi/Global.h>
 
 #include <QDialog>
 #include <QTreeWidget>
@@ -58,5 +58,21 @@ private:
 };
 
 TIANCHI_END_NAMESPACE
+
+#if 0
+class TIANCHI_API TcTreeWidgetHeaderSetupDialog : 
+    public TIANCHI_PREPEND_NAMESPACE(TreeWidgetHeaderSetupDialog)
+{
+    Q_OBJECT
+public:
+    explicit TcTreeWidgetHeaderSetupDialog(
+            QT_PREPEND_NAMESPACE(QWidget) *parent = 0)
+        : TIANCHI_PREPEND_NAMESPACE(TreeWidgetHeaderSetupDialog)(parent)
+    {
+    }
+};
+#endif
+typedef TIANCHI_PREPEND_NAMESPACE(TreeWidgetHeaderSetupDialog) \
+            TcTreeWidgetHeaderSetupDialog;
 
 #endif // TIANCHI_DLGHEADERSETUP_H

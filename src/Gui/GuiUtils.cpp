@@ -1,4 +1,4 @@
-#include "Gui/GuiUtils.h"
+#include <tianchi/Gui/GuiUtils.h>
 
 
 TIANCHI_BEGIN_NAMESPACE

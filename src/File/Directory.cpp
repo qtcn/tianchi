@@ -1,4 +1,4 @@
-#include "File/Directory.h"
+#include <tianchi/File/Directory.h>
 
 #include <QQueue>
 #include <QFile>

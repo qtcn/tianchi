@@ -1,5 +1,5 @@
-#include "Core/Classes.h"
-#include "Core/Utils.h"
+#include <tianchi/Core/Classes.h>
+#include <tianchi/Core/Utils.h>
 
 TIANCHI_BEGIN_NAMESPACE
 

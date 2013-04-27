@@ -68,30 +68,30 @@ win32:LIBS += -lversion
 win32-msvc*:LIBS += -ladvapi32 -lole32
 
 HEADERS += \
-    $$TC_INCL/Global.h \
+    $$TC_INCL/tianchi/Global.h \
     $$TC_INCL/tianchi.h \
-    $$TC_INCL/Chinese/Chinese.h \
-    $$TC_INCL/Core/Classes.h \
-    $$TC_INCL/Core/Common.h \
-    $$TC_INCL/Core/String.h \
-    $$TC_INCL/Core/Utils.h \
-    $$TC_INCL/File/Json.h \
-    $$TC_INCL/File/LogTiny.h \
-    $$TC_INCL/File/MSExcel.h \
-    $$TC_INCL/File/FileUtils.h \
-    $$TC_INCL/Gui/MarqueeLabel.h \
-    $$TC_INCL/Gui/ClickLabel.h \
-    $$TC_INCL/Gui/LineEdit.h \
-    $$TC_INCL/Gui/FlowLayout.h \
-    $$TC_INCL/Gui/GlowEffect.h \
-    $$TC_INCL/Gui/DateEdit.h \
-    $$TC_INCL/Gui/GuiUtils.h \
-    $$TC_INCL/Gui/TreeWidgetHeaderSetupDialog.h \
-    $$TC_INCL/Network/DownloadHttp.h \
-    $$TC_INCL/Network/SingleInstance.h \
-    $$TC_INCL/OS/OS.h \
-    $$TC_INCL/Sql/MSSQL.h \
-	$$TC_INCL/File/Directory.h
+    $$TC_INCL/tianchi/Chinese/Chinese.h \
+    $$TC_INCL/tianchi/Core/Classes.h \
+    $$TC_INCL/tianchi/Core/Common.h \
+    $$TC_INCL/tianchi/Core/String.h \
+    $$TC_INCL/tianchi/Core/Utils.h \
+    $$TC_INCL/tianchi/File/Json.h \
+    $$TC_INCL/tianchi/File/LogTiny.h \
+    $$TC_INCL/tianchi/File/MSExcel.h \
+    $$TC_INCL/tianchi/File/FileUtils.h \
+    $$TC_INCL/tianchi/Gui/MarqueeLabel.h \
+    $$TC_INCL/tianchi/Gui/ClickLabel.h \
+    $$TC_INCL/tianchi/Gui/LineEdit.h \
+    $$TC_INCL/tianchi/Gui/FlowLayout.h \
+    $$TC_INCL/tianchi/Gui/GlowEffect.h \
+    $$TC_INCL/tianchi/Gui/DateEdit.h \
+    $$TC_INCL/tianchi/Gui/GuiUtils.h \
+    $$TC_INCL/tianchi/Gui/TreeWidgetHeaderSetupDialog.h \
+    $$TC_INCL/tianchi/Network/DownloadHttp.h \
+    $$TC_INCL/tianchi/Network/SingleInstance.h \
+    $$TC_INCL/tianchi/OS/OS.h \
+    $$TC_INCL/tianchi/Sql/MSSQL.h \
+    $$TC_INCL/tianchi/File/Directory.h
 
 SOURCES += \
     $$PWD/Chinese/Chinese.cpp \

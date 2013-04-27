@@ -4,7 +4,7 @@
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
 // **************************************************************************
-// 文档说明：可发出clicked信号的Label部件
+// 文档说明：流式布局FlowLayout
 // ==========================================================================
 // 开发日志：
 // 日期         人员        说明
@@ -17,10 +17,9 @@
 #ifndef TIANCHI_FLOWLAYOUT_H
 #define TIANCHI_FLOWLAYOUT_H
 
-#include "Global.h"
+#include <tianchi/Global.h>
 #include <QLayout>
 
-TIANCHI_BEGIN_HEADER
 TIANCHI_BEGIN_NAMESPACE
 
 class FlowLayoutPrivate;
@@ -55,8 +54,25 @@ private:
     FlowLayoutPrivate *d_ptr;
 };
 
-TIANCHI_END_HEADER
 TIANCHI_END_NAMESPACE
 
+#if 0
+class TIANCHI_API TcFlowLayout : public TIANCHI_PREPEND_NAMESPACE(FlowLayout)
+{
+public:
+    TcFlowLayout(QT_PREPEND_NAMESPACE(QWidget) *parent, 
+            int margin = -1, int hSpacing = -1, int vSpacing = -1)
+        : TIANCHI_PREPEND_NAMESPACE(FlowLayout)(parent, margin, 
+                hSpacing, vSpacing)
+    {
+    }
+
+    TcFlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1)
+        : TIANCHI_PREPEND_NAMESPACE(FlowLayout)(margin, hSpacing, vSpacing)
+    {
+    }
+};
+#endif
+typedef TIANCHI_PREPEND_NAMESPACE(FlowLayout) TcFlowLayout;
 
 #endif

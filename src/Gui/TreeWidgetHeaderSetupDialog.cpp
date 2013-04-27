@@ -1,4 +1,4 @@
-#include "Gui/TreeWidgetHeaderSetupDialog.h"
+#include <tianchi/Gui/TreeWidgetHeaderSetupDialog.h>
 #include "ui_TreeWidgetHeaderSetupDialog.h"
 
 TIANCHI_BEGIN_NAMESPACE

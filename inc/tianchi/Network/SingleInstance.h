@@ -18,7 +18,7 @@
 #ifndef TIANCHI_SINGLEINSTANCE_H
 #define TIANCHI_SINGLEINSTANCE_H
 
-#include "Global.h"
+#include <tianchi/Global.h>
 
 #include <QLocalSocket>
 #include <QLocalServer>
@@ -79,5 +79,7 @@ private:
 };
 
 TIANCHI_END_NAMESPACE
+
+typedef TIANCHI_PREPEND_NAMESPACE(SingleInstance) TcSingleInstance;
 
 #endif // TIANCHI_SINGLEINSTANCE_H
