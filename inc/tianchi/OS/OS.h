@@ -19,10 +19,8 @@
 #include <tianchi/Global.h>
 #include <QString>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 与操作系统相关的操作类
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-10
@@ -44,13 +42,8 @@ public:
     static bool login(const QString& Domain, const QString& UserID, 
             const QString& Password);
 };
+}
 
-TIANCHI_END_NAMESPACE
-#if 0
-class TIANCHI_API TcOS : public TIANCHI_PREPEND_NAMESPACE(OS)
-{
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(OS) TcOS;
+typedef ::Tianchi::OS TcOS;
 
 #endif // TIANCHI_OS_H

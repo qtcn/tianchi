@@ -2,7 +2,8 @@
 #include <tianchi/Core/Utils.h>
 #include <QMouseEvent>
 
-TIANCHI_BEGIN_NAMESPACE
+namespace Tianchi
+{
 
 DateEdit::DateEdit(QWidget *parent)
     : QComboBox(parent)
@@ -79,8 +80,4 @@ void DateEdit::unsetDate()
 {
     setEditText("");
 }
-
-
-#include "moc_DateEdit.cpp"
-
-TIANCHI_END_NAMESPACE
+}

@@ -19,16 +19,12 @@
 #include <QPainter>
 #include <QPixmap>
 
-QT_BEGIN_NAMESPACE
 // in src/qtbase/src/widgets/effects/qpixmapfilter.cpp
 extern Q_DECL_IMPORT void qt_blurImage(QImage &blurImage, qreal radius, 
         bool quality, int transposed = 0);
-QT_END_NAMESPACE
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 class GlowEffectPrivate
 {
     Q_DECLARE_PUBLIC(GlowEffect)
@@ -102,7 +98,7 @@ void GlowEffect::draw(QPainter *painter)
     tmpPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
     tmpPainter.fillRect(sourceBlured.rect(), d->color);
     tmpPainter.end();
-    QT_PREPEND_NAMESPACE(qt_blurImage(sourceBlured, d->radius, true));
+    qt_blurImage(sourceBlured, d->radius, true);
     painter->drawImage(0, 0, sourceBlured);
     painter->drawImage(0, 0, sourceBlured);
     painter->drawPixmap(d->radius, d->radius, source);
@@ -114,7 +110,5 @@ void GlowEffect::sourceChanged(ChangeFlags flags)
     updateBoundingRect();
     update();
 }
-
+}
 #include "moc_GlowEffect.cpp"
-
-TIANCHI_END_NAMESPACE

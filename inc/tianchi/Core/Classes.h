@@ -25,9 +25,8 @@
 #include <QElapsedTimer>
 #include <QHash>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
+namespace Tianchi
+{
 
 /// @brief 玩家信息类，常用在 C/S 中的客户端用户信息保存
 /// @author 圣域天子 Jonix@qtcn.org
@@ -233,13 +232,9 @@ private:
     QHash<QString, QByteArray>  m_fields;
     QStringList m_keys;
 };
-
-
-TIANCHI_END_NAMESPACE
-
-
-typedef TIANCHI_PREPEND_NAMESPACE(Player) TcPlayer;
-typedef TIANCHI_PREPEND_NAMESPACE(CInvokeObject) TcCInvokeObject;
-typedef TIANCHI_PREPEND_NAMESPACE(DBFields) TcDBFields;
+}
+typedef ::Tianchi::Player           TcPlayer;
+typedef ::Tianchi::CInvokeObject    TcCInvokeObject;
+typedef ::Tianchi::DBFields         TcDBFields;
 
 #endif // TIANCHI_CLASSES_H

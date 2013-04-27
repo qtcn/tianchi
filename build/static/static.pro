@@ -13,4 +13,4 @@
 # ===========================================================================
 
 CONFIG += staticlib
-include($$PWD/../../src/src.pri)
+include($$PWD/../../src/lib.pri)

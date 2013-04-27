@@ -1,6 +1,7 @@
 #include <tianchi/Network/DownloadHttp.h>
 
-TIANCHI_BEGIN_NAMESPACE
+namespace Tianchi
+{
 
 Download::Download(int index, QObject *parent)
     : QObject(parent), m_Index(index)
@@ -134,7 +135,6 @@ void DownloadList::SubPartFinished()
 }
 
 
-#include "moc_DownloadHttp.cpp"
 /*
 #include "main.moc"
 
@@ -152,5 +152,4 @@ int main(int argc, char **argv)
     return 0;
 }
 */
-
-TIANCHI_END_NAMESPACE
+}

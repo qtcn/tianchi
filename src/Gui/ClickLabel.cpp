@@ -18,10 +18,8 @@
 #include <QPoint>
 #include <QMouseEvent>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 class ClickLabelPrivate
 {
     Q_DECLARE_PUBLIC(ClickLabel)
@@ -79,7 +77,5 @@ void ClickLabel::mouseReleaseEvent(QMouseEvent *e)
         }
     }
 }
-
+}
 #include "moc_ClickLabel.cpp"
-
-TIANCHI_END_NAMESPACE

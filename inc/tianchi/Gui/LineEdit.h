@@ -26,11 +26,9 @@ class QMouseEvent;
 class QContextMenuEvent;
 QT_END_NAMESPACE
 
-TIANCHI_BEGIN_NAMESPACE
-
+namespace Tianchi
+{
 class LineEditPrivate;
-
-QT_USE_NAMESPACE
 
 /// @brief extended QLineEdit widget
 /// @author XChinux XChinux@163.com
@@ -77,20 +75,8 @@ private:
     Q_DECLARE_PRIVATE(LineEdit)
     LineEditPrivate *d_ptr;
 };
+}
 
-TIANCHI_END_NAMESPACE
-#if 0
-
-class TIANCHI_API TcLineEdit : public TIANCHI_PREPEND_NAMESPACE(LineEdit)
-{
-    Q_OBJECT
-public:
-    TcLineEdit(QT_PREPEND_NAMESPACE(QWidget) *parent = 0)
-        : TIANCHI_PREPEND_NAMESPACE(LineEdit)(parent)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(LineEdit) TcLineEdit;
+typedef ::Tianchi::LineEdit TcLineEdit;
 
 #endif

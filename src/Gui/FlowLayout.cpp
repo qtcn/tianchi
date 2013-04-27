@@ -18,10 +18,8 @@
 #include <QStyle>
 #include <QWidget>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 class FlowLayoutPrivate
 {
     Q_DECLARE_PUBLIC(FlowLayout)
@@ -227,5 +225,4 @@ int FlowLayoutPrivate::smartSpacing(QStyle::PixelMetric pm) const
         return static_cast<QLayout *>(parent)->spacing();
     }
 }
-
-TIANCHI_END_NAMESPACE
+}

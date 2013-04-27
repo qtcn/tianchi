@@ -20,11 +20,9 @@
 #include <tianchi/Global.h>
 #include <QLayout>
 
-TIANCHI_BEGIN_NAMESPACE
-
+namespace Tianchi
+{
 class FlowLayoutPrivate;
-
-QT_USE_NAMESPACE
 
 /// @brief 流式布局FlowLayout
 class TIANCHI_API FlowLayout : public QLayout
@@ -53,26 +51,8 @@ private:
     Q_DECLARE_PRIVATE(FlowLayout)
     FlowLayoutPrivate *d_ptr;
 };
+}
 
-TIANCHI_END_NAMESPACE
-
-#if 0
-class TIANCHI_API TcFlowLayout : public TIANCHI_PREPEND_NAMESPACE(FlowLayout)
-{
-public:
-    TcFlowLayout(QT_PREPEND_NAMESPACE(QWidget) *parent, 
-            int margin = -1, int hSpacing = -1, int vSpacing = -1)
-        : TIANCHI_PREPEND_NAMESPACE(FlowLayout)(parent, margin, 
-                hSpacing, vSpacing)
-    {
-    }
-
-    TcFlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1)
-        : TIANCHI_PREPEND_NAMESPACE(FlowLayout)(margin, hSpacing, vSpacing)
-    {
-    }
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(FlowLayout) TcFlowLayout;
+typedef ::Tianchi::FlowLayout TcFlowLayout;
 
 #endif

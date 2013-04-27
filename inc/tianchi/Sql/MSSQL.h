@@ -19,10 +19,8 @@
 #include <tianchi/Global.h>
 #include <QStringList>
 
-TIANCHI_BEGIN_NAMESPACE
-
-QT_USE_NAMESPACE
-
+namespace Tianchi
+{
 /// @brief 读取 ODBC 驱动和版本信息
 /// @author XChinux XChinux@163.com
 /// @date 2013-04-18
@@ -38,12 +36,7 @@ public:
     static QStringList availableODBCDrivers();
 };
 
-TIANCHI_END_NAMESPACE
-#if 0
-class TIANCHI_API TcMSSQL : public TIANCHI_PREPEND_NAMESPACE(MSSQL)
-{
-};
-#endif
-typedef TIANCHI_PREPEND_NAMESPACE(MSSQL) TcMSSQL;
+}
+typedef ::Tianchi::MSSQL TcMSSQL;
 
 #endif

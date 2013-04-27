@@ -8,4 +8,6 @@ make sub-shared debug       // make shared's debug libs
 make sub-static release     // make static's release libs
 make sub-static debug       // make static's debug libs
 
+make sub-designerplugin     // make designer's release plugin
+
 Notice: for msvc compiler, replace make to nmake, .lib/.so/.a files in output folder

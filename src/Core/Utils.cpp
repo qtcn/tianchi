@@ -16,8 +16,8 @@
 #include <iostream>
 using namespace std;
 
-TIANCHI_BEGIN_NAMESPACE
-
+namespace Tianchi
+{
 QHash<QString, QString> Utils::StringToMap(const QString& mapStrings)
 {
     QStringList strings = mapStrings.split("\n", QString::SkipEmptyParts);
@@ -196,5 +196,4 @@ QDateTime Utils::complieDateTime(const QString& complieDate, const QString& comp
     return QDateTime(QDate(Year.toInt(), MonthValue, Day.toInt()),
                      QTime(Hour.toInt(), Minute.toInt(), Second.toInt()));
 }
-
-TIANCHI_END_NAMESPACE
+}
