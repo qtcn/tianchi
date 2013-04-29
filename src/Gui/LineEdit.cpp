@@ -10,7 +10,8 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.22   XChinux     建立
-//
+// 2013.04.29   XChinux     add LineEditPrivate::_q_editingFinished()
+//                          add LineEdit::clear()
 // ==========================================================================
 /// @file LineEdit.cpp extended QLineEdit widget
 // ==========================================================================
@@ -27,17 +28,36 @@ class LineEditPrivate
 public:
     explicit LineEditPrivate(LineEdit *qptr);
     ~LineEditPrivate();
+
+    /**
+     * when editingFinsihed emitted, if text property is empty, then 
+     * clear labelText and data property
+     */
+    void _q_editingFinished();
     LineEdit *q_ptr;
+
     QString labelText;
     QVariant userData;
 };
 
 LineEditPrivate::LineEditPrivate(LineEdit *qptr) : q_ptr(qptr)
 {
+    QObject::connect(q_ptr, SIGNAL(editingFinished()),
+            q_ptr, SLOT(_q_openLink()));
 }
 
 LineEditPrivate::~LineEditPrivate()
 {
+}
+
+void LineEditPrivate::_q_editingFinished()
+{
+    Q_Q(LineEdit);
+    if (q->text().isEmpty())
+    {
+        q->setData(QVariant());
+        q->setLabelText(QString());
+    }
 }
 
 LineEdit::LineEdit(QWidget * parent)
@@ -83,6 +103,13 @@ void LineEdit::setData(const QVariant &userData)
     }
     d->userData = userData;
     Q_EMIT dataChanged(userData);
+}
+
+void LineEdit::clear()
+{
+    QLineEdit::clear();
+    setLabelText(QString());
+    setData(QVariant());
 }
 
 void LineEdit::paintEvent(QPaintEvent *event)
