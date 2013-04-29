@@ -10,7 +10,8 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.22   XChinux     建立
-//
+// 2013.04.29   XChinux     add LineEditPrivate::_q_editingFinished()
+//                          add LineEdit::clear()
 // ==========================================================================
 /// @file LineEdit.h extended QLineEdit widget
 // ==========================================================================
@@ -66,6 +67,8 @@ public Q_SLOTS:
     void setLabelText(const QString &labelText);
     /// @brief set data property
     void setData(const QVariant &userData);
+    /// @brief clear text/labelText/data property
+    void clear();
 protected:
     virtual void paintEvent(QPaintEvent *event);
     virtual void mouseDoubleClickEvent(QMouseEvent *event);
@@ -73,6 +76,7 @@ protected:
 private:
     Q_DISABLE_COPY(LineEdit)
     Q_DECLARE_PRIVATE(LineEdit)
+    Q_PRIVATE_SLOT(d_func(), void _q_editingFinished())
     LineEditPrivate *d_ptr;
 };
 }

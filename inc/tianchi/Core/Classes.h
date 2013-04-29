@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.10   圣域天子    建立
-//
+// 2013.04.29   XChinux     remove AuthLevel type's typedef keywords
 // ==========================================================================
 /// @file Classes.h 一些常用的小类
 #ifndef TIANCHI_CLASSES_H
@@ -43,7 +43,7 @@ class TIANCHI_API Player : public QObject
 
 public:
     /// @brief 用户权限
-    typedef enum AuthLevel
+    enum AuthLevel
     {
         AUTH_SYSADMIN = 999,  ///< 最高系统级管理员权限
         AUTH_ADMIN    = 888,  ///< 最高用户级管理员权限
@@ -59,21 +59,45 @@ public:
     Player &operator=(const Player&);
 
     /// @brief 返回用户的 No
-    inline int userNo() const { return m_userNo; }
+    inline int userNo() const 
+    {
+        return m_userNo; 
+    }
     /// @brief 指定用户的 No
-    inline void setUserNo(int value) { m_userNo = value; }
+    inline void setUserNo(int value) 
+    { 
+        m_userNo = value; 
+    }
     /// @brief 返回用户的 ID
-    inline QString userID() const { return m_userID; }
+    inline QString userID() const 
+    { 
+        return m_userID; 
+    }
     /// @brief 指定用户的 ID
-    inline void setUserID(const QString& value) { m_userID = value.trimmed(); }
+    inline void setUserID(const QString& value) 
+    { 
+        m_userID = value.trimmed(); 
+    }
     /// @brief 返回用户姓名
-    inline QString username() const { return m_username; }
+    inline QString username() const 
+    { 
+        return m_username; 
+    }
     /// @brief 指定用户的 username
-    inline void setUsername(const QString& value) { m_username = value.trimmed(); }
+    inline void setUsername(const QString& value) 
+    { 
+        m_username = value.trimmed(); 
+    }
     /// @brief 返回用户的级别
-    inline int userLevel() const { return m_userLevel; }
+    inline int userLevel() const 
+    { 
+        return m_userLevel; 
+    }
     /// @brief 指定用户的权限级别
-    inline void setUserLevel(int value) { m_userLevel = value; }
+    inline void setUserLevel(int value) 
+    { 
+        m_userLevel = value; 
+    }
 
     /// @brief 根据权限单元返回用户权限
     /// @param key 权限单元
@@ -81,34 +105,64 @@ public:
     /// @see AuthLevel
     int authority(const QString& key) const;
     /// @brief 指定用户的权限模块级别
-    inline void setAuthority(const QString& key, int auth) { m_authority[key] = auth; }
+    inline void setAuthority(const QString& key, int auth) 
+    { 
+        m_authority[key] = auth; 
+    }
     /// @brief 快速设置用户的全部权限级别
     void setAuthorityText(const QString& value);
     /// @brief 快速设置用户的全部权限级别
     void setAuthorityText(const QStringList& value);
 
     /// @brief 返回登录ID
-    inline QString loginID() const { return m_loginID; }
+    inline QString loginID() const 
+    { 
+        return m_loginID; 
+    }
     /// @brief 保存用户的登录名称
-    inline void setLoginID(const QString& value) { m_loginID = value.trimmed(); }
+    inline void setLoginID(const QString& value) 
+    { 
+        m_loginID = value.trimmed(); 
+    }
     /// @brief 返回用户的密码
-    inline QString password() const { return m_password; }
+    inline QString password() const 
+    { 
+        return m_password; 
+    }
     /// @brief 保存用户的密码
-    inline void setPassword(const QString& value) { m_password = value.trimmed(); }
+    inline void setPassword(const QString& value) 
+    { 
+        m_password = value.trimmed(); 
+    }
     /// @brief 玩家是否已登录
-    inline bool loggedIn() const { return m_loggedIn; }
+    inline bool loggedIn() const 
+    { 
+        return m_loggedIn; 
+    }
     /// @brief 指定玩家是否已登录
     void setLoggedIn(bool value);
     /// @brief 将玩家设为已登录
-    inline void setLoggedIn() { setLoggedIn(true); }
+    inline void setLoggedIn() 
+    { 
+        setLoggedIn(true); 
+    }
     /// @brief 玩家的登录时间
-    inline QDateTime loginTime() const { return m_loginTime; }
+    inline QDateTime loginTime() const 
+    { 
+        return m_loginTime; 
+    }
     /// @brief 指定玩家的登录时间
-    inline void setLoginTime(QDateTime value) { m_loginTime = value; m_loggedIn = true; }
+    inline void setLoginTime(QDateTime value) 
+    { 
+        m_loginTime = value; m_loggedIn = true; 
+    }
 
     /// @brief 返回玩家距今未登录的秒数<br>
     /// 常用于意外断线后，显示已脱机的时间
-    inline int noLoginTime() { return m_loggedIn ? 0 : m_noLoginTimer.elapsed()/1000; }
+    inline int noLoginTime() 
+    { 
+        return m_loggedIn ? 0 : m_noLoginTimer.elapsed() / 1000; 
+    }
 
     /// @brief 清除玩家的所有信息
     void clear();
@@ -162,13 +216,14 @@ public:
                        QGenericArgument val8 = QGenericArgument(),
                        QGenericArgument val9 = QGenericArgument())
     {
-        try {
-            return m_object != NULL ? m_object->metaObject()->invokeMethod(m_object, m_method,
-                                                                           Qt::QueuedConnection,
-                                                                           val0, val1, val2, val3, val4,
-                                                                           val5, val6, val7, val8, val9)
-                                    : false;
-        }catch(...)
+        try 
+        {
+            return m_object != NULL ? m_object->metaObject()->invokeMethod(
+                        m_object, m_method, Qt::QueuedConnection,
+                        val0, val1, val2, val3, val4,
+                        val5, val6, val7, val8, val9) : false;
+        }
+        catch (...)
         {
             return false;
         }
@@ -188,7 +243,10 @@ public:
 
     /// @brief 返回当前对象是否有效？
     /// @return true: 有效，可以进行映射方式的调用
-    inline bool isValid() const { return m_object != NULL && ! m_method.isEmpty(); }
+    inline bool isValid() const 
+    { 
+        return m_object != NULL && ! m_method.isEmpty(); 
+    }
 
 private:
     QObject*    m_object;
@@ -212,7 +270,8 @@ public:
     inline DBFields(QHash<QString, QByteArray> fields)
                     { setFields(fields); }
 
-    static void addField(QByteArray& fieldBytes, const QString& name, const QVariant& value);
+    static void addField(QByteArray& fieldBytes, 
+            const QString& name, const QVariant& value);
     static QHash<QString, QByteArray> getFields(const QByteArray& fieldBytes);
 
     void    setFields(QHash<QString, QByteArray> fields)
@@ -233,6 +292,7 @@ private:
     QStringList m_keys;
 };
 }
+
 typedef ::Tianchi::Player           TcPlayer;
 typedef ::Tianchi::CInvokeObject    TcCInvokeObject;
 typedef ::Tianchi::DBFields         TcDBFields;
