@@ -68,6 +68,12 @@ Tianchi C++ library for Qt
              release 版的 exe 请使用 relase 版的 dll
              否则可能会出现运行错误。
 
+    使用designer/qtcreator插件:
+        打开并编译: D:\Projects\Tianchi\build\designerplugin\designerplugin.pro
+        生成的插件文件在 D:\Projects\Tianchi\output\qtx.y.z-platform-spec\shared
+                    目录下即(lib)tianchidesignerplugin.dll(so)，将其拷贝到$QTDIR
+                    \plugins\designer目录下重启designer程序即可,将其拷贝到
+                    QtCreator安装目录下的bin\designer目录下重启qtcreator即可
 
 ====================================================================================
 天池共享资源库用户许可协议

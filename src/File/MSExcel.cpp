@@ -12,6 +12,8 @@
 
 #include <QList>
 
+#include <QtDebug>
+
 namespace Tianchi
 {
 
@@ -32,32 +34,45 @@ MSExcel::~MSExcel()
 
 bool MSExcel::create(const QString& filename)
 {
-	bool ret = false;
+    bool ret = false;
 #if defined(Q_OS_WIN)
     close();
     m_excel = new QAxWidget("Excel.Application");
-    m_books = m_excel->querySubObject("WorkBooks");
-    m_books->dynamicCall("Add");
-    m_book   = m_excel->querySubObject("ActiveWorkBook");
-    m_sheets = m_book ->querySubObject("WorkSheets");
-    sheet(1);
+    if (m_excel->isNull())
+    {
+        m_excel = new QAxWidget("ET.Application");
+    }
+    if (!m_excel->isNull())
+    {
+        m_books = m_excel->querySubObject("WorkBooks");
+        m_books->dynamicCall("Add");
+        m_book   = m_excel->querySubObject("ActiveWorkBook");
+        m_sheets = m_book ->querySubObject("WorkSheets");
+        sheet(1);
 
-    m_filename = filename;
-
-    ret = true;
+        m_filename = filename;
+        ret = true;
+    }
 #endif // Q_OS_WIN
     return ret;
 }
 
 bool MSExcel::open(const QString& filename)
 {
-	bool ret = false;
+    bool ret = false;
 #if defined(Q_OS_WIN)
     close();
     m_excel  = new QAxWidget("Excel.Application");
-    m_books  = m_excel->querySubObject("WorkBooks");
-    m_book   = m_books->querySubObject("Open(const QString&)", filename);
-    m_sheets = m_book ->querySubObject("WorkSheets");
+    if (m_excel->isNull())
+    {
+        m_excel = new QAxWidget("ET.Application");
+    }
+    if (!m_excel->isNull())
+    {
+        m_books  = m_excel->querySubObject("WorkBooks");
+        m_book   = m_books->querySubObject("Open(const QString&)", filename);
+        m_sheets = m_book ->querySubObject("WorkSheets");
+    }
 
     ret = m_book != NULL;
     if ( ret )
