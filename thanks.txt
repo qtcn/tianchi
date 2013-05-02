@@ -14,3 +14,4 @@
 2013.04.22  roywillow/XChinux   增加 class Gui/GlowEffect
 2013.04.22  XChinux             增加 class Gui/LineEdit, 增强型LineEdit
 2013.04.27  XChinux             增加 tianchidesignerplugin 插件
+2013.05.02  XChinux             增加 class File/ExcelReader

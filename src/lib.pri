@@ -78,6 +78,7 @@ HEADERS += \
     $$TC_INCL/tianchi/File/Json.h \
     $$TC_INCL/tianchi/File/LogTiny.h \
     $$TC_INCL/tianchi/File/MSExcel.h \
+    $$TC_INCL/tianchi/File/ExcelReader.h \
     $$TC_INCL/tianchi/File/FileUtils.h \
     $$TC_INCL/tianchi/Gui/ClickLabel.h \
     $$TC_INCL/tianchi/Gui/LineEdit.h \
@@ -102,6 +103,7 @@ SOURCES += \
     $$PWD/File/Json.cpp \
     $$PWD/File/LogTiny.cpp \
     $$PWD/File/MSExcel.cpp \
+    $$PWD/File/ExcelReader.cpp \
     $$PWD/File/FileUtils.cpp \
     $$PWD/Gui/ClickLabel.cpp \
     $$PWD/Gui/LineEdit.cpp \
