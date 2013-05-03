@@ -22,6 +22,7 @@
 #include <tianchi/Global.h>
 
 #include <QVariant>
+#include <QStringList>
 
 namespace Tianchi
 {
@@ -43,6 +44,19 @@ public:
     /// @param [in] row, index of row, from 1 start
     /// @param [in] col, index of column, from 1 start
     QVariant cell(int row, int col);
+
+    /// @brief  get sheets count
+    int         sheetCount();
+    /// @brief  get sheets name list
+    QStringList sheetNames();
+    /// @brief  set current sheet by index(from 1 start)
+    bool        setCurrentSheet(int index);
+    /// @brief  set current sheet by name
+    bool        setCurrentSheet(const QString &sheetName);
+    /// @brief  get current sheet index(from 1 start)
+    int         currentSheetIndex();
+    /// @brief  get current sheet name
+    QString     currentSheetName();
 private:
     Q_DISABLE_COPY(ExcelReader)
     Q_DECLARE_PRIVATE(ExcelReader)
