@@ -22,6 +22,7 @@
 #include <tianchi/Global.h>
 
 #include <QVariant>
+#include <QStringList>
 
 namespace Tianchi
 {
