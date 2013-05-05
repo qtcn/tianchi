@@ -91,6 +91,7 @@ HEADERS += \
     $$TC_INCL/tianchi/Network/DownloadHttp.h \
     $$TC_INCL/tianchi/Network/SingleInstance.h \
     $$TC_INCL/tianchi/OS/OS.h \
+    $$TC_INCL/tianchi/Sql/DataAccess.h \
     $$TC_INCL/tianchi/Sql/MSSQL.h \
     $$TC_INCL/tianchi/File/Directory.h
 
@@ -116,6 +117,7 @@ SOURCES += \
     $$PWD/Network/DownloadHttp.cpp \
     $$PWD/Network/SingleInstance.cpp \
     $$PWD/OS/OS.cpp \
+    $$PWD/Sql/DataAccess.cpp \
     $$PWD/Sql/MSSQL.cpp \
     $$PWD/File/Directory.cpp
 
