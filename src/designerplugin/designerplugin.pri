@@ -11,15 +11,21 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     CONFIG += designer plugin
 }
 
-TC_TMP = $${TC_OUTPUT}/release_designerplugins
+
+CONFIG(debug, debug|release) {
+    TC_TMP = $${TC_OUTPUT}/debug_designerplugins
+    TARGET = $${TARGET}d
+} else {
+    TC_TMP = $${TC_OUTPUT}/release_designerplugins
+    target.path = $$[QT_INSTALL_PLUGINS]/designer
+    INSTALLS += target
+}
 
 MOC_DIR = $$TC_TMP
 OBJECTS_DIR = $$TC_TMP
 UI_DIR = $$TC_TMP
 RCC_DIR = $$TC_TMP
 
-target.path = $$[QT_INSTALL_PLUGINS]/designer
-INSTALLS += target
 
 
 HEADERS += $$PWD/tclineeditplugin.h      $$TC_INCL/tianchi/gui/tclineedit.h \

@@ -1,7 +1,5 @@
 TEMPLATE = lib
 
-CONFIG += release
-
 TC_OUTPUT = $${PWD}/../output
 
 TC_SPEC = qt$${QT_VERSION}
@@ -11,6 +9,7 @@ win32-msvc2005 : TC_SPEC = $${TC_SPEC}-vc2005_x86
 win32-msvc2008 : TC_SPEC = $${TC_SPEC}-vc2008_x86
 win32-msvc2010 : TC_SPEC = $${TC_SPEC}-vc2010_x86
 win32-msvc2012 : TC_SPEC = $${TC_SPEC}-vc2012_x86
+
 
 TC_OUTPUT = $${TC_OUTPUT}/$${TC_SPEC}/shared
 DESTDIR = $$TC_OUTPUT
