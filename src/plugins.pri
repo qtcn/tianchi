@@ -15,7 +15,7 @@ win32-msvc2012 : TC_SPEC = $${TC_SPEC}-vc2012_x86
 TC_OUTPUT = $${TC_OUTPUT}/$${TC_SPEC}/shared
 DESTDIR = $$TC_OUTPUT
 
-TC_INCL = $$PWD/../inc
+TC_INCL = $$PWD/../include
 TC_SRC = $$PWD/../src
 
 INCLUDEPATH += . $$TC_INCL

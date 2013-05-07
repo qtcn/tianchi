@@ -55,7 +55,7 @@ OBJECTS_DIR = $$TC_TMP
 UI_DIR = $$TC_TMP
 RCC_DIR = $$TC_TMP
 
-TC_INCL = $$PWD/../inc
+TC_INCL = $$PWD/../include
 
 INCLUDEPATH += $$TC_INCL
 
@@ -68,61 +68,59 @@ win32:LIBS += -lversion
 win32-msvc*:LIBS += -ladvapi32 -lole32
 
 HEADERS += \
-    $$TC_INCL/tianchi/Global.h \
+    $$TC_INCL/tianchi/tcglobal.h \
     $$TC_INCL/tianchi.h \
-    $$TC_INCL/tianchi/Chinese/Chinese.h \
-    $$TC_INCL/tianchi/Core/Classes.h \
-    $$TC_INCL/tianchi/Core/Common.h \
-    $$TC_INCL/tianchi/Core/String.h \
-    $$TC_INCL/tianchi/Core/Utils.h \
-    $$TC_INCL/tianchi/File/Json.h \
-    $$TC_INCL/tianchi/File/LogTiny.h \
-    $$TC_INCL/tianchi/File/MSExcel.h \
-    $$TC_INCL/tianchi/File/ExcelReader.h \
-    $$TC_INCL/tianchi/File/FileUtils.h \
-    $$TC_INCL/tianchi/Gui/ClickLabel.h \
-    $$TC_INCL/tianchi/Gui/LineEdit.h \
-    $$TC_INCL/tianchi/Gui/FlowLayout.h \
-    $$TC_INCL/tianchi/Gui/MarqueeLabel.h \
-    $$TC_INCL/tianchi/Gui/GlowEffect.h \
-    $$TC_INCL/tianchi/Gui/DateEdit.h \
-    $$TC_INCL/tianchi/Gui/GuiUtils.h \
-    $$TC_INCL/tianchi/Gui/TreeWidgetHeaderSetupDialog.h \
-    $$TC_INCL/tianchi/Network/DownloadHttp.h \
-    $$TC_INCL/tianchi/Network/SingleInstance.h \
-    $$TC_INCL/tianchi/OS/OS.h \
-    $$TC_INCL/tianchi/Sql/DataAccess.h \
-    $$TC_INCL/tianchi/Sql/MSSQL.h \
-    $$TC_INCL/tianchi/File/Directory.h
-
+    $$TC_INCL/tianchi/chinese/tcchinese.h \
+    $$TC_INCL/tianchi/core/tcclasses.h \
+    $$TC_INCL/tianchi/core/tccommon.h \
+    $$TC_INCL/tianchi/core/tcstring.h \
+    $$TC_INCL/tianchi/core/tcutils.h \
+    $$TC_INCL/tianchi/file/tcjson.h \
+    $$TC_INCL/tianchi/file/tclogtiny.h \
+    $$TC_INCL/tianchi/file/tcmsexcel.h \
+    $$TC_INCL/tianchi/file/tcexcelreader.h \
+    $$TC_INCL/tianchi/file/tcfileutils.h \
+    $$TC_INCL/tianchi/file/tcdirectory.h \
+    $$TC_INCL/tianchi/gui/tcclicklabel.h \
+    $$TC_INCL/tianchi/gui/tclineedit.h \
+    $$TC_INCL/tianchi/gui/tcflowlayout.h \
+    $$TC_INCL/tianchi/gui/tcmarqueelabel.h \
+    $$TC_INCL/tianchi/gui/tcgloweffect.h \
+    $$TC_INCL/tianchi/gui/tcdateedit.h \
+    $$TC_INCL/tianchi/gui/tcguiutils.h \
+    $$TC_INCL/tianchi/gui/tctreewidgetheadersetupdialog.h \
+    $$TC_INCL/tianchi/network/tcdownloadhttp.h \
+    $$TC_INCL/tianchi/network/tcsingleinstance.h \
+    $$TC_INCL/tianchi/os/tcos.h \
+    $$TC_INCL/tianchi/sql/tcdataaccess.h \
+    $$TC_INCL/tianchi/sql/tcmssql.h
 SOURCES += \
-    $$PWD/Chinese/Chinese.cpp \
-    $$PWD/Core/Classes.cpp \
-    $$PWD/Core/Utils.cpp \
-    $$PWD/Core/Common.cpp \
-    $$PWD/Core/String.cpp \
-    $$PWD/File/Json.cpp \
-    $$PWD/File/LogTiny.cpp \
-    $$PWD/File/MSExcel.cpp \
-    $$PWD/File/ExcelReader.cpp \
-    $$PWD/File/FileUtils.cpp \
-    $$PWD/Gui/ClickLabel.cpp \
-    $$PWD/Gui/LineEdit.cpp \
-    $$PWD/Gui/FlowLayout.cpp \
-    $$PWD/Gui/GlowEffect.cpp \
-    $$PWD/Gui/MarqueeLabel.cpp \
-    $$PWD/Gui/DateEdit.cpp \
-    $$PWD/Gui/TreeWidgetHeaderSetupDialog.cpp \
-    $$PWD/Gui/GuiUtils.cpp \
-    $$PWD/Network/DownloadHttp.cpp \
-    $$PWD/Network/SingleInstance.cpp \
-    $$PWD/OS/OS.cpp \
-    $$PWD/Sql/DataAccess.cpp \
-    $$PWD/Sql/MSSQL.cpp \
-    $$PWD/File/Directory.cpp
-
+    $$PWD/chinese/tcchinese.cpp \
+    $$PWD/core/tcclasses.cpp \
+    $$PWD/core/tcutils.cpp \
+    $$PWD/core/tccommon.cpp \
+    $$PWD/core/tcstring.cpp \
+    $$PWD/file/tcjson.cpp \
+    $$PWD/file/tclogtiny.cpp \
+    $$PWD/file/tcmsexcel.cpp \
+    $$PWD/file/tcexcelreader.cpp \
+    $$PWD/file/tcfileutils.cpp \
+    $$PWD/file/tcdirectory.cpp \
+    $$PWD/gui/tcclicklabel.cpp \
+    $$PWD/gui/tclineedit.cpp \
+    $$PWD/gui/tcflowlayout.cpp \
+    $$PWD/gui/tcgloweffect.cpp \
+    $$PWD/gui/tcmarqueelabel.cpp \
+    $$PWD/gui/tcdateedit.cpp \
+    $$PWD/gui/tctreewidgetheadersetupdialog.cpp \
+    $$PWD/gui/tcguiutils.cpp \
+    $$PWD/network/tcdownloadhttp.cpp \
+    $$PWD/network/tcsingleinstance.cpp \
+    $$PWD/os/tcos.cpp \
+    $$PWD/sql/tcdataaccess.cpp \
+    $$PWD/sql/tcmssql.cpp
 FORMS += \
-    $$PWD/Gui/TreeWidgetHeaderSetupDialog.ui
+    $$PWD/gui/tctreewidgetheadersetupdialog.ui
 
 RESOURCES += \
     $$PWD/../res/tianchi.qrc

@@ -5,4 +5,4 @@
 # ---------------------------------------------------------------------------
 # ===========================================================================
 
-include($$PWD/../../src/DesignerPlugin/DesignerPlugin.pri)
+include($$PWD/../../src/designerplugin/designerplugin.pri)
