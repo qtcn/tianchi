@@ -18,9 +18,18 @@
 
 #include <tianchi/tcglobal.h>
 
-#if defined(QT_GUI_LIB)
-#include <QWidget>
+#include <QLabel>
 #include <QCursor>
+#include <QWidget>
+#include <QToolBar>
+#include <QToolButton>
+#include <QTreeWidget>
+#include <QDoubleSpinBox>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QGuiApplication>
+#else
+#include <QApplication>
+#endif
 
 /// @brief 光标形态变化类的根类，一般不直接使用
 /// @see class CursorWait
@@ -30,18 +39,30 @@
 class TIANCHI_API TcCursorCustom
 {
 protected:
-    TcCursorCustom(QWidget* parent, Qt::CursorShape shape)
+    TcCursorCustom(Qt::CursorShape shape)
     {
-        m_parent = parent;
-        m_cursor = m_parent->cursor();
-        m_parent->setCursor(QCursor(shape));
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+        QGuiApplication::setOverrideCursor(QCursor(shape));
+#else
+        QApplication::setOverrideCursor(QCursor(shape));
+#endif
     }
     virtual ~TcCursorCustom()
     {
-        m_parent->setCursor(m_cursor);
+        restore();
     }
     QWidget* m_parent;
     QCursor  m_cursor;
+public:
+    /// @brief 立即恢复最初的光标
+    inline void restore()
+    {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+        QGuiApplication::restoreOverrideCursor();
+#else
+        QApplication::restoreOverrideCursor();
+#endif
+    }
 };
 
 /// @brief 等待光标的设置和自动恢复处理类
@@ -49,7 +70,7 @@ protected:
 /// @code
 /// void myForm::onClick()
 /// {
-///     CursorWait wait; // 自动变成等待光标
+///     TcCursorWait wait; // 自动变成等待光标
 ///
 ///     ... 处理代码 ...
 ///
@@ -61,8 +82,8 @@ protected:
 class TIANCHI_API TcCursorWait : public TcCursorCustom
 {
 public:
-    TcCursorWait(QWidget* parent = 0)
-        : TcCursorCustom(parent, Qt::WaitCursor)
+    TcCursorWait()
+        : TcCursorCustom(Qt::WaitCursor)
     {
     }
 };
@@ -72,7 +93,7 @@ public:
 /// @code
 /// void myForm::onClick()
 /// {
-///     CursorBusy busy; // 自动变成后台忙光标
+///     TcCursorBusy busy; // 自动变成后台忙光标
 ///
 ///     ... 处理代码 ...
 ///
@@ -85,12 +106,69 @@ public:
 class TIANCHI_API TcCursorBusy : public TcCursorCustom
 {
 public:
-    TcCursorBusy(QWidget* parent = 0)
-        : TcCursorCustom(parent, Qt::BusyCursor)
+    TcCursorBusy()
+        : TcCursorCustom(Qt::BusyCursor)
     {
     }
 };
 
-#endif // QT_GUI_LIB
+namespace Tc
+{
+
+// 在工具栏上创建一个按钮
+TIANCHI_API QToolButton* createButton(QToolBar* toolBar,
+                                      QIcon icon, QString text, int width,
+                                      Qt::ToolButtonStyle style=Qt::ToolButtonTextBesideIcon);
+
+inline void setColumnBold(QTreeWidget* view)
+{
+    for( int i=0;i<view->headerItem()->columnCount();i++ )
+    {
+        QFont font = view->headerItem()->font(i);
+        font.setBold(true);
+        view->headerItem()->setFont(i, font);
+    }
+}
+
+inline void setColumnWidth(QTreeWidget* view, int column, int width, bool hide=false)
+{
+    view->setColumnWidth(column, width);
+    view->setColumnHidden(column, hide);
+}
+
+TIANCHI_API void createColumnMenu(QTreeWidget* view, QWidget* widget, const QString& ColumnSetupFunc);
+
+
+TIANCHI_API void setColumnStyle(QTreeWidget* view, int fontSize=8, const QString &fontName="Tahoma");
+
+TIANCHI_API void cellStyle(QTreeWidgetItem* item, int startCol=-1, int endCol=-1,
+                              bool bold=true, int alignment=Qt::AlignVCenter | Qt::AlignRight,
+                              int cellHeight=25);
+
+
+TIANCHI_API void cellFont(QTreeWidgetItem* item, int col, bool bold=false, int alignment=Qt::AlignVCenter | Qt::AlignLeft);
+TIANCHI_API void cellColor(QTreeWidgetItem* item, int col, QColor color);
+
+TIANCHI_API void changeFont(QWidget* widget, const QString& fontName="Arial Narrow", int fontSize=8, bool bold=false);
+TIANCHI_API void setFontTahoma(QWidget* widget, int fontSize=8, bool bold=false);
+// 在 QTreeWidgetItem 上显示数值
+TIANCHI_API void cellValue(QTreeWidgetItem* item, int column, const char* text, const QVariant& data=QVariant(), int size=0);
+TIANCHI_API void cellValue(QTreeWidgetItem* item, int column, const QString& text, const QVariant& data=QVariant(), int size=0);
+TIANCHI_API void cellValue(QTreeWidgetItem* item, int column, const QByteArray& text, const QVariant& data=QVariant(), int size=0);
+TIANCHI_API void cellValue(QTreeWidgetItem* item, int column, double value);
+TIANCHI_API void cellValue(QTreeWidgetItem* item, int column, double value, int digits);
+TIANCHI_API void cellPrice(QTreeWidgetItem* item, int column, double value=0.0, int digits=0);
+TIANCHI_API void cellPercent(QTreeWidgetItem* item, int column, double value=0.0, int digits=0);
+
+TIANCHI_API QLabel* createLabel(QTreeWidgetItem* item, int col, const QString& htmlText, const QVariant& data=QVariant());
+
+TIANCHI_API QDoubleSpinBox* createDoubleSpinBox(QTreeWidgetItem* item, int col,
+                                                int decimals, double min, double max, double step, double value);
+TIANCHI_API double          readDoubleSpinBoxValue(QTreeWidgetItem* item, int col);
+
+TIANCHI_API void CopyCell(QTreeWidget* view);
+TIANCHI_API void CopyLine(QTreeWidget* view);
+TIANCHI_API void CopyTable(QTreeWidget* view);
+}
 
 #endif // TIANCHI_GUIUTILS_H

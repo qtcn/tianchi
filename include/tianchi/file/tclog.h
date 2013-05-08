@@ -14,8 +14,8 @@
 // ==========================================================================
 /// @file LogTiny.h 简单的 Log 输出类
 // ==========================================================================
-#ifndef TIANCHI_TCLOGTINY_H
-#define TIANCHI_TCLOGTINY_H
+#ifndef TIANCHI_TCLOG_H
+#define TIANCHI_TCLOG_H
 
 #include <tianchi/tcglobal.h>
 
@@ -24,7 +24,7 @@
 /// @brief 简单的文本文件输出日志。
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-10
-class TIANCHI_API TcLogTiny
+class TIANCHI_API TcLog
 {
 public:
     /// @brief 指定全路径的执行文件名，自动设置与执行文件同目录、同名，且后缀为 .log 的日志文件。
@@ -33,7 +33,7 @@ public:
     /// @code
     /// QApplication app(argc, argv);
     ///
-    /// LogTiny log;
+    /// TcLog log;
     ///
     /// // 建议把执行文件名作为参数
     /// log.setAppFile(app.applicationFilePath());
@@ -72,14 +72,14 @@ private:
 };
 
 /// @brief 向日志输出代码所在文件和行号，用于运行时跟踪执行步骤。
-#define Log_Step ::Tianchi::Log.write("<<STEP>>", __FILE__, __LINE__);
+//#define Log_Step Log.write("<<STEP>>", __FILE__, __LINE__);
 
 /// @brief 调试模式下输出日志，自动添加代码所在文件和行号。
-#ifdef _DEBUG
-    #define Debug_Log(s)   ::Tianchi::Log.write(s, __FILE__, __LINE__);
-#else
-    #define Debug_Log(s)
-#endif
+//#ifdef _DEBUG
+//    #define Debug_Log(s)   Log.write(s, __FILE__, __LINE__);
+//#else
+//    #define Debug_Log(s)
+//#endif
 
 
 #endif // TIANCHI_LOGTINY_H

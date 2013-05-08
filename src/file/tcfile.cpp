@@ -1,4 +1,4 @@
-#include <tianchi/file/tcfileutils.h>
+#include <tianchi/file/tcfile.h>
 
 #include <QDir>
 #include <QFile>
@@ -9,7 +9,7 @@
   #include <windows.h>
 #endif
 
-bool TcFileUtils::loadFromFile(QString& context, const QString& filename)
+bool TcFile::loadFromFile(QString& context, const QString& filename)
 {
     bool ret = false;
     QFile file(filename);
@@ -23,7 +23,7 @@ bool TcFileUtils::loadFromFile(QString& context, const QString& filename)
     return ret;
 }
 
-QString TcFileUtils::uniqueFileName(const QString& dir, 
+QString TcFile::uniqueFileName(const QString& dir, 
         const QString& fileTemplate, const QString& suffix)
 {
     QString fileDir    = dir;
@@ -64,7 +64,7 @@ QString TcFileUtils::uniqueFileName(const QString& dir,
     return ret;
 }
 
-QString TcFileUtils::fileVersion(const QString& exeFile)
+QString TcFile::fileVersion(const QString& exeFile)
 {
     QString ret = "";
 
@@ -95,7 +95,7 @@ QString TcFileUtils::fileVersion(const QString& exeFile)
     return ret;
 }
 
-QStringList TcFileUtils::searchFiles(const QString& path)
+QStringList TcFile::searchFiles(const QString& path)
 {
     QStringList ret;
     // 这个函数可以执行任何任务，
