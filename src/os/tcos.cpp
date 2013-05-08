@@ -58,6 +58,10 @@ bool TcOS::login(const QString& Domain, const QString& UserID,
     delete domain;
     delete userID;
     delete password;
+#else
+    Q_UNUSED(Domain)
+    Q_UNUSED(UserID)
+    Q_UNUSED(Password)
 #endif
     return ret;
 }

@@ -121,6 +121,8 @@ bool TcMSExcel::create(const QString& filename)
         d->filename = filename;
         ret = true;
     }
+#else
+    Q_UNUSED(filename)
 #endif // Q_OS_WIN
     return ret;
 }
@@ -142,6 +144,8 @@ bool TcMSExcel::open(const QString& filename)
             currentSheet();
         }
     }
+#else
+    Q_UNUSED(filename)
 #endif // Q_OS_WIN
     return ret;
 }
@@ -155,6 +159,8 @@ void TcMSExcel::save(const QString& filename)
         d->filename = filename;
         d->books->dynamicCall("SaveAs(const QString&)", d->filename);
     }
+#else
+    Q_UNUSED(filename)
 #endif // Q_OS_WIN
 }
 
@@ -216,6 +222,8 @@ void TcMSExcel::setVisible(bool value)
     {
         d->excel->setProperty("Visible", value);
     }
+#else
+    Q_UNUSED(value)
 #endif // Q_OS_WIN
 }
 
@@ -227,6 +235,8 @@ void TcMSExcel::setCaption(const QString& value)
     {
         d->excel->setProperty("Caption", value);
     }
+#else
+    Q_UNUSED(value)
 #endif // Q_OS_WIN
 }
 
@@ -277,6 +287,8 @@ bool TcMSExcel::setCurrentSheet(int index)
         ret = d->sheet != NULL && ! d->sheet->isNull();
         d->sheetName = ret ? d->sheet->property("Name").toString() : "";
     }
+#else
+    Q_UNUSED(index)
 #endif // Q_OS_WIN
     return ret;
 }
@@ -304,6 +316,10 @@ void TcMSExcel::cellFormat(int row, int col, const QString& format)
         range->setProperty("NumberFormatLocal", format);
         delete range;
     }
+#else
+    Q_UNUSED(row)
+    Q_UNUSED(col)
+    Q_UNUSED(format)
 #endif // Q_OS_WIN
 }
 
@@ -318,6 +334,11 @@ void TcMSExcel::cellAlign(int row, int col, Alignment hAlign, Alignment vAlign)
         range->setProperty("VerticalAlignment",   vAlign);
         delete range;
     }
+#else
+    Q_UNUSED(row)
+    Q_UNUSED(col)
+    Q_UNUSED(hAlign)
+    Q_UNUSED(vAlign)
 #endif // Q_OS_WIN
 }
 
@@ -333,6 +354,9 @@ QVariant TcMSExcel::read(int row, int col)
         ret = range->dynamicCall("Value()");
         delete range;
     }
+#else
+    Q_UNUSED(row)
+    Q_UNUSED(col)
 #endif // Q_OS_WIN
     return ret;
 }
@@ -347,6 +371,10 @@ void TcMSExcel::write(int row, int col, const QVariant& value)
         range->setProperty("Value", value);
         delete range;
     }
+#else
+    Q_UNUSED(row)
+    Q_UNUSED(col)
+    Q_UNUSED(value)
 #endif // Q_OS_WIN
 }
 
@@ -365,6 +393,11 @@ bool TcMSExcel::usedRange(int& rowStart, int& colStart, int& rowEnd, int& colEnd
         delete urange;
         ret = true;
     }
+#else
+    Q_UNUSED(rowStart)
+    Q_UNUSED(colStart)
+    Q_UNUSED(rowEnd)
+    Q_UNUSED(colEnd)
 #endif // Q_OS_WIN
     return ret;
 }

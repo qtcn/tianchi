@@ -64,7 +64,7 @@ QString TcFile::uniqueFileName(const QString& dir,
     return ret;
 }
 
-QString TcFile::fileVersion(const QString& exeFile)
+QString TcFile::fileVersion(const QString& /* exeFile */)
 {
     QString ret;
 

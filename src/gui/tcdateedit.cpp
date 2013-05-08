@@ -25,6 +25,7 @@ TcDateEdit::~TcDateEdit()
 
 void TcDateEdit::focusInEvent(QFocusEvent *e)
 {
+    Q_UNUSED(e)
     //屏蔽基类事件
 }
 
