@@ -57,11 +57,11 @@ public:
     };
 
     /// @brief 创建一个Microsoft Excel文件
-    bool create(const QString& filename="");
+    bool create(const QString& filename = QString());
     /// @brief 打开一个Microsoft Excel文件
-    bool open(const QString& filename="");
+    bool open(const QString& filename = QString());
     /// @brief 保存Microsoft Excel文件
-    void save(const QString& filename="");
+    void save(const QString& filename = QString());
     /// @brief 关闭Microsoft Excel文件
     void close();
     /// @brief 踢出当前打开的 Microsoft Excel<br>
