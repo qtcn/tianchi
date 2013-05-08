@@ -58,7 +58,7 @@ public:
 private:
     Q_DISABLE_COPY(TcExcelReader)
     Q_DECLARE_PRIVATE(TcExcelReader)
-    TcExcelReaderPrivate *d_ptr;
+    TcExcelReaderPrivate* const d_ptr;
 };
 
 #endif

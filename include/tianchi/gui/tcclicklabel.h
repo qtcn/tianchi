@@ -40,7 +40,7 @@ protected:
 private:
     Q_DISABLE_COPY(TcClickLabel)
     Q_DECLARE_PRIVATE(TcClickLabel)
-    TcClickLabelPrivate *d_ptr;
+    TcClickLabelPrivate* const d_ptr;
 };
 
 #endif

@@ -48,7 +48,7 @@ private:
     Q_DISABLE_COPY(TcMarqueeLabel)
     Q_DECLARE_PRIVATE(TcMarqueeLabel)
     Q_PRIVATE_SLOT(d_func(), void _q_openLink(const QString &))
-    TcMarqueeLabelPrivate *d_ptr;
+    TcMarqueeLabelPrivate* const d_ptr;
 };
 
 #endif

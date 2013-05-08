@@ -32,7 +32,7 @@ public:
      * clear labelText and data property
      */
     void _q_editingFinished();
-    TcLineEdit *q_ptr;
+    TcLineEdit* const q_ptr;
 
     QString labelText;
     QVariant userData;
@@ -41,7 +41,7 @@ public:
 TcLineEditPrivate::TcLineEditPrivate(TcLineEdit *qptr) : q_ptr(qptr)
 {
     QObject::connect(q_ptr, SIGNAL(editingFinished()),
-            q_ptr, SLOT(_q_openLink()));
+            q_ptr, SLOT(_q_editingFinished()));
 }
 
 TcLineEditPrivate::~TcLineEditPrivate()
