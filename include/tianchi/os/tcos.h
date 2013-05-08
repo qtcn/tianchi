@@ -26,9 +26,11 @@ class TIANCHI_API TcOS
 {
 public:
     /// @brief 取操作系统名称，仅支持 Windows
+    /// @note 仅支持 Windows
     static QString name();
 
     /// @brief 取操作系统的语言，仅支持 Windows
+    /// @note 仅支持 Windows
     static QString language();
 
     /// @brief Windows 域用户登录，仅支持 Windows
@@ -37,8 +39,9 @@ public:
     /// @param [in] Password 用户密码
     /// @return true 登录成功
     /// @return false 登录失败
+    /// @note 仅支持 Windows
     static bool login(const QString& Domain, const QString& UserID, 
             const QString& Password);
 };
 
-#endif // TIANCHI_OS_H
+#endif // TIANCHI_TCOS_H

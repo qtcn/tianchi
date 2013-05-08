@@ -33,7 +33,7 @@
 /// {
 ///     QApplication app(argc, argv);
 ///
-///     TIANCHI::SingleInstance si(app, "myApp");
+///     TcSingleInstance si(app, "myApp");
 ///
 ///     if ( si.first() )
 ///     {

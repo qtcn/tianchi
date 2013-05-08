@@ -31,6 +31,15 @@
 
 class TcGlowEffectPrivate;
 
+/// @brief 发光效果的QGraphicsEffect
+/// @par 示例:
+/// @code
+/// GlowEffect *effect = new GlowEffect(this);
+/// effect->setRadius(5);
+/// effect->setGlowColor(Qt::blue);
+/// lbl->setGraphicsEffect(effect);
+/// @endcode
+/// @see setLogFile
 class TIANCHI_API TcGlowEffect : public QGraphicsEffect
 {
     Q_OBJECT

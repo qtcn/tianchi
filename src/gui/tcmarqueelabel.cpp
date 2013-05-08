@@ -4,7 +4,7 @@
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
 // **************************************************************************
-// 文档说明：可发出clicked信号的Label部件
+// 文档说明：跑马灯Label, 点击时自动打开网址
 // ==========================================================================
 // 开发日志：
 // 日期         人员        说明
@@ -34,7 +34,7 @@ public:
     TcMarqueeLabel *q_ptr;
 };
 
-TcMarqueeLabelPrivate::TcMarqueeLabelPrivate(TcMarqueeLabel *qptr) 
+TcMarqueeLabelPrivate::TcMarqueeLabelPrivate(TcMarqueeLabel *qptr)
     : q_ptr(qptr)
 {
     animation = new QPropertyAnimation(q_ptr, "geometry", q_ptr);

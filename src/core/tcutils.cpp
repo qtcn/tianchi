@@ -85,16 +85,6 @@ char TcUtils::typeFrom(QVariant::Type type)
     return c;
 }
 
-QString TcUtils::YYYY_MM_DD_HH_MM_SS_ZZZ()
-{
-    return QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss.zzz");
-}
-
-QString TcUtils::YYYY_MM_DD_HH_MM_SS()
-{
-    return QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
-}
-
 QDateTime TcUtils::toDateTime(const QString& text)
 {
     QDateTime ret = QDateTime();
@@ -148,6 +138,18 @@ QDateTime TcUtils::toDateTime(const QString& text)
     return ret;
 }
 
+QDateTime TcUtils::toDateTime(double timeDouble)
+{
+    int    days    = int(timeDouble);
+    double seconds = timeDouble - days;
+
+    //const qint64 OF_JULIAN_DAY = 2415019;
+    QDate date = QDate::fromJulianDay(JULIAN_DAY + days);
+    QTime time(0, 0, 0, 0);
+    time = time.addSecs(seconds * 86400.0);
+    return QDateTime(date, time);
+}
+
 char TcUtils::getIDCardVerifyCode(const QByteArray& id)
 {
     char ret = '\0';
@@ -193,4 +195,36 @@ QDateTime TcUtils::complieDateTime(const QString& complieDate, const QString& co
     }
     return QDateTime(QDate(Year.toInt(), MonthValue, Day.toInt()),
                      QTime(Hour.toInt(), Minute.toInt(), Second.toInt()));
+}
+
+QByteArray TcUtils::addField(const QString& key, const QVariant& value)
+{
+    QByteArray bytes = value.toByteArray();
+
+    return QByteArray()
+            .append(key.toLower()).append('\0')
+            .append(typeFrom(value.type())).append('\0')
+            .append(QByteArray::number(bytes.length())).append('\0')
+            .append(bytes);
+}
+
+QHash<QString, QByteArray> TcUtils::byFields(const QByteArray& fieldBytes)
+{
+    QHash<QString, QByteArray>  ret;
+
+    int pos1 = 0;
+    int pos2 = fieldBytes.indexOf('\0');
+    while(pos2>=0)
+    {
+        QString key = fieldBytes.mid(pos1, pos2);
+        pos1 = fieldBytes.indexOf('\0', ++pos2);
+        QString type = fieldBytes.mid(pos2, pos1-pos2);
+        pos2 = fieldBytes.indexOf('\0', ++pos1);
+        int len = fieldBytes.mid(pos1, pos2-pos1).toInt();
+        QByteArray value = fieldBytes.mid(++pos2, len);
+        pos1 = pos2+len;
+        ret[key] = value;
+        pos2 = fieldBytes.indexOf('\0', pos1);
+    }
+    return ret;
 }

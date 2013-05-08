@@ -14,8 +14,8 @@
 // ==========================================================================
 /// @file FileUtils.h 文件操作常用处理类
 // ==========================================================================
-#ifndef TIANCHI_FILEUTILS_H
-#define TIANCHI_FILEUTILS_H
+#ifndef TIANCHI_TCFILE_H
+#define TIANCHI_TCFILE_H
 
 #include <tianchi/tcglobal.h>
 
@@ -24,7 +24,7 @@
 /// @brief 文件操作常用处理类
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-15
-class TIANCHI_API TcFileUtils
+class TIANCHI_API TcFile
 {
 public:
     /// @brief 装载文本文件
@@ -45,4 +45,4 @@ public:
     static QStringList searchFiles(const QString& path);
 };
 
-#endif // TIANCHI_FILEUTILS_H
+#endif // TIANCHI_TCFILE_H

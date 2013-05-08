@@ -29,6 +29,29 @@
     #include <iostream>
     using namespace std;
 #endif
+/// @brief 设置字符集，使用汉字前应该为 "GBK"
+/// @param [in] name 字符集名称
+/// @par 示例:
+/// @code
+/// int main(int argc, char *argv[])
+/// {
+///     QApplication app(argc, argv);
+///     // 先为应用程序设置字符集
+///     initQS("GBK");
+///
+///     ...
+/// }
+/// void MyFunction()
+/// {
+///
+///     qDebug()<<QS("显示为汉字，而不是乱码！");
+///
+/// }
+/// @endcode
+/// @return 全局字符集对象
+/// @author 圣域天子 Jonix@qtcn.org
+/// @date 2013-05-06
+QTextCodec* initQS(const QByteArray& name="GBK");
 
 /// @brief 汉字字符集转换
 /// @param [in] s 汉字常量，或 char* 型的变量
@@ -38,8 +61,7 @@
 /// {
 ///     QApplication app(argc, argv);
 ///     // 先为应用程序设置字符集
-///     QTextCodec* pCodec=QTextCodec::codecForName("GBK");
-///     QTextCodec::setCodecForLocale(pCodec);
+///     initQS("GBK");
 ///
 ///     ...
 /// }
@@ -76,7 +98,7 @@ inline void MsgBox(const QString& s)
     QMessageBox::information(NULL, "", s);
 }
 #endif
-
+#define TC_FREE(x)  {delete x; x=NULL;}
 #if defined(QT_DEBUG)
     /// @brief 调试信息快速显示类
     /// @param [in] file 源文件名
@@ -105,5 +127,10 @@ inline void MsgBox(const QString& s)
     /// @brief 为了方便运行时调试设置的宏
     #define DEBUG_OUT(x)
 #endif
+
+/// @brief 返回当前时间字符串：yyyy-MM-dd HH:mm:ss.zzz
+QString YYYY_MM_DD_HH_MM_SS_ZZZ();
+/// @brief 返回当前时间字符串：yyyy-MM-dd HH:mm:ss
+QString YYYY_MM_DD_HH_MM_SS();
 
 #endif // TIANCHI_COMMON_H

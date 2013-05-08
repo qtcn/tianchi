@@ -1,4 +1,4 @@
-#include <tianchi/file/tclogtiny.h>
+#include <tianchi/file/tclog.h>
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
@@ -10,18 +10,18 @@
 // * @brief Tianchi::Log 全局 Log4Qt 实例，可在应用程序中直接使用。
 // */
 //Log4Qt Log;
-void TcLogTiny::setAppFile(const QString& AppFile)
+void TcLog::setAppFile(const QString& AppFile)
 {
     QFileInfo fi(AppFile);
     m_FileName = fi.absolutePath() + QDir::separator() + fi.baseName() + ".log";
 }
 
-void TcLogTiny::setLogFile(const QString& LogFile)
+void TcLog::setLogFile(const QString& LogFile)
 {
     m_FileName = LogFile;
 }
 
-void TcLogTiny::write(const QString& S, const QString& SourceName, int SourceLine)
+void TcLog::write(const QString& S, const QString& SourceName, int SourceLine)
 {
     if (!m_FileName.isEmpty())
     {

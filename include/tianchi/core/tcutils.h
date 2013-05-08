@@ -35,16 +35,19 @@
 
 #include <QThread>
 
-namespace Tc
-{
 /// @brief 操作模式的标识常量
-namespace OperMode
+struct TcOperMode
 {
-const int Append = 1; ///< 添加或新建
-const int Change = 2; ///< 修改
-const int Delete = 4; ///< 删除
+const static int Append = 1; ///< 添加或新建
+const static int Change = 2; ///< 修改
+const static int Delete = 4; ///< 删除
+
+const static int CopyCell   = 301; ///< 复制一个单元格
+const static int CopyCells  = 302; ///< 复制多个单元格
+const static int CopyColumn = 303; ///< 复制列
+const static int CopyLine   = 304; ///< 复制行
+const static int CopyTable  = 305; ///< 复制一张表，默认表示含标题
 };
-}
 
 /// @brief 常用小功能综合函数集
 /// @author 圣域天子 Jonix@qtcn.org
@@ -65,19 +68,21 @@ public:
         return typeFrom(v.type());
     }
 
-    /// @brief 返回当前时间字符串：yyyy-MM-dd HH:mm:ss.zzz
-    static QString YYYY_MM_DD_HH_MM_SS_ZZZ();
-    /// @brief 返回当前时间字符串：yyyy-MM-dd HH:mm:ss
-    static QString YYYY_MM_DD_HH_MM_SS();
+    const static qint64 JULIAN_DAY = 2415019;
     /// @brief 转换字符串为日期时间
     static QDateTime toDateTime(const QString& text);
+    /// @brief 转换数据为日期时间
+    static QDateTime toDateTime(double timeDouble);
 
     /// @brief 返回18位身位证的最后一位校验码
     static char getIDCardVerifyCode(const QByteArray& id);
 
     /// @brief 取编译日期和时间，调用处的代码必须重新编译
     static QDateTime complieDateTime(const QString& complieDate, const QString& complieTime);
-};
 
+    static QByteArray addField(const QString& key, const QVariant& value);
+    static QHash<QString, QByteArray> byFields(const QByteArray& fieldBytes);
+
+};
 
 #endif // TIANCHI_UTILS_H

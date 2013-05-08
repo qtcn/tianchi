@@ -5,4 +5,5 @@ INCLUDEPATH += $$PWD/tianchi \
             $$PWD/tianchi/gui \
             $$PWD/tianchi/network \
             $$PWD/tianchi/os \
-            $$PWD/tianchi/sql
+            $$PWD/tianchi/sql \
+            $$PWD/tianchi/widget

@@ -105,7 +105,7 @@ void TcPlayer::setAuthorityText(const QStringList& value)
 }
 
 // ==========================================================================
-bool TcCInvokeObject::invoke(QGenericArgument val0,
+bool TcInvoke::invoke(QGenericArgument val0,
                            QGenericArgument val1,
                            QGenericArgument val2,
                            QGenericArgument val3,

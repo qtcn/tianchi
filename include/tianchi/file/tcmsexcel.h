@@ -4,8 +4,8 @@
 // 版权所有 (C) 天池共享源码库开发组
 // 授权协议：请阅读天池共享源码库附带的授权协议
 // **************************************************************************
-// 文档说明：通过 OLE 方式操作 Microsoft Excel（仅限 Windows 下使用，要求已
-//           安装 Excel）
+// 文档说明：通过 OLE 方式操作 Microsoft Excel（仅限 Windows 下使用，要求已安
+//           装 Excel）
 // ==========================================================================
 // 开发日志：
 // 日期         人员        说明
@@ -23,17 +23,9 @@
 
 #include <QString>
 #include <QStringList>
+#include <QVariant>
 
-
-QT_BEGIN_NAMESPACE
-
-class QAxObject;
-class QAxWidget;
-#ifdef QT_WIDGETS_LIB
-class QTreeWidget;
-#endif
-
-QT_END_NAMESPACE
+class TcMSExcelPrivate;
 
 /// @brief 通过 OLE 方式操作 Microsoft Excel
 /// @note 通过 OLE 方式操作 Microsoft Excel
@@ -49,18 +41,9 @@ public:
     virtual ~TcMSExcel();
 
 private:
-    QAxWidget*  m_excel;
-    QAxObject*  m_books;
-    QAxObject*  m_book;
-    QAxObject*  m_sheets;
-    QAxObject*  m_sheet;
-    QString     m_filename;
-    QString     m_sheetName;
-
-    int m_rowStart;
-    int m_colStart;
-    int m_rowEnd;
-    int m_colEnd;
+    Q_DISABLE_COPY(TcMSExcel)
+    Q_DECLARE_PRIVATE(TcMSExcel)
+    TcMSExcelPrivate*   d_ptr;
 
 public:
     /// @brief 设置方向的常数
@@ -70,7 +53,7 @@ public:
         xlLeft   = -4131, ///< 靠左
         xlRight  = -4152, ///< 靠右
         xlCenter = -4108, ///< 居中
-        xlBottom = -4107, ///< 靠下
+        xlBottom = -4107  ///< 靠下
     };
 
     /// @brief 创建一个Microsoft Excel文件
@@ -92,17 +75,23 @@ public:
     void setCaption(const QString& value);
 
     /// @brief 新建一本 Excel 文档
-    QAxObject* addBook();
+    bool addBook();
 
     /// @brief 返回当前 Excel 的 Sheet 数量
     int sheetCount();
 
-    /// @brief 设置并指定当前 Sheet.
-    /// @param [in] 当前 Sheet 索引，从 1 开始
-    QAxObject* sheet(int index);
+    /// @brief 返回当前打开的 Excel 全部 Sheet 名
+    QStringList sheetNames();
 
     /// @brief 返回当前 Sheet.
-    QAxObject* currentSheet();
+    bool currentSheet();
+
+    /// @brief 设置并指定当前 Sheet.
+    /// @param [in] 当前 Sheet 索引，从 1 开始
+    bool setCurrentSheet(int index);
+
+    /// @brief 当前打开的 Excel 的 Sheet 名
+    QString currentSheetName();
 
     /// @brief 读取单元格 Sheet 的内容
     /// @param [in] row 行号，从 1 开始
@@ -110,82 +99,27 @@ public:
     /// @return 返回指定单元格的内容
     QVariant read(int row, int col);
 
+    /// @brief 读取单元格 Sheet 的内容
+    /// @param [in] row 行号，从 1 开始
+    /// @param [in] col 列号，从 1 开始
+    /// @return 返回指定单元格的内容
+    inline QVariant cell(int row, int col) { return read(row, col); }
+
     /// @brief 写入单元格 Sheet 的内容
     /// @param [in] row 行号，从 1 开始
     /// @param [in] col 列号，从 1 开始
     /// @param [in] value 准备写入的内容
     void write(int row, int col, const QVariant& value);
 
-
-    void        cellFormat(int row, int col, const QString& format);
-    void        cellAlign(int row, int col, Alignment hAlign, Alignment vAlign);
-
+    void cellFormat(int row, int col, const QString& format);
+    void cellAlign(int row, int col, Alignment hAlign, Alignment vAlign);
 
     /// @brief 获取有效区域信息
     /// @see rowStart() const
     /// @see rowEnd() const
     /// @see colStart() const
     /// @see colEnd() const
-    bool usedRange();
-
-    /// @brief 返回当前打开的 Excel 全部 Sheet 名
-    QStringList sheetNames();
-    /// @brief 当前打开的 Excel 的 Sheet 名
-    QString sheetName() const { return m_sheetName; }
-
-    /// @brief 当前 Sheet 有效区域的开始行
-    /// @note 需要先执行 usedRange() 获取有效区域信息后才能访问
-    /// @see sheetName() const
-    inline int rowStart() const { return m_rowStart; }
-    /// @brief 当前 Sheet 有效区域的结束行
-    /// @note 需要先执行 usedRange() 获取有效区域信息后才能访问
-    /// @see sheetName() const
-    inline int rowEnd() const { return m_rowEnd; }
-    /// @brief 当前 Sheet 有效区域的开始列
-    /// @note 需要先执行 usedRange() 获取有效区域信息后才能访问
-    /// @see sheetName() const
-    inline int colStart() const { return m_colStart; }
-    /// @brief 当前 Sheet 有效区域的结束列
-    /// @note 需要先执行 usedRange() 获取有效区域信息后才能访问
-    /// @see sheetName() const
-    inline int colEnd() const { return m_colEnd; }
-
-#ifdef QT_WIDGETS_LIB
-    /// @brief 把 QTreeWidget 的内容，直接输出到 Excel 中
-    /// @author 圣域天子 Jonix@qtcn.org
-    class TIANCHI_API Exporter
-    {
-    public:
-        /// @brief 构造函数
-        /// @param [in] view 需要导出的 QTreeWidget 对象
-        /// @param [in] mode 0:导出全部<br> 1:导出选中的行
-        /// @param [in] excel Excel 对象实例
-        /// @param [in] row 导出到 Excel 的开始行
-        /// @param [in] col 导出到 Excel 的开始列
-        Exporter(QTreeWidget* view, int mode, TcMSExcel* excel, int row=1, int col=1);
-
-        /// @brief 重置导出模式
-        /// @param [in] mode 0:导出全部<br> 1:导出选中的行
-        void setMode(int mode) { m_mode = mode; }
-        /// @brief 重置导出到 Excel 的开始行和开始列
-        void setStart(int row, int col) { m_row = row; m_col = col; }
-        /// @brief 重置 Excel 的对象实例
-        void setExcel(TcMSExcel* excel) { m_excel = excel; }
-
-        /// @brief 执行导出操作
-        int  exec();
-
-    private:
-        QTreeWidget*        m_view;
-        int                 m_mode;
-        TcMSExcel*   m_excel;
-        int                 m_row;
-        int                 m_col;
-
-        QStringList     formats;
-        QStringList     cellTypes;
-    };
-#endif
+    bool usedRange(int& rowStart, int& colStart, int &rowEnd, int &colEnd);
 };
 
 #endif // TIANCHI_MSEXCEL_H

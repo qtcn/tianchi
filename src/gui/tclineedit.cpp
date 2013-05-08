@@ -133,7 +133,7 @@ void TcLineEdit::paintEvent(QPaintEvent *event)
         QFontMetrics fm = fontMetrics();
 
         Q_D(TcLineEdit);
-        QString elidedText = fm.elidedText(d->labelText, 
+        QString elidedText = fm.elidedText(d->labelText,
                 Qt::ElideRight, r.width());
         p.drawText(r, Qt::AlignLeft | Qt::AlignVCenter, elidedText);
         p.setPen(oldpen);
