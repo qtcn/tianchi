@@ -43,7 +43,7 @@ public:
 private:
     Q_DISABLE_COPY(TcMSExcel)
     Q_DECLARE_PRIVATE(TcMSExcel)
-    TcMSExcelPrivate*   d_ptr;
+    TcMSExcelPrivate* const d_ptr;
 
 public:
     /// @brief 设置方向的常数

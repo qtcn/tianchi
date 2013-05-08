@@ -1,4 +1,5 @@
-INCLUDEPATH += $$PWD/tianchi \
+INCLUDEPATH += $$PWD \
+            $$PWD/tianchi \
             $$PWD/tianchi/chinese \
             $$PWD/tianchi/core \
             $$PWD/tianchi/file \

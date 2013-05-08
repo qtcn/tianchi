@@ -18,7 +18,7 @@ public:
     void construct();
     void destory();
 
-    TcMSExcel*  q_ptr;
+    TcMSExcel* const q_ptr;
 
 #if defined(Q_OS_WIN)
     QAxObject*  excel;
@@ -104,6 +104,7 @@ TcMSExcel::TcMSExcel()
 TcMSExcel::~TcMSExcel()
 {
     close();
+    delete d_ptr;
 }
 
 bool TcMSExcel::create(const QString& filename)

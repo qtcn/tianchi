@@ -61,7 +61,7 @@ protected:
 private:
     Q_DISABLE_COPY(TcGlowEffect)
     Q_DECLARE_PRIVATE(TcGlowEffect)
-    TcGlowEffectPrivate *d_ptr;
+    TcGlowEffectPrivate* const d_ptr;
 };
 
 #endif // GLOWEFFECT_H

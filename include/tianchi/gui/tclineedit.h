@@ -75,7 +75,7 @@ private:
     Q_DISABLE_COPY(TcLineEdit)
     Q_DECLARE_PRIVATE(TcLineEdit)
     Q_PRIVATE_SLOT(d_func(), void _q_editingFinished())
-    TcLineEditPrivate *d_ptr;
+    TcLineEditPrivate* const d_ptr;
 };
 
 #endif

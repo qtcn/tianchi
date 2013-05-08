@@ -47,7 +47,7 @@ public:
 private:
     Q_DISABLE_COPY(TcFlowLayout)
     Q_DECLARE_PRIVATE(TcFlowLayout)
-    TcFlowLayoutPrivate *d_ptr;
+    TcFlowLayoutPrivate* const d_ptr;
 };
 
 #endif
