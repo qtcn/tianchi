@@ -153,6 +153,8 @@ QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/)
 QVariant TcDataAccess::lastInsertId(const QString &table, 
         const QString &primaryKey)
 {
+    Q_UNUSED(table)
+    Q_UNUSED(primaryKey)
     return _lastInsertId;
 }
 

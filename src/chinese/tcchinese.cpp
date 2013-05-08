@@ -180,6 +180,9 @@ QString TcChinese::toPinyin(const QString& Str, bool Tonality)
             }
         }
     }
+#else
+    Q_UNUSED(Str)
+    Q_UNUSED(Tonality)
 #endif
     return ret;
 }

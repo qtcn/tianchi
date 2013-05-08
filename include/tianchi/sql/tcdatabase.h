@@ -19,10 +19,10 @@
 
 #include <tianchi/tcglobal.h>
 
-#include <QtSql/QSqlDatabase>
 #include <QVariant>
 #include <QMultiHash>
 #include <QStringList>
+#include <QSqlDatabase>
 
 typedef QHash<QString, QByteArray>  TcParams;
 class TIANCHI_API TcDatabase
@@ -34,29 +34,36 @@ public:
     enum DBType
     {
         SQLSERVER =  1,
-        SQLTIE    = 11
+        SQLITE    = 11
     };
 
     static  char     typeFrom(QVariant::Type type);
 
     static  int      dbType(const QString& typeName);
-    static  TcParams addParams(const QStringList& keys, const QList<QByteArray>& values);
+    static  TcParams addParams(const QStringList& keys, 
+            const QList<QByteArray>& values);
 
 
     /// @brief 设置网络数据库
     void setDatabase(int dbType,
                      const QString& hostName, int hostPort,
-                     const QString& dbName, const QString& username, const QString& password);
+                     const QString& dbName, const QString& username, 
+                     const QString& password);
     /// @brief 设置网络数据库
     bool setDatabase(const QString& typeName,
                      const QString& hostName, int hostPort,
-                     const QString& dbName, const QString& username, const QString& password);
+                     const QString& dbName, const QString& username, 
+                     const QString& password);
     /// @brief 设置本地数据库
     void setDatabase(int dbType,
-                     const QString& dbName, const QString& username="", const QString& password="");
+                     const QString& dbName, 
+                     const QString& username = QString(), 
+                     const QString& password = QString());
     /// @brief 设置本地数据库
     bool setDatabase(const QString& typeName,
-                     const QString& dbName, const QString& username="", const QString& password="");
+                     const QString& dbName, 
+                     const QString& username = QString(), 
+                     const QString& password = QString());
 
     /// @brief 本地数据库不存在时，使用此DDL进行重建
     QString CreateDDL;
@@ -92,7 +99,9 @@ protected:
 
     /// @brief 数据库操作准备, 注意 params 的 key 必须全小写
     QSqlQuery* prepare(const QString& sqlID, TcParams prams,
-                       QString& error, int userNo = 0, const QString& userID = "", const QString& username = "");
+                       QString& error, int userNo = 0, 
+                       const QString& userID = QString(), 
+                       const QString& username = QString());
 public:
     inline int      dbType()   const { return m_dbType;   }
     inline QString  typeName() const { return m_typeName; }
@@ -127,17 +136,30 @@ public:
     void loadEngine(const QString& filename);
 
     /// @brief 执行操作SQLID，无返回数据集
-    bool exec(int& result, const QString& sqlID, const TcParams& prams,
-              int userNo = 0, const QString& userID = "", const QString& username = "");
+    bool exec(int& result, const QString& sqlID, 
+            const TcParams& prams,
+            int userNo = 0, 
+            const QString& userID = QString(), 
+            const QString& username = QString());
     /// @brief 执行操作SQLID，可返回数据集
-    bool exec(QVariantList& list, const QString& sqlID, const TcParams& params,
-              int userNo = 0, const QString& userID = "", const QString& username = "");
+    bool exec(QVariantList& list, 
+            const QString& sqlID, 
+            const TcParams& params,
+            int userNo = 0, 
+            const QString& userID = QString(), 
+            const QString& username = QString());
     /// @brief 执行操作SQLID，可返回数据集
-    int exec(int& result, QVariantList& list, const QString& sqlID, const TcParams& params,
-              int userNo = 0, const QString& userID = "", const QString& username = "");
+    int exec(int& result, QVariantList& list, 
+            const QString& sqlID, const TcParams& params,
+            int userNo = 0, 
+            const QString& userID = QString(), 
+            const QString& username = QString());
     /// @brief 执行操作SQLID，可返回数据集
-    int exec(int& result, QList<QByteArray>& list, const QString& sqlID, const TcParams& params,
-              int userNo = 0, const QString& userID = "", const QString& username = "");
+    int exec(int& result, QList<QByteArray>& list, 
+            const QString& sqlID, const TcParams& params,
+            int userNo = 0, 
+            const QString& userID = QString(), 
+            const QString& username = QString());
 };
 
 #endif // TIANCHI_TCDATABASE_H

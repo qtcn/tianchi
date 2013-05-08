@@ -25,7 +25,8 @@ QToolButton* createButton(QToolBar* toolBar,
     return toolButton;
 }
 
-void createColumnMenu(QTreeWidget* view, QWidget* widget, const QString& ColumnSetupFunc)
+void createColumnMenu(QTreeWidget* view, QWidget* widget, 
+        const QString& ColumnSetupFunc)
 {
     QMenu popupMenu(view->header());
 

@@ -46,7 +46,7 @@ int TcDirectory::copyFiles(const QStringList &files, const QString &toPath,
     QFileInfo old_file_info;
     QFileInfo new_file_info;
 
-    for ( int i=0;i<size;i++ )
+    for (int i = 0; i < size; i++)
     {
         old_file.setFileName(files[i]);
         old_file_info.setFile(old_file);
@@ -124,7 +124,7 @@ QString TcDirectory::formatPath(const QString &path)
     QString new_path = path;
     QString last_char = path[path.size() - 1];
 
-    if ( (last_char != "\\") && (last_char != "/") )
+    if (last_char != "\\" && last_char != "/")
     {
         new_path += QDir::separator();
     }

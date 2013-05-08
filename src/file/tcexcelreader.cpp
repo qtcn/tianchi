@@ -191,6 +191,7 @@ bool TcExcelReader::open(const QString &file)
     }
     return true;
 #else
+    Q_UNUSED(file)
     return false;
 #endif
 }
@@ -285,6 +286,9 @@ QVariant TcExcelReader::cell(int row, int col)
     }
     v = range->dynamicCall("Value()");
     delete range;
+#else
+    Q_UNUSED(row)
+    Q_UNUSED(col)
 #endif
     return v;
 }
