@@ -49,4 +49,6 @@
 #include <tianchi/sql/tcdatabase.h>
 #include <tianchi/sql/tcdataaccess.h>
 
+#include <tianchi/widget/tctreeex.h>
+
 #endif // TIANCHI_H

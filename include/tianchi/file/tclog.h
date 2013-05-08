@@ -54,16 +54,24 @@ public:
     /// @param [in] S 日志内容。
     /// @param [in] SourceName 源文件名，建议用__FILE__作为参数。
     /// @param [in] SourceLine 源文件行，建议用__LINE__作为参数。
-    void write(const QString& S, const QString& SourceName="", int SourceLine=0);
+    void write(const QString& S, 
+            const QString& SourceName = QString(), 
+            int SourceLine = 0);
 
     /// @brief 调试模式(Debug)下输出日志，在 Release 模式下没有作用。
     /// @param [in] S 日志内容。
     /// @param [in] SourceName 源文件名，建议用__FILE__作为参数。
     /// @param [in] SourceLine 源文件行，建议用__LINE__作为参数。
-    inline void debug(const QString& S, const QString& SourceName="", int SourceLine=0)
+    inline void debug(const QString& S, 
+            const QString& SourceName = QString(), 
+            int SourceLine = 0)
     {
       #ifdef _DEBUG
         write(S, SourceName, SourceLine);
+      #else
+        Q_UNUSED(S);
+        Q_UNUSED(SourceName);
+        Q_UNUSED(SourceLine);
       #endif
     }
 

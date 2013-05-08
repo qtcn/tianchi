@@ -1,5 +1,5 @@
-#include <tianchi/sql/tcdatabase.h>
 #include <tianchi/core/tcutils.h>
+#include <tianchi/sql/tcdatabase.h>
 
 #include <QtSql/QtSql>
 #include <QDir>
@@ -19,39 +19,33 @@ TcDatabase::~TcDatabase(void)
 char TcDatabase::typeFrom(QVariant::Type type)
 {
     char c = '\0';
-    if ( type == QVariant::Int
-      || type == QVariant::UInt
-      || type == QVariant::LongLong
-      || type == QVariant::ULongLong )
+    if (type == QVariant::Int
+            || type == QVariant::UInt
+            || type == QVariant::LongLong
+            || type == QVariant::ULongLong)
     {
         c = 'i';
-    }else
-    if ( type == QVariant::Double )
+    }
+    else if (type == QVariant::Double)
     {
         c = 'n';
-    }else
-    if ( type == QVariant::String )
+    }
+    else if (type == QVariant::String)
     {
         c = 's';
-    }else
-    if ( type == QVariant::Date
-      || type == QVariant::Time
-      || type == QVariant::DateTime )
+    }
+    else if (type == QVariant::Date
+            || type == QVariant::Time
+            || type == QVariant::DateTime)
     {
         c = 't';
-    }else
-    if ( type == QVariant::Date
-      || type == QVariant::Time
-      || type == QVariant::DateTime )
+    }
+    else if (type == QVariant::ByteArray)
     {
-        c = 't';
-    }else
-    if ( type == QVariant::ByteArray )
+        c = 'm';
+    }
+    else
     {
-         c = 'm';
-    }else
-    {
-
     }
     return c;
 }
@@ -59,25 +53,26 @@ char TcDatabase::typeFrom(QVariant::Type type)
 int TcDatabase::dbType(const QString& typeName)
 {
     int ret = 0;
-    if ( typeName.compare("MSSQL", Qt::CaseInsensitive) == 0
+    if (typeName.compare("MSSQL", Qt::CaseInsensitive) == 0
       || typeName.compare("SQLServer", Qt::CaseInsensitive) == 0
-      || typeName.compare("SQL Server", Qt::CaseInsensitive) == 0 )
+      || typeName.compare("SQL Server", Qt::CaseInsensitive) == 0)
     {
         ret = SQLSERVER;
-    }else
-    if ( typeName.compare("SQLite", Qt::CaseInsensitive) == 0 )
+    }
+    else if (typeName.compare("SQLite", Qt::CaseInsensitive) == 0)
     {
-        ret = SQLTIE;
+        ret = SQLITE;
     }
     return ret;
 }
 
-TcParams TcDatabase::addParams(const QStringList& keys, const QList<QByteArray>& values)
+TcParams TcDatabase::addParams(const QStringList& keys, 
+        const QList<QByteArray>& values)
 {
     TcParams ret;
-    if ( keys.count() == values.count() )
+    if (keys.count() == values.count())
     {
-        for( int i=0; i<keys.count(); i++ )
+        for (int i=0; i < keys.count(); i++)
         {
             ret[keys.at(i).toLower()] = values.at(i);
         }
@@ -87,14 +82,14 @@ TcParams TcDatabase::addParams(const QStringList& keys, const QList<QByteArray>&
 
 QString TcDatabase::lastError()
 {
-    return errors.count() >0 ? errors.takeLast() : "";
+    return errors.count() > 0 ? errors.takeLast() : QString();
 }
 
-void TcDatabase::setDatabase(int dbType,
-                                      const QString& hostName, int hostPort,
-                                      const QString& dbName, const QString& username, const QString& password)
+void TcDatabase::setDatabase(int dbType, const QString& hostName, 
+        int hostPort, const QString& dbName, const QString& username, 
+        const QString& password)
 {
-    switch(dbType)
+    switch (dbType)
     {
     case SQLSERVER:
         m_dbType   = dbType;
@@ -105,7 +100,7 @@ void TcDatabase::setDatabase(int dbType,
         m_username = username;
         m_password = password;
         break;
-    case SQLTIE:
+    case SQLITE:
         m_dbType   = dbType;
         m_typeName = "SQLite";
         m_hostName = hostName;
@@ -126,27 +121,28 @@ void TcDatabase::setDatabase(int dbType,
     }
 }
 
-bool TcDatabase::setDatabase(const QString& typeName,
-                                      const QString& hostName, int hostPort,
-                                      const QString& dbName, const QString& username, const QString& password)
+bool TcDatabase::setDatabase(const QString& typeName, 
+        const QString& hostName, int hostPort, const QString& dbName, 
+        const QString& username, const QString& password)
 {
     bool ret = false;
-    if ( typeName.compare("MSSQL", Qt::CaseInsensitive) == 0
+    if (typeName.compare("MSSQL", Qt::CaseInsensitive) == 0
       || typeName.compare("SQLServer", Qt::CaseInsensitive) == 0
-      || typeName.compare("SQL Server", Qt::CaseInsensitive) == 0 )
+      || typeName.compare("SQL Server", Qt::CaseInsensitive) == 0)
     {
         m_dbType = SQLSERVER;
         m_typeName = "SQL Server";
-    }else
-    if ( typeName.compare("SQLite", Qt::CaseInsensitive) == 0 )
+    }
+    else if (typeName.compare("SQLite", Qt::CaseInsensitive) == 0)
     {
-        m_dbType = SQLTIE;
+        m_dbType = SQLITE;
         m_typeName = "SQLite";
-    }else
+    }
+    else
     {
         m_dbType = 0;
     }
-    if ( m_dbType >0 )
+    if (m_dbType > 0)
     {
         m_hostName = hostName;
         m_hostPort = hostPort;
@@ -155,7 +151,8 @@ bool TcDatabase::setDatabase(const QString& typeName,
         m_password = password;
 
         ret = true;
-    }else
+    }
+    else
     {
         m_typeName = "";
         m_hostName = "";
@@ -167,10 +164,10 @@ bool TcDatabase::setDatabase(const QString& typeName,
     return ret;
 }
 
-void TcDatabase::setDatabase(int dbType,
-                                      const QString& dbName, const QString& username, const QString& password)
+void TcDatabase::setDatabase(int dbType, const QString& dbName, 
+        const QString& username, const QString& password)
 {
-    switch(dbType)
+    switch (dbType)
     {
     case SQLSERVER:
         m_dbType   = dbType;
@@ -181,7 +178,7 @@ void TcDatabase::setDatabase(int dbType,
         m_username = username;
         m_password = password;
         break;
-    case SQLTIE:
+    case SQLITE:
         m_dbType   = dbType;
         m_typeName = "SQLite";
         m_hostName = "localhost";
@@ -202,8 +199,8 @@ void TcDatabase::setDatabase(int dbType,
     }
 }
 
-bool TcDatabase::setDatabase(const QString& typeName,
-                                      const QString& dbName, const QString& username, const QString& password)
+bool TcDatabase::setDatabase(const QString& typeName, const QString& dbName, 
+        const QString& username, const QString& password)
 {
     return setDatabase(typeName, "", 0, dbName, username, password);
 }
@@ -212,13 +209,14 @@ int TcDatabase::open()
 {
     int ret = 0;
     close();
-    switch(dbType())
+    switch (dbType())
     {
     case SQLSERVER:
         QSqlDatabase::removeDatabase("FriendSafe");
         m_handle = QSqlDatabase::addDatabase("QODBC", "FriendSafe");
         {
-            QString dsn = QString("DRIVER={SQL SERVER};SERVER=%1;DATABASE=%2;").arg(hostName()).arg(dbName());
+            QString dsn = QString("DRIVER={SQL SERVER};SERVER=%1;DATABASE=%2;")
+                .arg(hostName()).arg(dbName());
             m_handle.setDatabaseName(dsn);
             m_handle.setUserName(m_username);
             m_handle.setPassword(m_password);
@@ -226,7 +224,7 @@ int TcDatabase::open()
         ret = m_handle.open() ? 1 : 0;
         break;
 
-    case SQLTIE:
+    case SQLITE:
         QSqlDatabase::removeDatabase("FriendSafe");
         m_handle = QSqlDatabase::addDatabase("QSQLITE", "FriendSafe");
 
@@ -242,12 +240,12 @@ int TcDatabase::open()
             m_hostName = "localhost";
             m_hostPort = 0;
             QStringList tables = m_handle.tables();
-            if ( tables.count() <= 0 )
+            if (tables.count() <= 0)
             {
                 // 没有任何表，这个库是新建的。
                 errors.append("Database creating: " + dbFile.absoluteFilePath());
                 QFile f(CreateDDL);
-                if ( f.open(QFile::Text | QFile::ReadOnly) )
+                if (f.open(QFile::Text | QFile::ReadOnly))
                 {
                     QTextStream in(&f);
                     QString fileText = in.readAll();
@@ -256,23 +254,24 @@ int TcDatabase::open()
                     ret = 1;
                     QSqlQuery query = QSqlQuery(m_handle);
                     int pos;
-                    while((pos=fileText.indexOf(";")) >-1)
+                    while ((pos = fileText.indexOf(";")) > -1)
                     {
                         QString sqlText = fileText.mid(0, pos).trimmed();
                         fileText.remove(0, pos+1);
                         fileText = fileText.trimmed();
 
-                        QStringList sqlLines = sqlText.split("\n", QString::SkipEmptyParts);
+                        QStringList sqlLines = sqlText.split("\n", 
+                                QString::SkipEmptyParts);
                         QString sql;
-                        for( int i=0;i<sqlLines.count();i++ )
+                        for (int i = 0; i < sqlLines.count(); i++)
                         {
                             QString s = sqlLines.at(i);
-                            if ( ! s.startsWith("--") )
+                            if (!s.startsWith("--"))
                             {
                                 sql += s + "\n";
                             }
                         }
-                        if ( ! sql.isEmpty() && ! query.exec(sql) )
+                        if (!sql.isEmpty() && !query.exec(sql))
                         {
                             ret = -1;
                         }
@@ -307,34 +306,35 @@ void TcDatabase::loadEngine()
 void TcDatabase::loadEngine(const QString& filename)
 {
     m_sqls.clear();
-    if ( m_handle.isOpen() )
+    if (m_handle.isOpen())
     {
-        if ( dbType() == SQLSERVER )
+        if (dbType() == SQLSERVER)
         {
             // 取出存储过程名
             QSqlQuery procedures_query = QSqlQuery(m_handle);
             QSqlQuery query = QSqlQuery(m_handle);
-            if ( procedures_query.exec("exec sp_procedures_rowset2") )
+            if (procedures_query.exec("exec sp_procedures_rowset2"))
             {
-                while(procedures_query.next())
+                while (procedures_query.next())
                 {
                     QSqlRecord procedures = procedures_query.record();
                     QSqlField  fieldSchema = procedures.field("PROCEDURE_SCHEMA");
-                    if ( fieldSchema.isValid() && fieldSchema.value() != "sys" )
+                    if (fieldSchema.isValid() && fieldSchema.value() != "sys")
                     {
                         QSqlField  field = procedures.field("PROCEDURE_NAME");
-                        if ( field.isValid() )
+                        if (field.isValid())
                         {
                             SQLContext cnt;
                             QString procedureID = field.value().toString();
                             int index = procedureID.indexOf(";");
-                            if ( index >= 0 )
+                            if (index >= 0)
                             {
                                 procedureID = procedureID.left(index);
                             }
                             cnt.id = procedureID;
                             QString paramsLine;
-                            if ( query.exec("exec sp_procedure_params_rowset '"+procedureID+"'") )
+                            if (query.exec("exec sp_procedure_params_rowset '" 
+                                        + procedureID + "'"))
                             {
                                 while(query.next())
                                 {
@@ -342,13 +342,16 @@ void TcDatabase::loadEngine(const QString& filename)
                                     QSqlField  paramName = paramField.field("PARAMETER_NAME");
                                     QString pname = paramName.value().toString();
 
-                                    if ( pname.compare("@RETURN_VALUE", Qt::CaseInsensitive) != 0 )
+                                    if (pname.compare("@RETURN_VALUE", 
+                                                Qt::CaseInsensitive) != 0)
                                     {
-                                        QSqlField  paramType = paramField.field("TYPE_NAME");
+                                        QSqlField  paramType = 
+                                            paramField.field("TYPE_NAME");
                                         pname.remove(0, 1);
 
-                                        QString ptype = paramType.value().toString().toLower();
-                                        if ( ptype == "nvarchar" )
+                                        QString ptype = 
+                                            paramType.value().toString().toLower();
+                                        if (ptype == "nvarchar")
                                         {
                                             ptype = "string";
                                         }
@@ -359,7 +362,7 @@ void TcDatabase::loadEngine(const QString& filename)
                                 }
                                 query.finish();
 
-                                if ( ! paramsLine.isEmpty() )
+                                if (!paramsLine.isEmpty())
                                 {
                                     paramsLine.remove(0, 2);
                                 }
@@ -374,10 +377,10 @@ void TcDatabase::loadEngine(const QString& filename)
         }
 
         QFileInfo sqlsInfo(filename);
-        if ( sqlsInfo.exists() )
+        if (sqlsInfo.exists())
         {
             QFile f(filename);
-            if ( f.open(QFile::Text | QFile::ReadOnly) )
+            if (f.open(QFile::Text | QFile::ReadOnly))
             {
                 m_engineFile = filename;
 
@@ -387,17 +390,17 @@ void TcDatabase::loadEngine(const QString& filename)
                 QString                         sqlId;
                 QString                         sqlText;
                 QMultiHash<QString, QString>    sqlParams;
-                while(!in.atEnd())
+                while (!in.atEnd())
                 {
                     QString line = in.readLine().trimmed();
                     clearComment(line);
-                    if ( line.isEmpty() )
+                    if (line.isEmpty())
                     {
 
-                    }else
-                    if ( line.startsWith("SQL:", Qt::CaseInsensitive) )
+                    }
+                    else if (line.startsWith("SQL:", Qt::CaseInsensitive))
                     {
-                        if ( ! sqlId.isEmpty() && ! sqlText.isEmpty() )
+                        if (!sqlId.isEmpty() && !sqlText.isEmpty())
                         {
                             sqlText.replace("@", ":");
 
@@ -411,12 +414,12 @@ void TcDatabase::loadEngine(const QString& filename)
                         sqlText.clear();
                         sqlParams.clear();
                         rdType = 1;
-                    }else
-                    if ( line.startsWith("Params:", Qt::CaseInsensitive) )
+                    }
+                    else if (line.startsWith("Params:", Qt::CaseInsensitive))
                     {
                         rdType = 2;
-                    }else
-                    if ( ! sqlId.isEmpty() )
+                    }
+                    else if (!sqlId.isEmpty())
                     {
                         switch(rdType)
                         {
@@ -428,23 +431,25 @@ void TcDatabase::loadEngine(const QString& filename)
                             QString paramName;
                             QString paramType = "string";
                             int pos;
-                            if ( (pos=line.indexOf(" ")) >0 )
+                            if ((pos = line.indexOf(" ")) > 0)
                             {
                                 paramName = line.left(pos);
                                 line = line.remove(0, pos).trimmed();
-                                if ( (pos=line.indexOf(" ")) >0 )
+                                if ((pos=line.indexOf(" ")) > 0)
                                 {
                                     paramType = line.left(pos);
-                                }else
+                                }
+                                else
                                 {
                                     paramType = line;
                                 }
-                            }else
+                            }
+                            else
                             {
                                 paramName = line;
                             }
                             QChar c = paramName.at(0);
-                            if ( c == ':' || c == '@' )
+                            if (c == ':' || c == '@')
                             {
                                 paramName.remove(0, 1);
                             }
@@ -456,7 +461,7 @@ void TcDatabase::loadEngine(const QString& filename)
                 }
                 f.close();
 
-                if ( ! sqlId.isEmpty() && ! sqlText.isEmpty() )
+                if (!sqlId.isEmpty() && !sqlText.isEmpty())
                 {
                     SQLContext cnt;
                     cnt.id     = sqlId;
@@ -472,15 +477,15 @@ void TcDatabase::loadEngine(const QString& filename)
 void TcDatabase::clearComment(QString& s)
 {
     int pos;
-    if ( (pos = s.indexOf("#")) >=0 )
+    if ((pos = s.indexOf("#")) >= 0)
     {
         s = s.mid(0, pos);
     }
-    if ( (pos = s.indexOf("--")) >=0 )
+    if ((pos = s.indexOf("--")) >= 0)
     {
         s = s.mid(0, pos);
     }
-    if ( (pos = s.indexOf("//")) >=0 )
+    if ((pos = s.indexOf("//")) >= 0)
     {
         s = s.mid(0, pos);
     }
@@ -488,159 +493,171 @@ void TcDatabase::clearComment(QString& s)
 }
 
 QSqlQuery* TcDatabase::prepare(const QString& sqlID, TcParams prams,
-                                        QString& error,
-                                        int userNo, const QString& userID, const QString& username)
+        QString& error, int userNo, const QString& userID, const QString& username)
 {
     QSqlQuery* ret = NULL;
     QSqlQuery* query = new QSqlQuery(m_handle);
-    if ( query != NULL )
+    if (query != NULL)
     {
         QHash<QString, SQLContext>::const_iterator it = m_sqls.find(sqlID);
-        if ( it != m_sqls.constEnd() && it.key() == sqlID )
+        if (it != m_sqls.constEnd() && it.key() == sqlID)
         {
             SQLContext sql = it.value();
-            if ( query->prepare(sql.text) )
+            if (query->prepare(sql.text))
             {
                 // SQL文中包括 ? 时，表示参数以序号赋值
                 bool NonName = sql.text.indexOf("?") >= 0;
                 int  ParamIndex = 0;
                 QStringList dbKeys = sql.params.keys();
-                foreach(QString dbKey, dbKeys)
+                foreach (QString dbKey, dbKeys)
                 {
                     QString dbType  = sql.params.value(dbKey);
 
                     // 循环对照变量名，是为了确保大小写不统一时也能识别
                     QByteArray dbValue;
-                    if ( dbKey.compare("UserNo"   , Qt::CaseInsensitive)==0
-                      || dbKey.compare("CreaterNo", Qt::CaseInsensitive)==0
-                      || dbKey.compare("CreatorNo", Qt::CaseInsensitive)==0
-                      || dbKey.compare("UpdaterNo", Qt::CaseInsensitive)==0 )
+                    if ( dbKey.compare("UserNo"   , Qt::CaseInsensitive) == 0
+                      || dbKey.compare("CreaterNo", Qt::CaseInsensitive) == 0
+                      || dbKey.compare("CreatorNo", Qt::CaseInsensitive) == 0
+                      || dbKey.compare("UpdaterNo", Qt::CaseInsensitive) == 0)
                     {
                         dbValue = QByteArray::number(userNo);
-                    }else
-                    if ( dbKey.compare("UserID"   , Qt::CaseInsensitive)==0
-                      || dbKey.compare("CreaterID", Qt::CaseInsensitive)==0
-                      || dbKey.compare("CreatorID", Qt::CaseInsensitive)==0
-                      || dbKey.compare("UpdaterID", Qt::CaseInsensitive)==0 )
+                    }
+                    else if (dbKey.compare("UserID", Qt::CaseInsensitive) == 0
+                      || dbKey.compare("CreaterID", Qt::CaseInsensitive) == 0
+                      || dbKey.compare("CreatorID", Qt::CaseInsensitive) == 0
+                      || dbKey.compare("UpdaterID", Qt::CaseInsensitive) == 0)
                     {
                         dbValue = userID.toUtf8();
-                    }else
-                    if ( dbKey.compare("Username", Qt::CaseInsensitive)==0
-                      || dbKey.compare("Creater" , Qt::CaseInsensitive)==0
-                      || dbKey.compare("Creator" , Qt::CaseInsensitive)==0
-                      || dbKey.compare("Updater" , Qt::CaseInsensitive)==0 )
+                    }
+                    else if (dbKey.compare("Username", Qt::CaseInsensitive) == 0
+                      || dbKey.compare("Creater" , Qt::CaseInsensitive) == 0
+                      || dbKey.compare("Creator" , Qt::CaseInsensitive) == 0
+                      || dbKey.compare("Updater" , Qt::CaseInsensitive) == 0)
                     {
                         dbValue = username.toUtf8();
-                    }else
+                    }
+                    else
                     {
                         dbValue = prams[dbKey.toLower()];
                     }
                     QString aKey = ':' + dbKey;
-                    if ( dbType.compare("i", Qt::CaseInsensitive) == 0
-                      || dbType.compare("int", Qt::CaseInsensitive) == 0 )
+                    if (dbType.compare("i", Qt::CaseInsensitive) == 0
+                      || dbType.compare("int", Qt::CaseInsensitive) == 0)
                     {
                         int value = dbValue.toInt();
-                        if ( NonName )
+                        if (NonName)
                         {
                             query->bindValue(ParamIndex, value);
-                        }else
-                        if ( aKey == ":RETURN_VALUE" )
+                        }
+                        else if (aKey == ":RETURN_VALUE")
                         {
-                        }else
+                        }
+                        else
                         {
                             query->bindValue(aKey, value);
                         }
-                    }else
-                    if ( dbType.compare("n", Qt::CaseInsensitive) == 0
+                    }
+                    else if (dbType.compare("n", Qt::CaseInsensitive) == 0
                       || dbType.compare("double", Qt::CaseInsensitive) == 0
-                      || dbType.compare("number", Qt::CaseInsensitive) == 0 )
+                      || dbType.compare("number", Qt::CaseInsensitive) == 0)
                     {
                         double value = dbValue.toDouble();
-                        if ( NonName )
+                        if (NonName)
                         {
                             query->bindValue(ParamIndex, value);
-                        }else
-                        if ( aKey == ":RETURN_VALUE" )
+                        }
+                        else if (aKey == ":RETURN_VALUE")
                         {
-                        }else
+                        }
+                        else
                         {
                             query->bindValue(aKey, value);
                         }
-                    }else
-                    if ( dbType.compare("d", Qt::CaseInsensitive) == 0
+                    }
+                    else if (dbType.compare("d", Qt::CaseInsensitive) == 0
                       || dbType.compare("date", Qt::CaseInsensitive) == 0
                       || dbType.compare("time", Qt::CaseInsensitive) == 0
                       || dbType.compare("time", Qt::CaseInsensitive) == 0
-                      || dbType.compare("datetime", Qt::CaseInsensitive) == 0 )
+                      || dbType.compare("datetime", Qt::CaseInsensitive) == 0)
                     {
                         QDateTime value = TcUtils::toDateTime(QString(dbValue));
-                        if ( NonName )
+                        if (NonName)
                         {
-                            if ( dbValue.isEmpty() )
+                            if (dbValue.isEmpty())
                             {
-                                query->bindValue(ParamIndex, NULL);
-                            }else
+                                query->bindValue(ParamIndex, QVariant()/*NULL*/);
+                            }
+                            else
                             {
                                 query->bindValue(ParamIndex, value);
                             }
-                        }else
-                        if ( aKey == ":RETURN_VALUE" )
+                        }
+                        else if (aKey == ":RETURN_VALUE")
                         {
-                        }else
+                        }
+                        else
                         {
-                            if ( dbValue.isEmpty() )
+                            if (dbValue.isEmpty())
                             {
-                                query->bindValue(aKey, NULL);
-                            }else
+                                query->bindValue(aKey, QVariant()/*NULL*/);
+                            }
+                            else
                             {
                                 query->bindValue(aKey, value);
                             }
                         }
-                    }else
-                    if ( dbType.compare("b", Qt::CaseInsensitive) == 0
+                    }
+                    else if (dbType.compare("b", Qt::CaseInsensitive) == 0
                       || dbType.compare("bool", Qt::CaseInsensitive) == 0
-                      || dbType.compare("boolean", Qt::CaseInsensitive) == 0 )
+                      || dbType.compare("boolean", Qt::CaseInsensitive) == 0)
                     {
-                        bool value = dbValue.toInt() >0
-                                      || QString(dbValue).compare("ok", Qt::CaseInsensitive)==0
-                                      || QString(dbValue).compare("yes", Qt::CaseInsensitive)==0
-                                      || QString(dbValue).compare("true", Qt::CaseInsensitive)==0;
-                        if ( NonName )
+                        bool value = dbValue.toInt() > 0
+                            || QString(dbValue).compare("ok", 
+                                    Qt::CaseInsensitive) == 0
+                            || QString(dbValue).compare("yes", 
+                                    Qt::CaseInsensitive) == 0
+                            || QString(dbValue).compare("true", 
+                                    Qt::CaseInsensitive) == 0;
+                        if (NonName)
                         {
                             query->bindValue(ParamIndex, value);
-                        }else
-                        if ( aKey == ":RETURN_VALUE" )
+                        }
+                        else if (aKey == ":RETURN_VALUE")
                         {
-                        }else
+                        }
+                        else
                         {
                             query->bindValue(aKey, value);
                         }
-                    }else
-                    if ( dbType.compare("s", Qt::CaseInsensitive) == 0
+                    }
+                    else if (dbType.compare("s", Qt::CaseInsensitive) == 0
                       || dbType.compare("str", Qt::CaseInsensitive) == 0
                       || dbType.compare("ntext", Qt::CaseInsensitive) == 0
-                      || dbType.compare("string", Qt::CaseInsensitive) == 0 )
+                      || dbType.compare("string", Qt::CaseInsensitive) == 0)
                     {
                         QString value = dbValue;
-                        if ( NonName )
+                        if (NonName)
                         {
                             query->bindValue(ParamIndex, value);
-                        }else
-                        if ( aKey == ":RETURN_VALUE" )
+                        }
+                        else if (aKey == ":RETURN_VALUE")
                         {
-                        }else
+                        }
+                        else
                         {
                             query->bindValue(aKey, value);
                         }
-                    }else
+                    }
+                    else
                     {// 默认都是 bytes 型
-                        if ( NonName )
+                        if (NonName)
                         {
                             query->bindValue(ParamIndex, dbValue);
-                        }else
-                        if ( aKey == ":RETURN_VALUE" )
+                        }
+                        else if (aKey == ":RETURN_VALUE")
                         {
-                        }else
+                        }
+                        else
                         {
                             query->bindValue(aKey, dbValue);
                         }
@@ -649,10 +666,11 @@ QSqlQuery* TcDatabase::prepare(const QString& sqlID, TcParams prams,
                 }
                 ret = query;
                 query = NULL;
-            }else
+            }
+            else
             {
                 error = query->lastError().text();
-                errors.append("SQL["+sqlID+"] prepare error:"+error);
+                errors.append("SQL[" + sqlID + "] prepare error:" + error);
             }
         }
     }
@@ -660,28 +678,28 @@ QSqlQuery* TcDatabase::prepare(const QString& sqlID, TcParams prams,
     return ret;
 }
 
-bool TcDatabase::exec(int& result,
-                         const QString& sqlID, const TcParams &prams,
-                         int userNo, const QString& userID, const QString& username)
+bool TcDatabase::exec(int& result, const QString& sqlID, const TcParams &prams,
+        int userNo, const QString& userID, const QString& username)
 {
     bool ret = false;
     QString error;
     QSqlQuery* query = prepare(sqlID, prams, error, userNo, userID, username);
-    if ( query != NULL )
+    if (query != NULL)
     {
-        if ( query->exec() )
+        if (query->exec())
         {
             result = 0;
-            if ( query->isSelect() )
+            if (query->isSelect())
             {
-                while(query->next())
+                while (query->next())
                 {
                     result ++;
                 }
-            }else
+            }
+            else
             {
                 int res = query->lastInsertId().toInt();
-                if ( res <= 0 )
+                if (res <= 0)
                 {
                     res = query->numRowsAffected();
                 }
@@ -695,24 +713,24 @@ bool TcDatabase::exec(int& result,
     return ret;
 }
 
-bool TcDatabase::exec(QVariantList& list,
-                         const QString& sqlID, const TcParams &prams,
-                         int userNo, const QString& userID, const QString& username)
+bool TcDatabase::exec(QVariantList& list, const QString& sqlID, 
+        const TcParams &prams, int userNo, const QString& userID, 
+        const QString& username)
 {
     bool ret = false;
     QString error;
     QSqlQuery* query = prepare(sqlID, prams, error, userNo, userID, username);
-    if ( query != NULL )
+    if (query != NULL)
     {
-        if ( query->exec() )
+        if (query->exec())
         {
-            if ( query->isSelect() )
+            if (query->isSelect())
             {
-                while(query->next())
+                while (query->next())
                 {
                     QSqlRecord record = query->record();
                     QVariantMap map;
-                    for( int i=0;i<record.count();i++ )
+                    for (int i = 0; i < record.count(); i++)
                     {
                         QSqlField field = record.field(i);
                         QString  k = field.name().toLower();
@@ -730,24 +748,25 @@ bool TcDatabase::exec(QVariantList& list,
     return ret;
 }
 
-int TcDatabase::exec(int& result, QVariantList& list, const QString& sqlID, const TcParams& params,
-                              int userNo, const QString& userID , const QString& username)
+int TcDatabase::exec(int& result, QVariantList& list, const QString& sqlID, 
+        const TcParams& params, int userNo, const QString& userID , 
+        const QString& username)
 {
     int ret = 0;
     QString error;
     QSqlQuery* query = prepare(sqlID, params, error, userNo, userID, username);
-    if ( query != NULL )
+    if (query != NULL)
     {
-        if ( query->exec() )
+        if (query->exec())
         {
             result = 0;
-            if ( query->isSelect() )
+            if (query->isSelect())
             {
-                while(query->next())
+                while (query->next())
                 {
                     QSqlRecord record = query->record();
                     QVariantMap map;
-                    for( int i=0;i<record.count();i++ )
+                    for (int i = 0; i < record.count(); i++)
                     {
                         QSqlField field = record.field(i);
                         QString  k = field.name().toLower();
@@ -757,16 +776,18 @@ int TcDatabase::exec(int& result, QVariantList& list, const QString& sqlID, cons
                     list.append(map);
                 }
                 ret = 2;
-            }else
+            }
+            else
             {
                 result = query->lastInsertId().toInt();
-                if ( result <= 0 )
+                if (result <= 0)
                 {
                     result = query->numRowsAffected();
                 }
                 ret = 1;
             }
-        }else
+        }
+        else
         {
             ret = -1;
         }
@@ -776,30 +797,32 @@ int TcDatabase::exec(int& result, QVariantList& list, const QString& sqlID, cons
     return ret;
 }
 
-int TcDatabase::exec(int& result, QList<QByteArray>& list, const QString& sqlID, const TcParams& params,
-                              int userNo, const QString& userID , const QString& username)
+int TcDatabase::exec(int& result, QList<QByteArray>& list, 
+        const QString& sqlID, const TcParams& params, int userNo, 
+        const QString& userID , const QString& username)
 {
     int ret = 0;
     QString error;
     QSqlQuery* query = prepare(sqlID, params, error, userNo, userID, username);
-    if ( query != NULL )
+    if (query != NULL)
     {
-        if ( query->exec() )
+        if (query->exec())
         {
             result = 0;
-            if ( query->isSelect() )
+            if (query->isSelect())
             {
                 list.clear();
-                while(query->next())
+                while (query->next())
                 {
                     QSqlRecord record = query->record();
                     QByteArray fieldBytes;
-                    for( int i=0;i<record.count();i++ )
+                    for (int i = 0; i < record.count(); i++)
                     {
                         QSqlField field = record.field(i);
                         QVariant value = field.value();
 
-                        fieldBytes = TcUtils::addField(field.name(), field.value());
+                        fieldBytes = TcUtils::addField(field.name(), 
+                                field.value());
 
 //                        QByteArray bytes = value.toByteArray();
 //                        fieldBytes.append(field.name().toLower()).append('\0')
@@ -810,16 +833,18 @@ int TcDatabase::exec(int& result, QList<QByteArray>& list, const QString& sqlID,
                     list.append(fieldBytes);
                 }
                 ret = 2;
-            }else
+            }
+            else
             {
                 result = query->lastInsertId().toInt();
-                if ( result <= 0 )
+                if (result <= 0)
                 {
                     result = query->numRowsAffected();
                 }
                 ret = 1;
             }
-        }else
+        }
+        else
         {
             ret = -1;
         }
@@ -828,4 +853,3 @@ int TcDatabase::exec(int& result, QList<QByteArray>& list, const QString& sqlID,
     }
     return ret;
 }
-
