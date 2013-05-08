@@ -25,7 +25,7 @@ public:
     explicit TcClickLabelPrivate(TcClickLabel *qptr);
     ~TcClickLabelPrivate();
     QPoint pos;
-    TcClickLabel *q_ptr;
+    TcClickLabel* const q_ptr;
 };
 
 TcClickLabelPrivate::TcClickLabelPrivate(TcClickLabel *qptr) : q_ptr(qptr)

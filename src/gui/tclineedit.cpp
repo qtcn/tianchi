@@ -32,7 +32,7 @@ public:
      * clear labelText and data property
      */
     void _q_editingFinished();
-    TcLineEdit *q_ptr;
+    TcLineEdit* const q_ptr;
 
     QString labelText;
     QVariant userData;

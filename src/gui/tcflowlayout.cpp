@@ -32,7 +32,7 @@ public:
     int m_hSpace;
     int m_vSpace;
 
-    TcFlowLayout *q_ptr;
+    TcFlowLayout* const q_ptr;
 };
 
 TcFlowLayoutPrivate::TcFlowLayoutPrivate(TcFlowLayout *qptr) : q_ptr(qptr)

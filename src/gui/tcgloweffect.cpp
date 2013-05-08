@@ -29,7 +29,7 @@ class TcGlowEffectPrivate
 public:
     explicit TcGlowEffectPrivate(TcGlowEffect *qptr);
     ~TcGlowEffectPrivate();
-    TcGlowEffect *q_ptr;
+    TcGlowEffect* const q_ptr;
 
     int radius;
     QColor color;

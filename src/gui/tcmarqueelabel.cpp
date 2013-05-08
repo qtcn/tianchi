@@ -31,7 +31,7 @@ public:
     void _q_openLink(const QString &url);
 
     QPropertyAnimation *animation;
-    TcMarqueeLabel *q_ptr;
+    TcMarqueeLabel* const q_ptr;
 };
 
 TcMarqueeLabelPrivate::TcMarqueeLabelPrivate(TcMarqueeLabel *qptr)

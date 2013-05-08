@@ -16,7 +16,7 @@ class TcExcelReaderPrivate
 public:
     explicit TcExcelReaderPrivate(TcExcelReader *qptr);
     ~TcExcelReaderPrivate();
-    TcExcelReader *q_ptr;
+    TcExcelReader* const q_ptr;
 #ifdef Q_OS_WIN
     QAxObject *excel;
     QAxObject *workbooks;
