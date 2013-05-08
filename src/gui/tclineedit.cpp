@@ -41,7 +41,7 @@ public:
 TcLineEditPrivate::TcLineEditPrivate(TcLineEdit *qptr) : q_ptr(qptr)
 {
     QObject::connect(q_ptr, SIGNAL(editingFinished()),
-            q_ptr, SLOT(_q_openLink()));
+            q_ptr, SLOT(_q_editingFinished()));
 }
 
 TcLineEditPrivate::~TcLineEditPrivate()
