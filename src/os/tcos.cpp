@@ -10,39 +10,41 @@
 QString TcOS::name()
 {
     QString ret;
-  #if defined(Q_OS_WIN)
-    const QString RegPath = "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion";
+#if defined(Q_OS_WIN)
+    const QString RegPath("HKEY_LOCAL_MACHINE\\Software\\Microsoft\\"
+            "Windows NT\\CurrentVersion");
     QSettings reg(RegPath, QSettings::NativeFormat);
     ret = reg.value("ProductName").toString();
-  #endif
+#endif
     return ret;
 }
 
 QString TcOS::language()
 {
     QString ret;
-  #if defined(Q_OS_WIN)
+#if defined(Q_OS_WIN)
     LANGID  LangID = GetSystemDefaultLangID();
     wchar_t LanguageName[100];
     VerLanguageName(LangID, LanguageName, 100);
     ret = QString::fromWCharArray(LanguageName);
-  #endif
+#endif
     return ret;
 }
 
-bool TcOS::login(const QString& Domain, const QString& UserID, const QString& Password)
+bool TcOS::login(const QString& Domain, const QString& UserID, 
+        const QString& Password)
 {
     bool ret = false;
-  #if defined(Q_OS_WIN)
-    wchar_t* domain = new wchar_t[Domain.length()+1];
+#if defined(Q_OS_WIN)
+    wchar_t* domain = new wchar_t[Domain.length() + 1];
     wmemset(domain, L'\0', sizeof(domain));
     Domain.toWCharArray(domain);
 
-    wchar_t* userID = new wchar_t[UserID.length()+1];
+    wchar_t* userID = new wchar_t[UserID.length() + 1];
     wmemset(userID, L'\0', sizeof(userID));
     UserID.toWCharArray(userID);
 
-    wchar_t* password = new wchar_t[Password.length()+1];
+    wchar_t* password = new wchar_t[Password.length() + 1];
     wmemset(password, L'\0', sizeof(password));
     Password.toWCharArray(password);
 
@@ -56,6 +58,6 @@ bool TcOS::login(const QString& Domain, const QString& UserID, const QString& Pa
     delete domain;
     delete userID;
     delete password;
-  #endif
+#endif
     return ret;
 }

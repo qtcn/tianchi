@@ -58,7 +58,7 @@ QString TcFile::uniqueFileName(const QString& dir,
     while (f.exists())
     {
         ret = fileDir + QDir::separator() + filePrefix 
-            + "(" +QString::number(index++)+")."+fileSuffix;
+            + "(" + QString::number(index++) + ")." + fileSuffix;
         f.setFile(ret);
     }
     return ret;
@@ -66,7 +66,7 @@ QString TcFile::uniqueFileName(const QString& dir,
 
 QString TcFile::fileVersion(const QString& exeFile)
 {
-    QString ret = "";
+    QString ret;
 
 #if defined(Q_OS_WIN)
     int size = GetFileVersionInfoSize(exeFile.toStdWString().c_str(), NULL);
