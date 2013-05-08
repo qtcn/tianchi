@@ -1,20 +1,19 @@
-#include <tianchi/gui/tctreewidgetheadersetupdialog.h>
-#include "ui_tctreewidgetheadersetupdialog.h"
+#include <tianchi/gui/tcheadersetupdialog.h>
+#include "ui_tcheadersetupdialog.h"
 
-TcTreeWidgetHeaderSetupDialog::TcTreeWidgetHeaderSetupDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::TcTreeWidgetHeaderSetupDialog)
+TcHeaderSetupDialog::TcHeaderSetupDialog(QWidget *parent)
+    : QDialog(parent), ui(new Ui::TcHeaderSetupDialog)
 {
     ui->setupUi(this);
     m_view = NULL;
 }
 
-TcTreeWidgetHeaderSetupDialog::~TcTreeWidgetHeaderSetupDialog()
+TcHeaderSetupDialog::~TcHeaderSetupDialog()
 {
     delete ui;
 }
 
-void TcTreeWidgetHeaderSetupDialog::setHeader(QTreeWidget* view, int)
+void TcHeaderSetupDialog::setHeader(QTreeWidget* view, int)
 {
     m_view = view;
 
@@ -28,13 +27,13 @@ void TcTreeWidgetHeaderSetupDialog::setHeader(QTreeWidget* view, int)
     }
 }
 
-void TcTreeWidgetHeaderSetupDialog::on_MasterView_itemClicked(QTreeWidgetItem* item, int)
+void TcHeaderSetupDialog::on_MasterView_itemClicked(QTreeWidgetItem* item, int)
 {
     int index = ui->MasterView->indexOfTopLevelItem(item);
     m_view->setColumnHidden(index, item->checkState(0) == Qt::Unchecked);
 }
 
-void TcTreeWidgetHeaderSetupDialog::on_bnUpward_clicked()
+void TcHeaderSetupDialog::on_bnUpward_clicked()
 {
     foreach(QTreeWidgetItem* item, ui->MasterView->selectedItems())
     {
@@ -51,7 +50,7 @@ void TcTreeWidgetHeaderSetupDialog::on_bnUpward_clicked()
     }
 }
 
-void TcTreeWidgetHeaderSetupDialog::on_bnDownawrd_clicked()
+void TcHeaderSetupDialog::on_bnDownawrd_clicked()
 {
     foreach(QTreeWidgetItem* item, ui->MasterView->selectedItems())
     {
@@ -68,7 +67,7 @@ void TcTreeWidgetHeaderSetupDialog::on_bnDownawrd_clicked()
     }
 }
 
-void TcTreeWidgetHeaderSetupDialog::on_bnLeft_clicked()
+void TcHeaderSetupDialog::on_bnLeft_clicked()
 {
     foreach(QTreeWidgetItem* item, ui->MasterView->selectedItems())
     {
@@ -81,7 +80,7 @@ void TcTreeWidgetHeaderSetupDialog::on_bnLeft_clicked()
     }
 }
 
-void TcTreeWidgetHeaderSetupDialog::on_bnCenter_clicked()
+void TcHeaderSetupDialog::on_bnCenter_clicked()
 {
     foreach(QTreeWidgetItem* item, ui->MasterView->selectedItems())
     {
@@ -94,7 +93,7 @@ void TcTreeWidgetHeaderSetupDialog::on_bnCenter_clicked()
     }
 }
 
-void TcTreeWidgetHeaderSetupDialog::on_bnRight_clicked()
+void TcHeaderSetupDialog::on_bnRight_clicked()
 {
     foreach(QTreeWidgetItem* item, ui->MasterView->selectedItems())
     {

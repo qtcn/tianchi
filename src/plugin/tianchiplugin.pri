@@ -1,4 +1,4 @@
-include($$PWD/../plugins.pri)
+include($$PWD/../plugin.pri)
 
 TARGET = tianchidesignerplugin
 DEPENDPATH += .
@@ -13,10 +13,10 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
 
 CONFIG(debug, debug|release) {
-    TC_TMP = $${TC_OUTPUT}/debug_designerplugins
+    TC_TMP = $${TC_OUTPUT}/debug_tianchiplugin
     TARGET = $${TARGET}d
 } else {
-    TC_TMP = $${TC_OUTPUT}/release_designerplugins
+    TC_TMP = $${TC_OUTPUT}/release_tianchiplugin
     target.path = $$[QT_INSTALL_PLUGINS]/designer
     INSTALLS += target
 }

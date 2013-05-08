@@ -1,0 +1,36 @@
+#include <windows.h>
+
+// 程序图标
+//IDI_ICON1 ICON DISCARDABLE "../res/tianchi/tianchi.ico"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION 0,0,0,1 // 文件版本
+PRODUCTVERSION 0,0,0,1 // 产品版本
+FILEFLAGS 0x0
+FILEFLAGSMASK 0x3F
+FILEOS VOS_NT_WINDOWS32 // VOS__WINDOWS32
+FILETYPE VFT_APP // VFT_DLL VFT_DRV VFT_FONT VFT_VXD VFT_STATIC_LIB
+FILESUBTYPE 0x0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "FriendSafe, Shanghai, China."
+            VALUE "FileDescription", "Tianchi C++ library for Qt5"
+			VALUE "FileVersion", "0.0.0.1"
+            VALUE "InternalName", "Tianchi"
+            VALUE "LegalCopyright", "Copyright(C) 2013 Jonix Fu, FriendSafe, Shanghai, "
+            VALUE "LegalTrademarks", "Copyright(C) 2013 Jonix Fu, FriendSafe, Shanghai, "
+            VALUE "OriginalFilename", "tianchi.dll"
+            VALUE "ProductName", "tianchi for Qt5"
+			VALUE "ProductVersion", "0.0.0.1"
+            VALUE "Comments", "Copyright(C) 1993-1997, 2005-2013 Jonix Fu, FriendSafe, fs.lanchat@gmail.com"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+	// 0x0语言中性, 0x0804中文中国，0x0404中文台湾，0x0C04中文香港，0x0809英文英国，0x0409英文美国
+        VALUE "Translation", 0x0804, 1200
+    END
+END

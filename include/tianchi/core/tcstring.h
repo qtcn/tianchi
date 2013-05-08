@@ -73,11 +73,11 @@ public:
     TcStringList();
     /// @brief 装入一个文本文件的全部内容
     /// @param [in] fileName 路径文件名
-    /// @return 操作成功
+    /// @return true 操作成功
     bool loadFrom(const QString& fileName);
     /// @brief 保存当前内容到一个文本文件中
     /// @param [in] fileName 路径文件名
-    /// @return 操作成功
+    /// @return true 操作成功
     bool saveTo(const QString& fileName);
 
     /// @brief 返回文本文件的行结尾符
@@ -94,6 +94,5 @@ public:
 private:
     QString m_lineBreak;
 };
-
 
 #endif // TIANCHI_STRING_H

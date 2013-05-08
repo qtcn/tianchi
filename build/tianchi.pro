@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS += shared static designerplugin
+SUBDIRS += shared static plugin

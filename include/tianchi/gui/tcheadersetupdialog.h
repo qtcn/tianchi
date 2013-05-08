@@ -12,26 +12,29 @@
 // 2013.04.10   圣域天子    建立
 // ==========================================================================
 /// @file TreeWidgetHeaderSetupDialog.h 修改 QTreeWidget 列设置的对话框
-#ifndef TIANCHI_TCTREEWIDGETHEADERSETUPDIALOG_H
-#define TIANCHI_TCTREEWIDGETHEADERSETUPDIALOG_H
+#ifndef TIANCHI_TCHEADERSETUPDIALOG_H
+#define TIANCHI_TCHEADERSETUPDIALOG_H
 
 #include <tianchi/tcglobal.h>
 
 #include <QDialog>
 #include <QTreeWidget>
 
-namespace Ui {class TcTreeWidgetHeaderSetupDialog;}
+namespace Ui 
+{
+    class TcHeaderSetupDialog;
+}
 
 /// @brief 设置 QTreeWidget 标题的对话框
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-04-10
-class TIANCHI_API TcTreeWidgetHeaderSetupDialog : public QDialog
+class TIANCHI_API TcHeaderSetupDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit TcTreeWidgetHeaderSetupDialog(QWidget *parent = 0);
-    ~TcTreeWidgetHeaderSetupDialog();
+    explicit TcHeaderSetupDialog(QWidget *parent = 0);
+    ~TcHeaderSetupDialog();
 
     /// @brief 指定 QTreeView 对象
     /// @param [in] view QTreeView 对象
@@ -48,10 +51,10 @@ private Q_SLOTS:
     void on_bnRight_clicked();
 
 private:
-    Ui::TcTreeWidgetHeaderSetupDialog *ui;
+    Ui::TcHeaderSetupDialog *ui;
 
     QTreeWidget* m_view;
 };
 
 
-#endif // TIANCHI_DLGHEADERSETUP_H
+#endif // TIANCHI_TCHEADERSETUPDIALOG_H

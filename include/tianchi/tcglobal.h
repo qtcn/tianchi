@@ -19,8 +19,8 @@
 //      DEFINES += TIANCHI_IMPORT
 // ==========================================================================
 
-#ifndef TIANCHI_GLOBAL_H
-#define TIANCHI_GLOBAL_H
+#ifndef TIANCHI_TCGLOBAL_H
+#define TIANCHI_TCGLOBAL_H
 
 #ifndef __cplusplus
 #    error "Tianchi library only support C++ Compilers"

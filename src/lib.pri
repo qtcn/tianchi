@@ -68,32 +68,36 @@ win32:LIBS += -lversion
 win32-msvc*:LIBS += -ladvapi32 -lole32
 
 HEADERS += \
-    $$TC_INCL/tianchi/tcglobal.h \
     $$TC_INCL/tianchi.h \
+    $$TC_INCL/tianchi/tcglobal.h \
     $$TC_INCL/tianchi/chinese/tcchinese.h \
     $$TC_INCL/tianchi/core/tcclasses.h \
     $$TC_INCL/tianchi/core/tccommon.h \
     $$TC_INCL/tianchi/core/tcstring.h \
     $$TC_INCL/tianchi/core/tcutils.h \
     $$TC_INCL/tianchi/file/tcjson.h \
-    $$TC_INCL/tianchi/file/tclogtiny.h \
+    $$TC_INCL/tianchi/file/tclog.h \
     $$TC_INCL/tianchi/file/tcmsexcel.h \
     $$TC_INCL/tianchi/file/tcexcelreader.h \
-    $$TC_INCL/tianchi/file/tcfileutils.h \
+    $$TC_INCL/tianchi/file/tcfile.h \
     $$TC_INCL/tianchi/file/tcdirectory.h \
     $$TC_INCL/tianchi/gui/tcclicklabel.h \
     $$TC_INCL/tianchi/gui/tclineedit.h \
+    $$TC_INCL/tianchi/gui/tcformutils.h \
     $$TC_INCL/tianchi/gui/tcflowlayout.h \
     $$TC_INCL/tianchi/gui/tcmarqueelabel.h \
     $$TC_INCL/tianchi/gui/tcgloweffect.h \
     $$TC_INCL/tianchi/gui/tcdateedit.h \
     $$TC_INCL/tianchi/gui/tcguiutils.h \
-    $$TC_INCL/tianchi/gui/tctreewidgetheadersetupdialog.h \
+    $$TC_INCL/tianchi/gui/tcheadersetupdialog.h \
     $$TC_INCL/tianchi/network/tcdownloadhttp.h \
     $$TC_INCL/tianchi/network/tcsingleinstance.h \
+    $$TC_INCL/tianchi/network/tcudp.h \
     $$TC_INCL/tianchi/os/tcos.h \
     $$TC_INCL/tianchi/sql/tcdataaccess.h \
-    $$TC_INCL/tianchi/sql/tcmssql.h
+    $$TC_INCL/tianchi/sql/tcmssql.h \
+    $$TC_INCL/tianchi/sql/tcdatabase.h \
+    $$TC_INCL/tianchi/widget/tctreeex.h
 SOURCES += \
     $$PWD/chinese/tcchinese.cpp \
     $$PWD/core/tcclasses.cpp \
@@ -101,10 +105,10 @@ SOURCES += \
     $$PWD/core/tccommon.cpp \
     $$PWD/core/tcstring.cpp \
     $$PWD/file/tcjson.cpp \
-    $$PWD/file/tclogtiny.cpp \
+    $$PWD/file/tclog.cpp \
     $$PWD/file/tcmsexcel.cpp \
     $$PWD/file/tcexcelreader.cpp \
-    $$PWD/file/tcfileutils.cpp \
+    $$PWD/file/tcfile.cpp \
     $$PWD/file/tcdirectory.cpp \
     $$PWD/gui/tcclicklabel.cpp \
     $$PWD/gui/tclineedit.cpp \
@@ -112,15 +116,19 @@ SOURCES += \
     $$PWD/gui/tcgloweffect.cpp \
     $$PWD/gui/tcmarqueelabel.cpp \
     $$PWD/gui/tcdateedit.cpp \
-    $$PWD/gui/tctreewidgetheadersetupdialog.cpp \
+    $$PWD/gui/tcheadersetupdialog.cpp \
     $$PWD/gui/tcguiutils.cpp \
+    $$PWD/gui/tcformutils.cpp \
     $$PWD/network/tcdownloadhttp.cpp \
     $$PWD/network/tcsingleinstance.cpp \
+    $$PWD/network/tcudp.cpp \
     $$PWD/os/tcos.cpp \
     $$PWD/sql/tcdataaccess.cpp \
-    $$PWD/sql/tcmssql.cpp
+    $$PWD/sql/tcdatabase.cpp \
+    $$PWD/sql/tcmssql.cpp \
+    $$PWD/widget/tctreeex.cpp
 FORMS += \
-    $$PWD/gui/tctreewidgetheadersetupdialog.ui
+    $$PWD/gui/tcheadersetupdialog.ui
 
 RESOURCES += \
     $$PWD/../res/tianchi.qrc
