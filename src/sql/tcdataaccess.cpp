@@ -145,13 +145,96 @@ QVariant TcDataAccess::fetchOne(const TcDataAccessStatement &stat,
 
 QString TcDataAccess::limitPage(const QString &sql, int page, int rowCount)
 {
-    return QString("%1 LIMIT %2 OFFSET %3").arg(sql).arg(rowCount)
-        .arg((page - 1) * rowCount);
+    int iPage = page < 1 ? 1 : page;
+    int iRowCount = rowCount > 0 ? rowCount : 1;
+
+    return this->limit(sql, iRowCount, iRowCount * (iPage - 1));
 }
 
+/**
+ * 对于不支持的数据库类型，直接返回空字符串
+ */
 QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/)
 {
-    return QString("%1 LIMIT %2 OFFSET %3").arg(sql).arg(count).arg(offset);
+    QString strSql = sql;
+    QString strDriverName = _db->driverName();
+    if (strDriverName.left(6) == "QMYSQL")
+    {
+        strSql = QString("%1 LIMIT %3, %2").arg(sql).arg(count).arg(offset);
+    }
+    else if (strDriverName.left(4) == "QOCI")
+    {
+        strSql.clear();
+    }
+    else if (strDriverName.left(5) == "QODBC")
+    {
+        QString strDSN = _db->databaseName();
+        if (strDSN.indexOf("SQL Server", Qt::CaseInsensitive) > -1
+                || strDSN.indexOf("SQL Server Native Client", 
+                    Qt::CaseInsensitive) > -1
+                || strDSN.indexOf("SQL Native Client", 
+                    Qt::CaseInsensitive) > -1)
+        {
+            qDebug() << "+++++++";
+            // 待增加MSSQL支持
+            if (offset == 0)
+            {
+                strSql.replace(QRegExp("^SELECT\\s", Qt::CaseInsensitive),
+                        QString("SELECT TOP %1 ").arg(count));
+            }
+            else
+            {
+                int pos = strSql.indexOf("ORDER BY", 0, Qt::CaseInsensitive);
+                QString orderby;
+                if (pos > -1)
+                {
+                    orderby = strSql.mid(pos);
+                }
+
+                QString over;
+                if (orderby.isEmpty())
+                {
+                    over = "ORDER BY (SELECT 0)";
+                }
+                else
+                {
+                    over = orderby;
+                    over.replace(
+                            QRegExp("\\\"[^,]*\\\".\\\"([^,]*)\\\"", 
+                                Qt::CaseInsensitive),
+                            QString("\"inner_tbl\".\"$1\""));
+                }
+                strSql.replace(QRegExp("\\s+ORDER BY(.*)", Qt::CaseInsensitive),
+                        "");
+
+                strSql = QString("SELECT *, ROW_NUMBER() OVER (%1) "
+                        "AS __TCDA_INDEX__ FROM (%2) AS inner_tbl")
+                    .arg(over).arg(strSql);
+
+                int start = offset + 1;
+                int end = offset + count;
+
+                strSql = QString("WITH outer_tbl AS (%1) SELECT * FROM "
+                        "outer_tbl WHERE __TCDA_INDEX__ BETWEEN %2 AND %3")
+                    .arg(strSql).arg(start).arg(end);
+            }
+        }
+        else
+        {
+            strSql.clear();
+        }
+    }
+    else if (strDriverName.left(5) == "QPSQL" 
+            || strDriverName.left(7) == "QSQLITE")
+    {
+        strSql =QString("%1 LIMIT %2 OFFSET %3")
+            .arg(sql).arg(count).arg(offset);
+    }
+    else
+    {
+        strSql.clear();
+    }
+    return strSql;
 }
 
 QVariant TcDataAccess::lastInsertId(const QString &table, 
