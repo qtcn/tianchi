@@ -188,7 +188,8 @@ public:
                 QVariantList() << stat.bind() << bind);
     }
 
-    // 为sql语句添加limit参数,目前只支持LIMIT OFFSET语句
+    // 为sql语句添加limit参数,目前只支持MySQL、PGSQL、SQLite、MSSQL,对于不支持
+    // 的数据库类型，直接返回空字符串
     QString limitPage(const QString &sql, int page, int rowCount);
     QString limit(const QString &sql, int count, int offset = 0);
 
