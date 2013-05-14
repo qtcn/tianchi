@@ -18,6 +18,10 @@ TcDataAccess::TcDataAccess(const QString &connectionName)
 
 TcDataAccess::~TcDataAccess()
 {
+    if (_db->isOpen())
+    {
+        _db->close();
+    }
     delete _db;
 }
 
