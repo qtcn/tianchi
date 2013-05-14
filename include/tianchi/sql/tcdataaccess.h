@@ -95,6 +95,8 @@ public:
     static TcDataAccess* db(const QString &connectionName 
             = QLatin1String(QSqlDatabase::defaultConnection));
 
+    QString connectionName() const {return _db->connectionName();}
+
     // 返回sql查询的所有记录集
     QList<QVariantMap> fetchAll(const QString &sql,
             const QVariantList &bind = QVariantList());
