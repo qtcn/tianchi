@@ -160,11 +160,19 @@ QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/)
     QString strDriverName = _db->driverName();
     if (strDriverName.left(6) == "QMYSQL")
     {
+        // OVER
         strSql = QString("%1 LIMIT %3, %2").arg(sql).arg(count).arg(offset);
     }
     else if (strDriverName.left(4) == "QOCI")
     {
-        strSql.clear();
+        // OVER
+        strSql = QString("SELECT tc2.* \
+            FROM ( \
+                SELECT tc1.*, ROWNUM AS \"__TCDA_INDEX__\" \
+                FROM ( %1 ) tc1 \
+            ) tc2 \
+            WHERE tc2.\"__TCDA_INDEX__\" BETWEEN %2 AND %3")
+                 .arg(strSql).arg(offset + 1).arg(offset + count); 
     }
     else if (strDriverName.left(5) == "QODBC")
     {
@@ -175,7 +183,6 @@ QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/)
                 || strDSN.indexOf("SQL Native Client", 
                     Qt::CaseInsensitive) > -1)
         {
-            qDebug() << "+++++++";
             // 待增加MSSQL支持
             if (offset == 0)
             {
@@ -227,8 +234,37 @@ QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/)
     else if (strDriverName.left(5) == "QPSQL" 
             || strDriverName.left(7) == "QSQLITE")
     {
-        strSql =QString("%1 LIMIT %2 OFFSET %3")
+        // OVER
+        strSql = QString("%1 LIMIT %2 OFFSET %3")
             .arg(sql).arg(count).arg(offset);
+    }
+    else if (strDriverName.left(6) == "QIBASE")
+    {
+        // OVER
+        strSql = strSql.replace(QRegExp("^SELECT\\s", Qt::CaseInsensitive),
+                        QString("SELECT FIRST %1 SKIP %2 ")
+                        .arg(count).arg(offset));
+    }
+    else if (strDriverName.left(4) == "QDB2")
+    {
+        // OVER
+        if (offset <= 0)
+        {
+            strSql = QString("%1 FETCH FIRST %2 ROWS ONLY")
+                .arg(strSql).arg(count);
+        }
+        else
+        {
+            strSql = QString("SELECT tc2.* \
+            FROM ( \
+                SELECT ROW_NUMBER() OVER() AS \"__TCDA_INDEX__\", tc1.* \
+                FROM ( %1 ) tc1 \
+            ) tc2 \
+            WHERE tc2.__TCDA_INDEX__ BETWEEN %2 AND %3")
+                     .arg(strSql)
+                     .arg(offset + 1)
+                     .arg(offset + count);
+        }
     }
     else
     {
