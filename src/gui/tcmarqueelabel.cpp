@@ -16,10 +16,9 @@
 // ==========================================================================
 #include <tianchi/gui/tcmarqueelabel.h>
 #include <QUrl>
-#include <QtConcurrentRun>
 #include <QResizeEvent>
+#include <QtConcurrentRun>
 #include <QDesktopServices>
-#include <QPropertyAnimation>
 
 class TcMarqueeLabelPrivate
 {
@@ -29,25 +28,21 @@ public:
     ~TcMarqueeLabelPrivate();
 
     void _q_openLink(const QString &url);
-
-    QPropertyAnimation *animation;
     TcMarqueeLabel* const q_ptr;
+
+    int marqueeMargin;
+    int timerId;
+    const int interval;
 };
 
 TcMarqueeLabelPrivate::TcMarqueeLabelPrivate(TcMarqueeLabel *qptr)
-    : q_ptr(qptr)
+    : q_ptr(qptr), marqueeMargin(0), timerId(0), interval(10)
 {
-    animation = new QPropertyAnimation(q_ptr, "geometry", q_ptr);
-    QObject::connect(q_ptr, SIGNAL(linkActivated(const QString &)),
-            q_ptr, SLOT(_q_openLink(const QString &)));
 }
-
 
 TcMarqueeLabelPrivate::~TcMarqueeLabelPrivate()
 {
-    delete animation;
 }
-
 
 void TcMarqueeLabelPrivate::_q_openLink(const QString &url)
 {
@@ -57,72 +52,94 @@ void TcMarqueeLabelPrivate::_q_openLink(const QString &url)
 TcMarqueeLabel::TcMarqueeLabel(QWidget * parent, Qt::WindowFlags f)
     : QLabel(parent, f), d_ptr(new TcMarqueeLabelPrivate(this))
 {
-    setOpenExternalLinks(false);
+    Q_D(TcMarqueeLabel);
+    d->marqueeMargin = width();
+    d->timerId = startTimer(d->interval);
+
+    connect(this, SIGNAL(linkActivated(const QString &)),
+            this, SLOT(_q_openLink(const QString &)));
 }
 
 TcMarqueeLabel::TcMarqueeLabel(const QString &text, QWidget *parent,
         Qt::WindowFlags f )
     : QLabel(text, parent, f), d_ptr(new TcMarqueeLabelPrivate(this))
 {
-    setOpenExternalLinks(false);
+    Q_D(TcMarqueeLabel);
+    d->marqueeMargin = width();
+    d->timerId = startTimer(d->interval);
+
+    connect(this, SIGNAL(linkActivated(const QString &)),
+            this, SLOT(_q_openLink(const QString &)));
 }
 
 
 TcMarqueeLabel::~TcMarqueeLabel()
 {
+    if (d_ptr->timerId != 0)
+    {
+        killTimer(d_ptr->timerId);
+        d_ptr->timerId = 0;
+    }
     delete d_ptr;
-}
-
-void TcMarqueeLabel::leaveEvent(QEvent *event)
-{
-    Q_D(TcMarqueeLabel);
-    d->animation->resume();
-
-    QLabel::leaveEvent(event);
 }
 
 void TcMarqueeLabel::enterEvent(QEvent *event)
 {
-    Q_D(TcMarqueeLabel);
-    d->animation->pause();
     QLabel::enterEvent(event);
+
+    Q_D(TcMarqueeLabel);
+    if (d->timerId != 0)
+    {
+        killTimer(d->timerId);
+        d->timerId = 0;
+    }
+}
+
+void TcMarqueeLabel::leaveEvent(QEvent *event)
+{
+    QLabel::leaveEvent(event);
+    Q_D(TcMarqueeLabel);
+    if (d->timerId == 0)
+    {
+        d->timerId = startTimer(d->interval);
+    }
 }
 
 void TcMarqueeLabel::resizeEvent(QResizeEvent *event)
 {
     QLabel::resizeEvent(event);
 
+    int w = event->size().width();
+
     Q_D(TcMarqueeLabel);
-    disconnect(d->animation, SIGNAL(finished()), d->animation, SLOT(start()));
-    d->animation->stop();
-
-    int iWidth = sizeHint().width();
-    int iParentWidth = parentWidget() ? parentWidget()->width() : 600;
-    int iHeight = event->size().height();
-    connect(d->animation, SIGNAL(finished()), d->animation, SLOT(start()));
-
-    d->animation->setDuration(10000);
-    d->animation->setStartValue(QRect(iParentWidth, 0, iWidth, iHeight));
-    d->animation->setEndValue(QRect(-iWidth, 0, iWidth, iHeight));
-    d->animation->start();
+    if (d->marqueeMargin > w)
+    {
+        d->marqueeMargin = w;
+        update();
+    }
 }
 
+void TcMarqueeLabel::timerEvent(QTimerEvent *event)
+{
+    QLabel::timerEvent(event);
+    Q_D(TcMarqueeLabel);
+    if (d->timerId != 0 && event->timerId() == d->timerId)
+    {
+        d->marqueeMargin--;
+        if (d->marqueeMargin < 0 && -d->marqueeMargin > sizeHint().width())
+        {
+            d->marqueeMargin = width();
+        }
+        update();
+    }
+}
 
-void TcMarqueeLabel::setText(const QString &text)
+void TcMarqueeLabel::paintEvent(QPaintEvent *event)
 {
     Q_D(TcMarqueeLabel);
-    disconnect(d->animation, SIGNAL(finished()), d->animation, SLOT(start()));
-    d->animation->stop();
-    QLabel::setText(text);
-
-    int iWidth = sizeHint().width();
-    int iParentWidth = parentWidget() ? parentWidget()->width() : 600;
-    int iHeight = height();
-    connect(d->animation, SIGNAL(finished()), d->animation, SLOT(start()));
-    d->animation->setDuration(10000);
-    d->animation->setStartValue(QRect(iParentWidth, 0, iWidth, iHeight));
-    d->animation->setEndValue(QRect(-iWidth, 0, iWidth, iHeight));
-    d->animation->start();
+    setContentsMargins(d->marqueeMargin, 0, 0, 0);
+    QLabel::paintEvent(event);
+    //setContentsMargins(0, 0, 0, 0);
 }
 
 #include "moc_tcmarqueelabel.cpp"
