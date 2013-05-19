@@ -10,6 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.18   XChinux     建立
+// 2013.05.19   XChinux     修改原移动Label位置的实现为使用contentsMargin来实现
 //
 // ==========================================================================
 /// @file MarqueeLabel.h 跑马灯Label,点击时自动打开网址
@@ -22,8 +23,6 @@
 #include <QLabel>
 
 QT_BEGIN_NAMESPACE
-class QEvent;
-class QResizeEvent;
 QT_END_NAMESPACE
 
 class TcMarqueeLabelPrivate;
@@ -38,12 +37,12 @@ public:
     TcMarqueeLabel(const QString &text, QWidget *parent = 0, 
             Qt::WindowFlags f = 0);
     virtual ~TcMarqueeLabel();
-public Q_SLOTS:
-    void setText(const QString &text);
 protected:
-    virtual void resizeEvent(QResizeEvent *event);
-    virtual void leaveEvent(QEvent *event);
     virtual void enterEvent(QEvent *event);
+    virtual void leaveEvent(QEvent *event);
+    virtual void resizeEvent(QResizeEvent *event);
+    virtual void timerEvent(QTimerEvent *event);
+    virtual void paintEvent(QPaintEvent *event);
 private:
     Q_DISABLE_COPY(TcMarqueeLabel)
     Q_DECLARE_PRIVATE(TcMarqueeLabel)
