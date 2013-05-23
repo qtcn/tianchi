@@ -32,6 +32,16 @@ class TcMarqueeLabelPrivate;
 class TIANCHI_API TcMarqueeLabel : public QLabel
 {
     Q_OBJECT
+
+    Q_ENUMS(Direction)
+
+    // @brief   设置文字滚动方向
+    Q_PROPERTY(Direction direction
+            READ direction
+            WRITE setDirection
+            NOTIFY directionChanged
+            DESIGNABLE true)
+
     /// @brief  设置每移动一像素所需时间(毫秒)
     Q_PROPERTY(int interval 
             READ interval 
@@ -45,6 +55,11 @@ class TIANCHI_API TcMarqueeLabel : public QLabel
             WRITE setActive
             NOTIFY activeChanged
             DESIGNABLE true)
+
+    Q_PROPERTY(Qt::Alignment alignment 
+            READ alignment 
+            WRITE setAlignment
+            DESIGNABLE true)
 public:
     TcMarqueeLabel(QWidget * parent = 0, Qt::WindowFlags f = 0);
     TcMarqueeLabel(const QString &text, QWidget *parent = 0, 
@@ -54,11 +69,22 @@ public:
     int interval() const;
     /// @brief  返回当前状态
     bool isActive() const;
+
+    enum Direction
+    {
+        RightToLeft = 0,
+        BottomToTop = 1 
+    };
+
+    Direction direction() const;
+    void setAlignment(Qt::Alignment align);
 Q_SIGNALS:
     /// @brief  interval属性变化时发出此信号
     void intervalChanged(int interval);
-    /// @brief  active属性变化时发出错信号
+    /// @brief  active属性变化时发出此信号
     void activeChanged(bool active);
+    /// @brief  direction属性变化时发出错信号
+    void directionChanged(Direction direction);
 public Q_SLOTS:
     /// @brief  停止移动并且复位位置为0
     /// @see    stop()
@@ -75,6 +101,9 @@ public Q_SLOTS:
     /// @brief  停止运行
     /// @see    setActive(bool active), start()
     void stop();
+    /// @brief  设置移动方向
+    /// @see    direction(), directionChagned(Direction direction)
+    void setDirection(Direction direciton);
 protected:
     virtual void enterEvent(QEvent *event);
     virtual void leaveEvent(QEvent *event);

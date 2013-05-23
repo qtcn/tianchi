@@ -36,11 +36,12 @@ public:
     int interval;
     bool active;
     bool mouseIn;
+    TcMarqueeLabel::Direction direction;
 };
 
 TcMarqueeLabelPrivate::TcMarqueeLabelPrivate(TcMarqueeLabel *qptr)
     : q_ptr(qptr), marqueeMargin(0), timerId(0), interval(10), active(false),
-    mouseIn(false)
+    mouseIn(false), direction(TcMarqueeLabel::RightToLeft)
 {
 }
 
@@ -57,7 +58,7 @@ TcMarqueeLabel::TcMarqueeLabel(QWidget * parent, Qt::WindowFlags f)
     : QLabel(parent, f), d_ptr(new TcMarqueeLabelPrivate(this))
 {
     Q_D(TcMarqueeLabel);
-    d->marqueeMargin = width();
+    d->marqueeMargin = 0;
 
     connect(this, SIGNAL(linkActivated(const QString &)),
             this, SLOT(_q_openLink(const QString &)));
@@ -68,7 +69,7 @@ TcMarqueeLabel::TcMarqueeLabel(const QString &text, QWidget *parent,
     : QLabel(text, parent, f), d_ptr(new TcMarqueeLabelPrivate(this))
 {
     Q_D(TcMarqueeLabel);
-    d->marqueeMargin = width();
+    d->marqueeMargin = 0;
 
     connect(this, SIGNAL(linkActivated(const QString &)),
             this, SLOT(_q_openLink(const QString &)));
@@ -113,10 +114,11 @@ void TcMarqueeLabel::setInterval(int interval)
 void TcMarqueeLabel::start()
 {
     Q_D(TcMarqueeLabel);
+    bool bActiveChanged = false;
     if (!d->active)
     {
         d->active = true;
-        Q_EMIT activeChanged(true);
+        bActiveChanged = true;
     }
     if (!d->mouseIn)
     {
@@ -127,15 +129,21 @@ void TcMarqueeLabel::start()
         // 恢复移动,恢复contentsMargins
         setContentsMargins(0, 0, 0, 0);
     }
+
+    if (bActiveChanged)
+    {
+        Q_EMIT activeChanged(d->active);
+    }
 }
 
 void TcMarqueeLabel::stop()
 {
     Q_D(TcMarqueeLabel);
+    bool bActiveChanged = false;
     if (d->active)
     {
         d->active = false;
-        Q_EMIT activeChanged(false);
+        bActiveChanged = true;
     }
     if (!d->mouseIn)
     {
@@ -145,7 +153,20 @@ void TcMarqueeLabel::stop()
             d->timerId = 0;
         }
         // 停止移动,强制变更contentsMargins,使richText的链接位置正确
-        setContentsMargins(d->marqueeMargin, 0, 0, 0);
+        switch (d->direction)
+        {
+            case RightToLeft:
+                setContentsMargins(d->marqueeMargin, 0, 0, 0);
+                break;
+            case BottomToTop:
+            default:
+                setContentsMargins(0, d->marqueeMargin, 0, 0);
+        }
+    }
+
+    if (bActiveChanged)
+    {
+        Q_EMIT activeChanged(d->active);
     }
 }
 
@@ -158,16 +179,65 @@ bool TcMarqueeLabel::isActive() const
 void TcMarqueeLabel::setActive(bool active)
 {
     Q_D(TcMarqueeLabel);
-    if (d->active != active)
+    if (d->active == active)
     {
-        if (active)
-        {
-            start();
-        }
-        else
-        {
-            stop();
-        }
+        return;
+    }
+    if (active)
+    {
+        start();
+    }
+    else
+    {
+        stop();
+    }
+}
+
+TcMarqueeLabel::Direction TcMarqueeLabel::direction() const
+{
+    Q_D(const TcMarqueeLabel);
+    return d->direction;
+}
+
+void TcMarqueeLabel::setDirection(TcMarqueeLabel::Direction direction)
+{
+    Q_D(TcMarqueeLabel);
+    if (d->direction == direction)
+    {
+        return;
+    }
+    d->direction = direction;
+    switch (direction)
+    {
+        case RightToLeft:
+            setAlignment(Qt::AlignLeft 
+                    | (alignment() & Qt::AlignVertical_Mask));
+            break;
+        case BottomToTop:
+        default:
+            setAlignment(Qt::AlignTop
+                    | (alignment() & Qt::AlignHorizontal_Mask));
+    }
+    d->marqueeMargin = 0;
+    setContentsMargins(0, 0, 0, 0);
+    update();
+
+    Q_EMIT directionChanged(direction);
+}
+
+void TcMarqueeLabel::setAlignment(Qt::Alignment align)
+{
+    Q_D(TcMarqueeLabel);
+    switch (d->direction)
+    {
+        case RightToLeft:
+            QLabel::setAlignment(Qt::AlignLeft 
+                    | (align & Qt::AlignVertical_Mask));
+            break;
+        case BottomToTop:
+        default:
+            QLabel::setAlignment(Qt::AlignTop
+                    | (align & Qt::AlignHorizontal_Mask));
     }
 }
 
@@ -179,14 +249,20 @@ void TcMarqueeLabel::reset()
         killTimer(d->timerId);
         d->timerId = 0;
     }
+    bool bActiveChanged = false;
     if (d->active)
     {
         d->active = false;
-        Q_EMIT activeChanged(false);
+        bActiveChanged = true;
     }
     d->marqueeMargin = 0;
     setContentsMargins(0, 0, 0, 0);
     update();
+
+    if (bActiveChanged)
+    {
+        Q_EMIT activeChanged(d->active);
+    }
 }
 
 void TcMarqueeLabel::enterEvent(QEvent *event)
@@ -200,7 +276,15 @@ void TcMarqueeLabel::enterEvent(QEvent *event)
             killTimer(d->timerId);
             d->timerId = 0;
         }
-        setContentsMargins(d->marqueeMargin, 0, 0, 0);
+        switch (d->direction)
+        {
+            case RightToLeft:
+                setContentsMargins(d->marqueeMargin, 0, 0, 0);
+                break;
+            case BottomToTop:
+            default:
+                setContentsMargins(0, d->marqueeMargin, 0, 0);
+        }
     }
     QLabel::enterEvent(event);
 }
@@ -224,9 +308,17 @@ void TcMarqueeLabel::resizeEvent(QResizeEvent *event)
 {
     QLabel::resizeEvent(event);
 
-    int w = event->size().width();
-
     Q_D(TcMarqueeLabel);
+    int w;
+    switch (d->direction)
+    {
+        case RightToLeft:
+            w = event->size().width();
+            break;
+        case BottomToTop:
+        default:
+            w = event->size().height();
+    }
     if (d->marqueeMargin > w)
     {
         d->marqueeMargin = w;
@@ -241,9 +333,21 @@ void TcMarqueeLabel::timerEvent(QTimerEvent *event)
     if (d->timerId != 0 && event->timerId() == d->timerId)
     {
         d->marqueeMargin--;
-        if (d->marqueeMargin < 0 && -d->marqueeMargin > sizeHint().width())
+        int w, w2;
+        switch (d->direction)
         {
-            d->marqueeMargin = width();
+            case RightToLeft:
+                w = sizeHint().width();
+                w2 = width();
+                break;
+            case BottomToTop:
+            default:
+                w = sizeHint().height();
+                w2 = height();
+        }
+        if (d->marqueeMargin < 0 && -d->marqueeMargin > w)
+        {
+            d->marqueeMargin = w2;
         }
         update();
     }
@@ -252,7 +356,15 @@ void TcMarqueeLabel::timerEvent(QTimerEvent *event)
 void TcMarqueeLabel::paintEvent(QPaintEvent *event)
 {
     Q_D(TcMarqueeLabel);
-    setContentsMargins(d->marqueeMargin, 0, 0, 0);
+    switch (d->direction)
+    {
+        case RightToLeft:
+            setContentsMargins(d->marqueeMargin, 0, 0, 0);
+            break;
+        case BottomToTop:
+        default:
+            setContentsMargins(0, d->marqueeMargin, 0, 0);
+    }
     QLabel::paintEvent(event);
 
     // 如果当前处于静止状态，则无需恢复contentsMargins
