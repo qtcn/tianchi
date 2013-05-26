@@ -90,12 +90,19 @@ class TIANCHI_API TcDataAccess
 public:
     TcDataAccess(const QString &connectionName 
             = QLatin1String(QSqlDatabase::defaultConnection));
+    TcDataAccess(const QSqlDatabase &other);
     ~TcDataAccess();
     // 创建一个DataAccess对象，如果创建失败，返回NULL,使用完后请delete
     static TcDataAccess* db(const QString &connectionName 
             = QLatin1String(QSqlDatabase::defaultConnection));
 
+    // 返回connectionName
     QString connectionName() const {return _db->connectionName();}
+
+    // 返回QSqlQuery对象
+    QSqlQuery sqlQuery() const {return QSqlQuery(*_db);}
+    // 返回QSqlDatabase对象
+    QSqlDatabase sqlDatabase() const {return *_db;}
 
     // 返回sql查询的所有记录集
     QList<QVariantMap> fetchAll(const QString &sql,
@@ -126,20 +133,19 @@ public:
                 const QString &sql,
                 const QVariantList &bind = QVariantList())
     {
-        QSqlQuery *q = _prepareExec(sql, bind);
+        _prepareExec(sql, bind);
 
         QMap<T,QVariant> rows;
         QVariant val;
-        while (q->next())
+        while (_query->next())
         {
-            val = q->value(0);
+            val = _query->value(0);
             if (val.type() == QVariant::String)
             {
                 val = val.toString().trimmed();
             }
-            rows[qvariant_cast<T>(val)] = q->value(1);
+            rows[qvariant_cast<T>(val)] = _query->value(1);
         }
-        delete q;
         return rows;
     }
 
@@ -156,14 +162,14 @@ public:
                 const QString &sql, 
                 const QVariantList &bind = QVariantList())
     {
-        QSqlQuery *q = _prepareExec(sql, bind);
+        _prepareExec(sql, bind);
 
         QMap<T,QVariantMap> rows;
         QVariantMap row;
         QVariant val;
-        while (q->next())
+        while (_query->next())
         {
-            QSqlRecord rec = q->record();
+            QSqlRecord rec = _query->record();
             for (int i = rec.count() - 1; i > -1; i--)
             {
                 row[rec.fieldName(i)] = rec.value(i);
@@ -176,7 +182,6 @@ public:
             rows[qvariant_cast<T>(val)] = row;
             row.clear();
         }
-        delete q;
         return rows;
     }
 
@@ -190,11 +195,14 @@ public:
 
     // 为sql语句添加limit参数,目前只支持MySQL、PGSQL、SQLite、MSSQL,对于不支持
     // 的数据库类型，直接返回空字符串
-    QString limitPage(const QString &sql, int page, int rowCount);
-    QString limit(const QString &sql, int count, int offset = 0);
+    QString limitPage(const QString &sql, int page, int rowCount) const;
+    QString limit(const QString &sql, int count, int offset = 0) const;
 
     // 返回上次插入的ID,目前的实现无意义
-    QVariant lastInsertId(const QString &table, const QString &primaryKey);
+    QVariant lastInsertId(const QString &table = QString(), 
+            const QString &primaryKey = QString()) const;
+    // 返回上次查询的错误信息
+    QSqlError lastError() const;
 
     // 删除表table中的记录,条件为where, bind为"?"绑定
     int doDelete(const QString &table, 
@@ -209,10 +217,12 @@ public:
 
     // 插入表table中的记录,字段及值为field
     int doInsert(const QString &table, const QVariantMap &field);
+    TcDataAccess& operator=(const TcDataAccess &da);
+    TcDataAccess& operator=(const QSqlDatabase &db);
 private:
     QSqlDatabase *_db;
-    QSqlQuery* _prepareExec(const QString &sql, const QVariantList &bind);
-    QVariant _lastInsertId;
+    QSqlQuery *_query;
+    void _prepareExec(const QString &sql, const QVariantList &bind);
 };
 
 typedef TcDataAccess TcDA;
