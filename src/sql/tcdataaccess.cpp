@@ -13,51 +13,60 @@ TcDataAccess* TcDataAccess::db(const QString &strConn)
 
 TcDataAccess::TcDataAccess(const QString &connectionName)
 {
-    _db = new QSqlDatabase(QSqlDatabase::database(connectionName));
+    _db = new QSqlDatabase();
+    *_db = QSqlDatabase::database(connectionName);
+    _query = new QSqlQuery(*_db);
+}
+
+TcDataAccess::TcDataAccess(const QSqlDatabase &other)
+{
+    _db = new QSqlDatabase(other);
+    _query = new QSqlQuery(*_db);
 }
 
 TcDataAccess::~TcDataAccess()
 {
-    if (_db->isOpen())
+    delete _query;
+    if (_db->connectionName() 
+            != QLatin1String(QSqlDatabase::defaultConnection))
     {
-        _db->close();
+        if (_db->isOpen())
+        {
+            _db->close();
+        }
     }
     delete _db;
 }
 
-QSqlQuery* TcDataAccess::_prepareExec(const QString &sql, 
+void TcDataAccess::_prepareExec(const QString &sql, 
         const QVariantList &bind)
 {
-    QSqlQuery *q = new QSqlQuery(*_db);
     if (bind.isEmpty())
     {
-        q->exec(sql);
+        _query->exec(sql);
     }
     else
     {
-        q->prepare(sql);
+        _query->prepare(sql);
         QListIterator<QVariant> it(bind);
         while (it.hasNext())
         {
-            q->addBindValue(it.next());
+            _query->addBindValue(it.next());
         }
-        q->exec();
+        _query->exec();
     }
-
-    qDebug() << q->lastError();
-    return q;
 }
 
 QList<QVariantMap> TcDataAccess::fetchAll(const QString &sql,
             const QVariantList &bind /* = QVariantList() */)
 {
-    QSqlQuery *q = _prepareExec(sql, bind);
+    _prepareExec(sql, bind);
 
     QList<QVariantMap> result;
     QVariantMap row;
-    while (q->next())
+    while (_query->next())
     {
-        QSqlRecord rec = q->record();
+        QSqlRecord rec = _query->record();
         for (int i = rec.count() - 1; i > -1; i--)
         {
             row[rec.fieldName(i)] = rec.value(i);
@@ -65,7 +74,6 @@ QList<QVariantMap> TcDataAccess::fetchAll(const QString &sql,
         result << row;
         row.clear();
     }
-    delete q;
     return result;
 }
 
@@ -79,18 +87,17 @@ QList<QVariantMap> TcDataAccess::fetchAll(const TcDataAccessStatement &stat,
 QVariantMap TcDataAccess::fetchRow(const QString &sql,
             const QVariantList &bind /* = QVariantList() */)
 {
-    QSqlQuery *q = _prepareExec(sql, bind);
+    _prepareExec(sql, bind);
 
     QVariantMap row;
-    if (q->next())
+    if (_query->next())
     {
-        QSqlRecord rec = q->record();
+        QSqlRecord rec = _query->record();
         for (int i = rec.count() - 1; i > -1; i--)
         {
             row[rec.fieldName(i)] = rec.value(i);
         }
     }
-    delete q;
     return row;
 }
 
@@ -104,14 +111,13 @@ QVariantMap TcDataAccess::fetchRow(const TcDataAccessStatement &stat,
 QVariantList TcDataAccess::fetchCol(const QString &sql,
             const QVariantList &bind /* = QVariantList() */)
 {
-    QSqlQuery *q = _prepareExec(sql, bind);
+    _prepareExec(sql, bind);
 
     QVariantList rows;
-    while (q->next())
+    while (_query->next())
     {
-        rows << q->value(0);
+        rows << _query->value(0);
     }
-    delete q;
     return rows;
 }
 
@@ -125,14 +131,12 @@ QVariantList TcDataAccess::fetchCol(const TcDataAccessStatement &stat,
 QVariant TcDataAccess::fetchOne(const QString &sql,
             const QVariantList &bind /* = QVariantList() */)
 {
-    QSqlQuery *q = _prepareExec(sql, bind);
-
+    _prepareExec(sql, bind);
     QVariant val;
-    if (q->next())
+    if (_query->next())
     {
-        val = q->value(0);
+        val = _query->value(0);
     }
-    delete q;
     return val;
 }
 
@@ -143,7 +147,7 @@ QVariant TcDataAccess::fetchOne(const TcDataAccessStatement &stat,
             QVariantList() << stat.bind() << bind);
 }
 
-QString TcDataAccess::limitPage(const QString &sql, int page, int rowCount)
+QString TcDataAccess::limitPage(const QString &sql, int page, int rowCount) const
 {
     int iPage = page < 1 ? 1 : page;
     int iRowCount = rowCount > 0 ? rowCount : 1;
@@ -154,7 +158,7 @@ QString TcDataAccess::limitPage(const QString &sql, int page, int rowCount)
 /**
  * 对于不支持的数据库类型，直接返回空字符串
  */
-QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/)
+QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/) const
 {
     QString strSql = sql;
     QString strDriverName = _db->driverName();
@@ -274,11 +278,16 @@ QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/)
 }
 
 QVariant TcDataAccess::lastInsertId(const QString &table, 
-        const QString &primaryKey)
+        const QString &primaryKey) const
 {
     Q_UNUSED(table)
     Q_UNUSED(primaryKey)
-    return _lastInsertId;
+    return _query->lastInsertId();
+}
+
+QSqlError TcDataAccess::lastError() const
+{
+    return _query->lastError();
 }
 
 int TcDataAccess::doDelete(const QString &table, 
@@ -291,19 +300,15 @@ int TcDataAccess::doDelete(const QString &table,
         sql += " WHERE " + where;
     }
     
-    QSqlQuery *q = _prepareExec(sql, bind);
-    int iNumRowsAffected = q->numRowsAffected();
-    delete q;
-    return iNumRowsAffected;
+    _prepareExec(sql, bind);
+    qDebug() << _query->lastError();
+    return _query->numRowsAffected();
 }
 
 int TcDataAccess::doUpdate(const QString &table, const QVariantMap &field,
             const QString &where /*= QString() */,
             const QVariantList &bind /*= QVariantList() */)
 {
-    QSqlQuery q(*_db);
-
-
     QVariantList bind2;
 
     QStringList slField;
@@ -326,26 +331,21 @@ int TcDataAccess::doUpdate(const QString &table, const QVariantMap &field,
         sql += " WHERE " + where;
     }
 
-    q.prepare(sql);
+    _query->prepare(sql);
     {
         QListIterator<QVariant> it(bind2);
         while (it.hasNext())
         {
-            q.addBindValue(it.next());
+            _query->addBindValue(it.next());
         }
     }
-    q.exec();
-
-    qDebug() << q.lastError();
-
-    return q.numRowsAffected();
+    _query->exec();
+    qDebug() << _query->lastError();
+    return _query->numRowsAffected();
 }
 
 int TcDataAccess::doInsert(const QString &table, const QVariantMap &field)
 {
-    QSqlQuery q(*_db);
-
-
     QVariantList bind2;
 
     QStringList slField;
@@ -364,20 +364,32 @@ int TcDataAccess::doInsert(const QString &table, const QVariantMap &field)
     QString sql = QString("INSERT INTO %1(%2) VALUES(%3)").arg(table)
         .arg(slField.join(", ")).arg(slField2.join(", "));
 
-    q.prepare(sql);
+    _query->prepare(sql);
     {
         QListIterator<QVariant> it(bind2);
         while (it.hasNext())
         {
-            q.addBindValue(it.next());
+            _query->addBindValue(it.next());
         }
     }
-    q.exec();
+    _query->exec();
 
-    _lastInsertId = q.lastInsertId();
-    qDebug() << q.lastError();
+    qDebug() << _query->lastError();
+    return _query->numRowsAffected();
+}
 
-    return q.numRowsAffected();
+TcDataAccess& TcDataAccess::operator=(const TcDataAccess &da)
+{
+    *_db = *(da._db);
+    *_query = *(da._query);
+    return *this;
+}
+
+TcDataAccess& TcDataAccess::operator=(const QSqlDatabase &db)
+{
+    *_db = db;
+    *_query = QSqlQuery(*_db);
+    return *this;
 }
 
 TcDataAccessStatement::TcDataAccessStatement()
