@@ -12,10 +12,10 @@
 // 2013.04.21   cnhemiya@gmail.com    建立
 //
 // ==========================================================================
-/// @file Directory.h 可以复制目录树的类，也可以查找文件夹内所有的文件
+/// @file tcdir.h 可以复制目录树的类，也可以查找文件夹内所有的文件
 // ==========================================================================
-#ifndef TIANCHI_TCDIRECTORY_H
-#define TIANCHI_TCDIRECTORY_H
+#ifndef TIANCHI_TCDIR_H
+#define TIANCHI_TCDIR_H
 
 #include <tianchi/tcglobal.h>
 
@@ -24,11 +24,11 @@
 
 /// @author 南果梨 cnhemiya@gmail.com
 /// @date 2013-04-21
-class TIANCHI_API TcDirectory : public QObject
+class TIANCHI_API TcDir : public QObject
 {
     Q_OBJECT
 public:
-    explicit TcDirectory(QObject *parent = 0);
+	explicit TcDir(QObject *parent = 0);
 
     /// @brief 查找文件夹内所有的文件
     /// @param path 要查找的文件夹
@@ -43,7 +43,7 @@ public:
     /// @param nameFilters 文件过滤
     /// @param overWrite 是否覆盖
     /// @return 复制的文件数量
-    int copyDirectories(const QString &fromPath, const QString &toPath,
+	int copyDirs(const QString &fromPath, const QString &toPath,
                         const QStringList &nameFilters = QStringList(), 
                         bool overWrite = true);
 
@@ -73,4 +73,4 @@ private:
     QString formatPath(const QString &path);
 };
 
-#endif // TIANCHI_DIRECTORY_H
+#endif // TIANCHI_TCDIR_H
