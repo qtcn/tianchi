@@ -1,16 +1,16 @@
-#include <tianchi/file/tcdirectory.h>
+#include <tianchi/file/tcdir.h>
 
 #include <QQueue>
 #include <QFile>
 #include <QDir>
 
-TcDirectory::TcDirectory(QObject *parent)
+TcDir::TcDir(QObject *parent)
     : QObject(parent)
     , m_copyFileCount(0)
 {
 }
 
-QStringList TcDirectory::findFiles(const QString &path, 
+QStringList TcDir::findFiles(const QString &path,
         const QStringList &nameFilters)
 {
     QStringList files;
@@ -21,7 +21,7 @@ QStringList TcDirectory::findFiles(const QString &path,
     return files;
 }
 
-int TcDirectory::copyDirectories(const QString &fromPath, const QString &toPath,
+int TcDir::copyDirs(const QString &fromPath, const QString &toPath,
                                const QStringList &nameFilters, bool overWrite)
 {
     resetCopyFileCount();
@@ -34,7 +34,7 @@ int TcDirectory::copyDirectories(const QString &fromPath, const QString &toPath,
     return m_copyFileCount;
 }
 
-int TcDirectory::copyFiles(const QStringList &files, const QString &toPath, 
+int TcDir::copyFiles(const QStringList &files, const QString &toPath,
         bool overWrite)
 {
     int size = files.size();
@@ -67,12 +67,12 @@ int TcDirectory::copyFiles(const QStringList &files, const QString &toPath,
     return count;
 }
 
-void TcDirectory::resetCopyFileCount()
+void TcDir::resetCopyFileCount()
 {
     m_copyFileCount = 0;
 }
 
-void TcDirectory::doDirTree(const QString &fromPath, const QString &toPath,
+void TcDir::doDirTree(const QString &fromPath, const QString &toPath,
                           const QStringList &nameFilters, bool overWrite,
                           QStringList &findFiles, bool isFind)
 {
@@ -119,7 +119,7 @@ void TcDirectory::doDirTree(const QString &fromPath, const QString &toPath,
     }
 }
 
-QString TcDirectory::formatPath(const QString &path)
+QString TcDir::formatPath(const QString &path)
 {
     QString new_path = path;
     QString last_char = path[path.size() - 1];

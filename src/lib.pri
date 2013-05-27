@@ -75,12 +75,15 @@ HEADERS += \
     $$TC_INCL/tianchi/core/tccommon.h \
     $$TC_INCL/tianchi/core/tcstring.h \
     $$TC_INCL/tianchi/core/tcutils.h \
+	$$TC_INCL/tianchi/core/tcsingleton.hpp \
+	$$TC_INCL/tianchi/core/tctuple.hpp \
     $$TC_INCL/tianchi/file/tcjson.h \
     $$TC_INCL/tianchi/file/tclog.h \
     $$TC_INCL/tianchi/file/tcmsexcel.h \
     $$TC_INCL/tianchi/file/tcexcelreader.h \
     $$TC_INCL/tianchi/file/tcfile.h \
-    $$TC_INCL/tianchi/file/tcdirectory.h \
+	$$TC_INCL/tianchi/file/tcfileio.h \
+	$$TC_INCL/tianchi/file/tcdir.h \
     $$TC_INCL/tianchi/gui/tcclicklabel.h \
     $$TC_INCL/tianchi/gui/tclineedit.h \
     $$TC_INCL/tianchi/gui/tcformutils.h \
@@ -109,7 +112,8 @@ SOURCES += \
     $$PWD/file/tcmsexcel.cpp \
     $$PWD/file/tcexcelreader.cpp \
     $$PWD/file/tcfile.cpp \
-    $$PWD/file/tcdirectory.cpp \
+	$$PWD/file/tcfileio.cpp \
+	$$PWD/file/tcdir.cpp \
     $$PWD/gui/tcclicklabel.cpp \
     $$PWD/gui/tclineedit.cpp \
     $$PWD/gui/tcflowlayout.cpp \
