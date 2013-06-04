@@ -1,10 +1,11 @@
-#include <tianchi/sql/tcmssql.h>
+#include <tianchi/sql/tcoracle.h>
+#include <tianchi/file/tcfile.h>
 #include <QSettings>
 #include <QStringListIterator>
 #include <QtAlgorithms>
 
 /**
- * get MSSQL ODBC drivers name and version, every item such as:
+ * get Oracle ODBC drivers name and version, every item such as:
  * -------------------------------------------------------------
  *     10.00/SQL Server Native Client 10.0
  *     09.00/SQL Native Client
@@ -14,7 +15,7 @@
  * @final   2013-04-18
  * @return  QStringList         desc sorted ver/drivername lists
  */
-QStringList TcMSSQL::availableODBCDrivers()
+QStringList TcOracle::availableODBCDrivers()
 {
     QStringList slDrivers;
 #ifdef Q_OS_WIN
@@ -23,7 +24,13 @@ QStringList TcMSSQL::availableODBCDrivers()
     QStringList slKeys = sts.allKeys();
 
     QStringList slKeys2;
-    slKeys2 << slKeys.filter("SQL Server") << slKeys.filter("Native Client");
+    for (int i = slKeys.size() - 1; i > -1; i--)
+    {
+        if (slKeys[i].left(7) == "Oracle ")
+        {
+            slKeys2 << slKeys[i];
+        }
+    }
     slKeys2.removeDuplicates();
     QStringListIterator it(slKeys2);
 
@@ -34,7 +41,8 @@ QStringList TcMSSQL::availableODBCDrivers()
         {
             QSettings sts2("HKEY_LOCAL_MACHINE\\SOFTWARE\\ODBC\\ODBCINST.INI\\"
                 + strV, QSettings::NativeFormat);
-            strV.prepend(sts2.value("DriverODBCVer").toString() + "/");
+            strV.prepend(TcFile::fileVersion(
+                        sts2.value("Driver").toString()) + "/");
             slDrivers << strV;
         }
     }
@@ -47,19 +55,17 @@ QStringList TcMSSQL::availableODBCDrivers()
 /// @author XChinux<XChinux@163.com>
 /// @final  2013-06-04
 /// @param  driver  可用ODBC驱动名称
-/// @param  server  host\instancename 格式,如果为默认实例，则直接为host
-/// @param  dbname  数据库名
+/// @param  tns     TNS Service Name
 /// @param  user    连接用户名
 /// @param  pass    连接密码
 /// @return 返回DSN字符串
-QString TcMSSQL::ODBCDSN(const QString &driver,
-            const QString &server,
-            const QString &dbname,
+QString TcOracle::ODBCDSN(const QString &driver,
+            const QString &tns,
             const QString &user /*= QString() */,
             const QString &pass /*= QString()*/)
 {
-    QString strDSN = QString("DRIVER={%1};SERVER=%2;DATABASE=%3")
-        .arg(driver).arg(server).arg(dbname);
+    QString strDSN = QString("DRIVER={%1};DBQ=%2;SERVER=%2")
+        .arg(driver).arg(tns);
     if (!user.isEmpty())
     {
         strDSN += ";UID=" + user;
