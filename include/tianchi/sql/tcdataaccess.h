@@ -88,10 +88,33 @@ private:
 class TIANCHI_API TcDataAccess
 {
 public:
+    enum AttrCase
+    {
+        CaseNatural,    // 字段名保存不变
+        CaseLower,      // 字段名转为小写
+        CaseUpper       // 字段名转为大写
+    };
+
+    enum AttrTrim
+    {
+        TrimNone,       // 保持字符串类型字段值不变
+        TrimAll         // 保持字符串类型字段值去除前后空格
+    };
+
     TcDataAccess(const QString &connectionName 
             = QLatin1String(QSqlDatabase::defaultConnection));
     TcDataAccess(const QSqlDatabase &other);
     ~TcDataAccess();
+
+    // 返回字段名处理方式
+    static AttrCase attrCase() {return _attrCase;}
+    // 返回字符串类型字段值处理方式
+    static AttrTrim attrTrim() {return _attrTrim;}
+    // 设置字段名处理方式
+    static void setAttrCase(AttrCase attrCase){_attrCase = attrCase;}
+    // 设置字符串类型字段值处理方式
+    static void setAttrTrim(AttrTrim attrTrim){_attrTrim = attrTrim;}
+
     // 创建一个DataAccess对象，如果创建失败，返回NULL,使用完后请delete
     static TcDataAccess* db(const QString &connectionName 
             = QLatin1String(QSqlDatabase::defaultConnection));
@@ -110,11 +133,20 @@ public:
     QList<QVariantMap> fetchAll(const TcDataAccessStatement &stat,
             const QVariantList &bind = QVariantList());
 
+    // 返回SQL查询的所有记录集，
+    // 如果有记录，则第一行保存字段名，记录从第二行开始
+    QList<QVariantList> fetchAllList(const QString &sql,
+            const QVariantList &bind = QVariantList());
+    QList<QVariantList> fetchAllList(const TcDataAccessStatement &stat,
+            const QVariantList &bind = QVariantList());
+
+
     // 返回sql查询的第一行
     QVariantMap fetchRow(const QString &sql,
             const QVariantList &bind = QVariantList());
     QVariantMap fetchRow(const TcDataAccessStatement &stat,
             const QVariantList &bind = QVariantList());
+
 
     // 返回sql查询的第一列
     QVariantList fetchCol(const QString &sql,
@@ -136,15 +168,10 @@ public:
         _prepareExec(sql, bind);
 
         QMap<T,QVariant> rows;
-        QVariant val;
         while (_query->next())
         {
-            val = _query->value(0);
-            if (val.type() == QVariant::String)
-            {
-                val = val.toString().trimmed();
-            }
-            rows[qvariant_cast<T>(val)] = _query->value(1);
+            rows[qvariant_cast<T>(_trim(_query->value(0)))] = 
+                _trim(_query->value(1));
         }
         return rows;
     }
@@ -172,14 +199,9 @@ public:
             QSqlRecord rec = _query->record();
             for (int i = rec.count() - 1; i > -1; i--)
             {
-                row[rec.fieldName(i)] = rec.value(i);
+                row[_case(rec.fieldName(i))] = _trim(rec.value(i));
             }
-            val = rec.value(0);
-            if (val.type() == QVariant::String)
-            {
-                val = val.toString().trimmed();
-            }
-            rows[qvariant_cast<T>(val)] = row;
+            rows[qvariant_cast<T>(_trim(rec.value(0)))] = row;
             row.clear();
         }
         return rows;
@@ -220,6 +242,11 @@ public:
     TcDataAccess& operator=(const TcDataAccess &da);
     TcDataAccess& operator=(const QSqlDatabase &db);
 private:
+    QVariant _trim(const QVariant &val);
+    QString _case(const QString &field);
+private:
+    static AttrCase _attrCase;
+    static AttrTrim _attrTrim;
     QSqlDatabase *_db;
     QSqlQuery *_query;
     void _prepareExec(const QString &sql, const QVariantList &bind);
