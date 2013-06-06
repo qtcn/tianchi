@@ -2,6 +2,9 @@
 #include <QtCore>
 #include <QtSql>
 
+TcDataAccess::AttrCase TcDataAccess::_attrCase = TcDataAccess::CaseNatural;
+TcDataAccess::AttrTrim TcDataAccess::_attrTrim = TcDataAccess::TrimNone;
+
 TcDataAccess* TcDataAccess::db(const QString &strConn)
 {
     if (QSqlDatabase::contains(strConn))
@@ -11,7 +14,7 @@ TcDataAccess* TcDataAccess::db(const QString &strConn)
     return NULL;
 }
 
-TcDataAccess::TcDataAccess(const QString &connectionName)
+TcDataAccess::TcDataAccess(const QString &connectionName) 
 {
     _db = new QSqlDatabase();
     *_db = QSqlDatabase::database(connectionName);
@@ -36,6 +39,37 @@ TcDataAccess::~TcDataAccess()
         }
     }
     delete _db;
+}
+
+QVariant TcDataAccess::_trim(const QVariant &val)
+{
+    if (val.type() == QVariant::String && !val.isNull() 
+            && _attrTrim == TrimAll)
+    {
+        return val.toString().trimmed();
+    }
+    else
+    {
+        return val;
+    }
+}
+
+QString TcDataAccess::_case(const QString &field)
+{
+    QString strV;
+    switch (_attrCase)
+    {
+        case CaseLower:
+            strV = field.toLower();
+            break;
+        case CaseUpper:
+            strV = field.toUpper();
+            break;
+        case CaseNatural:
+        default:
+            strV = field;
+    }
+    return strV;
 }
 
 void TcDataAccess::_prepareExec(const QString &sql, 
@@ -69,7 +103,7 @@ QList<QVariantMap> TcDataAccess::fetchAll(const QString &sql,
         QSqlRecord rec = _query->record();
         for (int i = rec.count() - 1; i > -1; i--)
         {
-            row[rec.fieldName(i)] = rec.value(i);
+            row[_case(rec.fieldName(i))] = _trim(rec.value(i));
         }
         result << row;
         row.clear();
@@ -84,6 +118,44 @@ QList<QVariantMap> TcDataAccess::fetchAll(const TcDataAccessStatement &stat,
             QVariantList() << stat.bind() << bind);
 }
 
+QList<QVariantList> TcDataAccess::fetchAllList(const QString &sql,
+            const QVariantList &bind /* = QVariantList() */)
+{
+    _prepareExec(sql, bind);
+
+    QList<QVariantList> result;
+    QVariantList row;
+    QSqlRecord rec;
+    while (_query->next())
+    {
+        rec = _query->record();
+        if (result.isEmpty())
+        {
+            for (int i = 0; i < rec.count(); i++)
+            {
+                row << _case(rec.fieldName(i));
+            }
+            result << row;
+            row.clear();
+        }
+        for (int i = 0; i < rec.count(); i++)
+        {
+            row << _trim(rec.value(i));
+        }
+        result << row;
+        row.clear();
+    }
+    return result;
+}
+
+QList<QVariantList> TcDataAccess::fetchAllList(
+        const TcDataAccessStatement &stat,
+        const QVariantList &bind /* = QVariantList() */)
+{
+    return fetchAllList(stat.toString(), 
+            QVariantList() << stat.bind() << bind);
+}
+
 QVariantMap TcDataAccess::fetchRow(const QString &sql,
             const QVariantList &bind /* = QVariantList() */)
 {
@@ -95,7 +167,7 @@ QVariantMap TcDataAccess::fetchRow(const QString &sql,
         QSqlRecord rec = _query->record();
         for (int i = rec.count() - 1; i > -1; i--)
         {
-            row[rec.fieldName(i)] = rec.value(i);
+            row[_case(rec.fieldName(i))] = _trim(rec.value(i));
         }
     }
     return row;
@@ -116,7 +188,7 @@ QVariantList TcDataAccess::fetchCol(const QString &sql,
     QVariantList rows;
     while (_query->next())
     {
-        rows << _query->value(0);
+        rows << _trim(_query->value(0));
     }
     return rows;
 }
@@ -135,7 +207,7 @@ QVariant TcDataAccess::fetchOne(const QString &sql,
     QVariant val;
     if (_query->next())
     {
-        val = _query->value(0);
+        val = _trim(_query->value(0));
     }
     return val;
 }
@@ -147,7 +219,8 @@ QVariant TcDataAccess::fetchOne(const TcDataAccessStatement &stat,
             QVariantList() << stat.bind() << bind);
 }
 
-QString TcDataAccess::limitPage(const QString &sql, int page, int rowCount) const
+QString TcDataAccess::limitPage(const QString &sql, int page, 
+        int rowCount) const
 {
     int iPage = page < 1 ? 1 : page;
     int iRowCount = rowCount > 0 ? rowCount : 1;
@@ -158,7 +231,8 @@ QString TcDataAccess::limitPage(const QString &sql, int page, int rowCount) cons
 /**
  * 对于不支持的数据库类型，直接返回空字符串
  */
-QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/) const
+QString TcDataAccess::limit(const QString &sql, int count, 
+        int offset/*=0*/) const
 {
     QString strSql = sql;
     QString strDriverName = _db->driverName();
@@ -181,7 +255,19 @@ QString TcDataAccess::limit(const QString &sql, int count, int offset/*=0*/) con
     else if (strDriverName.left(5) == "QODBC")
     {
         QString strDSN = _db->databaseName();
-        if (strDSN.indexOf("SQL Server", Qt::CaseInsensitive) > -1
+
+        if (strDSN.indexOf("Oracle") != -1)
+        {
+            // OVER
+            strSql = QString("SELECT tc2.* \
+                FROM ( \
+                    SELECT tc1.*, ROWNUM AS \"__TCDA_INDEX__\" \
+                    FROM ( %1 ) tc1 \
+                ) tc2 \
+                WHERE tc2.\"__TCDA_INDEX__\" BETWEEN %2 AND %3")
+                     .arg(strSql).arg(offset + 1).arg(offset + count); 
+        }
+        else if (strDSN.indexOf("SQL Server", Qt::CaseInsensitive) > -1
                 || strDSN.indexOf("SQL Server Native Client", 
                     Qt::CaseInsensitive) > -1
                 || strDSN.indexOf("SQL Native Client", 
