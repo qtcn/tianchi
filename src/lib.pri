@@ -75,6 +75,8 @@ HEADERS += \
     $$TC_INCL/tianchi/core/tccommon.h \
     $$TC_INCL/tianchi/core/tcstring.h \
     $$TC_INCL/tianchi/core/tcutils.h \
+    $$TC_INCL/tianchi/core/tcvariantmaptablemodel.h \
+    $$TC_INCL/tianchi/core/tcfunctionalsortfilterproxymodel.h \
     $$TC_INCL/tianchi/core/tcsingleton.hpp \
     $$TC_INCL/tianchi/core/tctuple.hpp \
     $$TC_INCL/tianchi/file/tcjson.h \
@@ -93,6 +95,7 @@ HEADERS += \
     $$TC_INCL/tianchi/gui/tcdateedit.h \
     $$TC_INCL/tianchi/gui/tcguiutils.h \
     $$TC_INCL/tianchi/gui/tcheadersetupdialog.h \
+    $$TC_INCL/tianchi/gui/tcsortpaginationtableview.h \
     $$TC_INCL/tianchi/network/tcdownloadhttp.h \
     $$TC_INCL/tianchi/network/tcsingleinstance.h \
     $$TC_INCL/tianchi/network/tcudp.h \
@@ -108,6 +111,8 @@ SOURCES += \
     $$PWD/core/tcutils.cpp \
     $$PWD/core/tccommon.cpp \
     $$PWD/core/tcstring.cpp \
+    $$PWD/core/tcvariantmaptablemodel.cpp \
+    $$PWD/core/tcfunctionalsortfilterproxymodel.cpp \
     $$PWD/file/tcjson.cpp \
     $$PWD/file/tclog.cpp \
     $$PWD/file/tcmsexcel.cpp \
@@ -124,6 +129,7 @@ SOURCES += \
     $$PWD/gui/tcheadersetupdialog.cpp \
     $$PWD/gui/tcguiutils.cpp \
     $$PWD/gui/tcformutils.cpp \
+    $$PWD/gui/tcsortpaginationtableview.cpp \
     $$PWD/network/tcdownloadhttp.cpp \
     $$PWD/network/tcsingleinstance.cpp \
     $$PWD/network/tcudp.cpp \
