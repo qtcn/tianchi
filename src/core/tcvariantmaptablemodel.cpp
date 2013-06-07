@@ -581,3 +581,5 @@ void TcVariantMapTableModel::clear()
     d->flags.clear();
     endResetModel();
 }
+
+#include "moc_tcvariantmaptablemodel.cpp"

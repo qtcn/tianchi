@@ -21,9 +21,14 @@
 #include <tianchi/core/tccommon.h>
 #include <tianchi/core/tcstring.h>
 #include <tianchi/core/tcutils.h>
+#include <tianchi/core/tcfunctionalsortfilterproxymodel.h>
+#include <tianchi/core/tcvariantmaptablemodel.h>
+#include <tianchi/core/tcsingleton.hpp>
+#include <tianchi/core/tctuple.hpp>
 
-#include <tianchi/file/tcdirectory.h>
+#include <tianchi/file/tcdir.h>
 #include <tianchi/file/tcfile.h>
+#include <tianchi/file/tcfileio.h>
 #include <tianchi/file/tcjson.h>
 #include <tianchi/file/tclog.h>
 #include <tianchi/file/tcmsexcel.h>
@@ -38,6 +43,7 @@
 #include <tianchi/gui/tcheadersetupdialog.h>
 #include <tianchi/gui/tclineedit.h>
 #include <tianchi/gui/tcmarqueelabel.h>
+#include <tianchi/gui/tcsortpaginationtableview.h>
 
 #include <tianchi/network/tcdownloadhttp.h>
 #include <tianchi/network/tcsingleinstance.h>
@@ -46,6 +52,7 @@
 #include <tianchi/os/tcos.h>
 
 #include <tianchi/sql/tcmssql.h>
+#include <tianchi/sql/tcorcale.h>
 #include <tianchi/sql/tcdatabase.h>
 #include <tianchi/sql/tcdataaccess.h>
 
