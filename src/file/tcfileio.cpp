@@ -66,7 +66,7 @@ int TcFileIO::split(const QString &fromFile, const QString &toDir, qint64 splitS
 	return file_count;
 }
 
-qint64 TcFileIO::unite(const QStringList &fromFileList, const QString &toFile, qint64 bufferSize)
+qint64 TcFileIO::join(const QStringList &fromFileList, const QString &toFile, qint64 bufferSize)
 {
 	int size = fromFileList.size();
 	qint64 file_size = 0;
