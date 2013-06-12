@@ -93,7 +93,7 @@ public:
 	/// @param bufferSize 缓冲大小，默认是 defaultBufferSize
 	/// @see defaultBufferSize
 	/// @return 合并的数据
-	static qint64 unite(const QStringList &fromFileList, const QString &toFile,
+	static qint64 join(const QStringList &fromFileList, const QString &toFile,
 						qint64 bufferSize = defaultBufferSize);
 
 	/// @brief 生成指定字符填充的“大笨蛋”文档，常用于光盘映像
@@ -117,7 +117,7 @@ public:
 	static const int GB;
 
 	/// @brief 默认的缓冲大小 4MB
-	static const int defaultBufferSize; // 4MB
+	static const int defaultBufferSize;
 
 private:
 	// 提取源文件数据到目的文件
