@@ -190,19 +190,26 @@ QVariant TcVariantMapTableModel::data(const QModelIndex &index,
             }
             else
             {
-                // 数字右对齐,其它左对齐
-                const QVariant &item = d->data[row][d->title[col].first];
-                switch (item.type())
+                if (d->numberCols.contains(d->title[col].first))
                 {
-                    case QVariant::Int:
-                    case QVariant::Double:
-                    case QVariant::LongLong:
-                    case QVariant::UInt:
-                    case QVariant::ULongLong:
-                        v = Qt::AlignRight + Qt::AlignVCenter;
-                        break;
-                    default:
-                        v = Qt::AlignLeft + Qt::AlignVCenter;
+                    v = Qt::AlignRight + Qt::AlignVCenter;
+                }
+                else
+                {
+                    // 数字右对齐,其它左对齐
+                    const QVariant &item = d->data[row][d->title[col].first];
+                    switch (item.type())
+                    {
+                        case QVariant::Int:
+                        case QVariant::Double:
+                        case QVariant::LongLong:
+                        case QVariant::UInt:
+                        case QVariant::ULongLong:
+                            v = Qt::AlignRight + Qt::AlignVCenter;
+                            break;
+                        default:
+                            v = Qt::AlignLeft + Qt::AlignVCenter;
+                    }
                 }
             }
             break;
