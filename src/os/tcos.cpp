@@ -16,6 +16,13 @@ QString TcOS::name()
     QSettings reg(RegPath, QSettings::NativeFormat);
     ret = reg.value("ProductName").toString();
 #endif
+
+#if defined(Q_OS_LINUX)
+    QFile file("/etc/hostname");
+      if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+          return ret;
+    ret.append(file.readLine());
+#endif
     return ret;
 }
 
