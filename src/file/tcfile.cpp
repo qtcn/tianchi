@@ -9,13 +9,18 @@
   #include <windows.h>
 #endif
 
-bool TcFile::loadFromFile(QString& context, const QString& filename)
+bool TcFile::loadFromFile(QString &context, const QString &filename,
+        const QString &codec /* = QString() */)
 {
     bool ret = false;
     QFile file(filename);
     if (file.open(QIODevice::ReadOnly))
     {
        QTextStream in(&file);
+       if (!codec.isEmpty())
+       {
+           in.setCodec(codec.toLatin1().data());
+       }
        context = in.readAll();
        ret = true;
        file.close();
@@ -23,15 +28,16 @@ bool TcFile::loadFromFile(QString& context, const QString& filename)
     return ret;
 }
 
-QString TcFile::uniqueFileName(const QString& dir, 
-        const QString& fileTemplate, const QString& suffix)
+QString TcFile::uniqueFileName(const QString &dir, 
+        const QString &fileTemplate, 
+        const QString &suffix /* = QString() */)
 {
     QString fileDir    = dir;
     QString filePrefix = fileTemplate;
     QString fileSuffix = suffix;
 
     QFileInfo f;
-    if (fileDir == "")
+    if (fileDir.isEmpty())
     {
         f.setFile(fileTemplate);
         fileDir    = f.absoluteDir().absolutePath();
@@ -42,7 +48,7 @@ QString TcFile::uniqueFileName(const QString& dir,
                     filePrefix.length() - fileSuffix.length() - 1);
         }
     }
-    if (fileSuffix == "")
+    if (fileSuffix.isEmpty())
     {
         f.setFile(fileTemplate);
         fileSuffix = f.suffix();

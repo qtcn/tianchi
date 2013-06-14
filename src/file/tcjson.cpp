@@ -28,9 +28,9 @@ QString TcJSONObject::quote(const QString& Text)
     QString ret;
     std::wstring ws = Text.toStdWString();
     const wchar_t* ptr = ws.c_str();
-    while(*ptr)
+    while (*ptr)
     {
-        switch(*ptr)
+        switch (*ptr)
         {
         case L'\\': ret += "\\\\"; break;
         case L'\"': ret += "\\\""; break;
@@ -40,12 +40,12 @@ QString TcJSONObject::quote(const QString& Text)
         case L'\f': ret += "\\f";  break;
         case L'\r': ret += "\\r";  break;
         default:
-            if ( *ptr > 255 )
+            if (*ptr > 255)
             {
                 quint16 v = *ptr;
-                QString S = QString::number(v, 16);
-                ret += "\\u" + S;
-            }else
+                ret += "\\u" + QString::number(v, 16);
+            }
+            else
             {
                 ret += *ptr;
             }
@@ -60,9 +60,9 @@ QString TcJSONObject::dequote(const QString& text)
 {
     QString s = text;
     int idx;
-    while((idx=s.indexOf("\\u"))>=0)
+    while ((idx = s.indexOf("\\u")) >= 0)
     {
-        int nHex = s.mid(idx+2, 4).toInt(0, 16);
+        int nHex = s.mid(idx + 2, 4).toInt(0, 16);
         s.replace(idx, 6, QChar(nHex));
     }
     return s;
@@ -80,14 +80,7 @@ void TcJSONObject::setKey(const QString& value)
 
 QVariant TcJSONObject::value() const
 {
-    if (m_list.count() > 0)
-    {
-        return toString();
-    }
-    else
-    {
-        return m_value;
-    }
+    return m_list.count() > 0 ? toString() : m_value;
 }
 
 bool TcJSONObject::value(const QString& key, QVariant& v) const
@@ -95,7 +88,7 @@ bool TcJSONObject::value(const QString& key, QVariant& v) const
     bool ret = false;
     QMap<QString, TcJSONObject*>::const_iterator child = m_list.find(key);
 
-    if ( child != m_list.constEnd() && child.key() == key )
+    if (child != m_list.constEnd() && child.key() == key)
     {
         v = child.value()->value();
         ret = true;
@@ -238,7 +231,7 @@ void TcJSONObject::deleteChildren(const QString& key)
 void TcJSONObject::clearChildren()
 {
     QMap<QString, TcJSONObject*>::iterator it;
-    while(m_list.count()>0)
+    while (m_list.count() > 0)
     {
         it = m_list.begin();
         delete it.value();
@@ -255,30 +248,31 @@ void TcJSONObject::clear()
 QString TcJSONObject::toString() const
 {
     QString values;
-    if ( m_list.count() >0 )
+    if (m_list.count() > 0)
     {
-        for (QMap<QString, TcJSONObject*>::const_iterator it=m_list.begin();
-             it!=m_list.end();
-             it++ )
+        for (QMap<QString, TcJSONObject*>::const_iterator it = m_list.begin();
+             it != m_list.end();
+             it++)
         {
             TcJSONObject* obj = it.value();
             values += "," + obj->toString();
         }
-        if ( ! values.isEmpty() )
+        if (!values.isEmpty())
         {
             values.remove(0, 1);
         }
-        if ( m_type == vtfArray )
+        if (m_type == vtfArray)
         {
             values = "[" + values + "]";
-        }else
+        }
+        else
         {
             values = "{" + values + "}";
         }
     }
     else
     {
-        if ( m_type == vtfArray )
+        if (m_type == vtfArray)
         {
             values = "[]";
         }
@@ -295,9 +289,9 @@ bool TcJSONObject::fromString(QString jsonText)
     clear();
 
     std::wstring ws = jsonText.toStdWString();
-    const wchar_t* ptr = ws.c_str();
-    ptr=skip(ptr);
-    switch(*ptr)
+    const wchar_t *ptr = ws.c_str();
+    ptr = skip(ptr);
+    switch (*ptr)
     {
     case L'{':
         ptr = fromObject("", ptr);
@@ -308,7 +302,7 @@ bool TcJSONObject::fromString(QString jsonText)
         break;
     }
     ptr = skip(ptr);
-    if ( ! ptr )
+    if (!ptr)
     {
         clear();
     }
@@ -318,25 +312,27 @@ bool TcJSONObject::fromString(QString jsonText)
 const wchar_t* TcJSONObject::fromObject(const QString&, const wchar_t* ptr)
 {
     ptr = skip(ptr);
-    if ( *ptr == L'{' )
+    if (*ptr == L'{')
     {
         setType(vtfObject);
-        do {
+        do
+        {
             ptr = skip(++ptr);
             QString Key;
             ptr = skip(parseKey(Key, ptr));
-            if ( *ptr == L':' )
+            if (*ptr == L':')
             {
                 ptr = skip(++ptr);
 
                 ptr = parseValue(Key, ptr);
             }
             ptr = skip(ptr);
-        }while(ptr && *ptr && *ptr==',');
-        if ( ptr && *ptr == L'}' )
+        } while (ptr && *ptr && *ptr == ',');
+        if (ptr && *ptr == L'}')
         {
             ptr = skip(++ptr);
-        }else
+        }
+        else
         {
             ptr = 0;
         }
@@ -348,18 +344,20 @@ const wchar_t* TcJSONObject::fromArray(const wchar_t* ptr)
 {
 
     ptr = skip(ptr);
-    if ( *ptr == L'[' )
+    if (*ptr == L'[')
     {
         setType(vtfArray);
-        do {
+        do
+        {
             ptr = skip(++ptr);
             ptr = parseValue("", ptr);
             ptr = skip(ptr);
-        }while(ptr && *ptr && *ptr==',');
-        if ( ptr && *ptr == L']' )
+        }while(ptr && *ptr && *ptr == ',');
+        if (ptr && *ptr == L']')
         {
             ptr = skip(++ptr);
-        }else
+        }
+        else
         {
             ptr = 0;
         }
@@ -371,15 +369,15 @@ const wchar_t* TcJSONObject::parseKey(QString& Value, const wchar_t* ptr)
 {
     Value = "";
     ptr = skip(ptr);
-    if ( *ptr==L'\"' )
+    if (*ptr==L'\"')
     {
         ptr++;
-        while(*ptr!=L'\"' && *ptr)
+        while (*ptr != L'\"' && *ptr)
         {
-            if ( *ptr == L'\\' )
+            if (*ptr == L'\\')
             {
                 ptr++;
-                switch(*ptr)
+                switch (*ptr)
                 {
                 case L'\"': Value += L'\"'; ptr++; break;
                 case L'\\': Value += L'\\'; ptr++; break;
@@ -397,7 +395,8 @@ const wchar_t* TcJSONObject::parseKey(QString& Value, const wchar_t* ptr)
                     }
                     break;
                 }
-            }else
+            }
+            else
             {
                 Value += *ptr;
                 ptr++;
