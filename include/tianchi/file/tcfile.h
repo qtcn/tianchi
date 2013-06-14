@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.15   圣域天子    建立
-//
+// 2013.06.14   XChinux     为loadFromFile()函数增加codec参数
 // ==========================================================================
 /// @file FileUtils.h 文件操作常用处理类
 // ==========================================================================
@@ -27,14 +27,15 @@
 class TIANCHI_API TcFile
 {
 public:
-    /// @brief 装载文本文件
-    static bool loadFromFile(QString& context, const QString& filename);
+    /// @brief 装载文本文件,参数codec指定读取的编码,若为空,则不预设
+    static bool loadFromFile(QString &context, const QString &filename, 
+            const QString &codec = QString());
 
     /// @brief 在指定目录中返回一个临时文件名
     /// @return 返回临时文件名，注意不创建该文件
     /// @note 此方法不会自动创建文件
-    static QString uniqueFileName(const QString& dir, 
-            const QString& fileTemplate, const QString& suffix="");
+    static QString uniqueFileName(const QString &dir, 
+            const QString &fileTemplate, const QString &suffix= QString());
 
     /// @brief 取执行文件的版本，仅支持 Windows
     /// @param [in] exeFile 包含版本信息的文件名(.exe, .dll等)
