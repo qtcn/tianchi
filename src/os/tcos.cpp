@@ -7,6 +7,8 @@
 #endif
 
 
+// return OS's name
+// note: for Linux, use 'lsb-release -a' to get distribution's information
 QString TcOS::name()
 {
     QString ret;
@@ -15,13 +17,6 @@ QString TcOS::name()
             "Windows NT\\CurrentVersion");
     QSettings reg(RegPath, QSettings::NativeFormat);
     ret = reg.value("ProductName").toString();
-#endif
-
-#if defined(Q_OS_LINUX)
-    QFile file("/etc/hostname");
-      if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-          return ret;
-    ret.append(file.readLine());
 #endif
     return ret;
 }
