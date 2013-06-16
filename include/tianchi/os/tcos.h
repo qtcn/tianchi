@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.10   圣域天子    建立
-//
+// 2013.06.16   XChinux     修改name()方法,增加读取Linux发行版内容
 // ==========================================================================
 /// @file OS.h 与操作系统相关
 #ifndef TIANCHI_TCOS_H
@@ -26,7 +26,8 @@ class TIANCHI_API TcOS
 {
 public:
     /// @brief 取操作系统名称，支持Windows和Linux
-    /// @note Windows从注册表中获取,Linux从/etc/os-release文件获取
+    /// @note Windows从注册表中获取,Linux从依次从/etc下的os-release 
+    ///       lsb-release, *-release文件获取
     static QString name();
 
     /// @brief 取操作系统的语言，仅支持 Windows
