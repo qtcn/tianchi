@@ -25,8 +25,8 @@
 class TIANCHI_API TcOS
 {
 public:
-    /// @brief 取操作系统名称，仅支持 Windows
-    /// @note 仅支持 Windows
+    /// @brief 取操作系统名称，支持Windows和Linux
+    /// @note Windows从注册表中获取,Linux从/etc/os-release文件获取
     static QString name();
 
     /// @brief 取操作系统的语言，仅支持 Windows
