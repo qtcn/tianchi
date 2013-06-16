@@ -1,6 +1,8 @@
 #include <tianchi/os/tcos.h>
 
 #include <QSettings>
+#include <QDir>
+#include <QTextStream>
 
 #if defined(Q_OS_WIN)
   #include <windows.h>
@@ -18,8 +20,32 @@ QString TcOS::name()
     ret = reg.value("ProductName").toString();
 #endif
 #if defined(Q_OS_LINUX)
-    QSettings ini("/etc/os-release", QSettings::IniFormat);
-    ret = ini.value("PRETTY_NAME").toString();
+    if (QFile::exists("/etc/os-release"))
+    {
+        QSettings ini("/etc/os-release", QSettings::IniFormat);
+        ret = ini.value("PRETTY_NAME").toString();
+    }
+    else if (QFile::exists("/etc/lsb-release"))
+    {
+        QSettings ini("/etc/lsb-release", QSettings::IniFormat);
+        ret = ini.value("DISTRIB_DESCRIPTION").toString();
+    }
+    else
+    {
+        QStringList slFile = QDir("/etc/").entryList(
+                QStringList() << "*-release",
+                QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+        if (!slFile.isEmpty())
+        {
+            QFile file("/etc/" + slFile.first());
+            if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                QTextStream in(&file);
+                ret = in.readLine();
+                file.close();
+            }
+        }
+    }
 #endif
     return ret;
 }
