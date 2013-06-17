@@ -30,7 +30,57 @@ enum
 
 class TcVariantMapTableModelPrivate;
 
-/// @brief  以QVariantMap作为数据行的model,只可追加和清除,不可插入与删除
+/// @brief  以QVariantMap作为数据行的model,只可追加和清除,不可任意插入与任意
+///         删除,使用时主要分成三部分：
+///             1. 创建TcVariantMapTableModel,并定义标题和列属性
+///             2. 填充数据(即清除数据以及添加数据行)
+///             3. 获取指定数据行数据
+/// @brief  1. 创建model及定义标题和列属性
+/// @code
+///    TcVariantMapTableModel *model = new TcVariantMapTableModel(this);
+///    model->addTitle("col1",    "Title 1"));
+///    model->addTitle("col2",    "Title 2", 2));// 数字列，保留两位小数
+///    model->addTitle("col3",    "Title 3"));
+///    model->addTitle("__col4",  "Title 4"));  // 非原始数据
+///    tableView->setModel(model);
+/// @endcode
+/// 
+/// @brief  2. 填充数据
+/// @code
+///     model->clearData(); // 清除原来的数据行(保留标题不变)
+///     QSqlQuery q;
+///     q.exec("SELECT col1, col2, col3, col4 FROM table1");
+///     QList<QVariantMap> rows;
+///     QVariantMap row;
+///     while (q.next())
+///     {
+///         row["col1"] = q.value(0);
+///         row["col2"] = q.value(1);
+///         row["col3"] = q.value(2);
+///         row["col4"] = q.value(3);
+///         row["__col4"] = row["col4"].toInt() == 1 ? "Yes" : "No";
+///         rows << row;
+///         row.clear();
+///     }
+///     model->addData(rows);
+/// @endcode
+///
+/// @brief  3. 获取指定数据行数据
+/// @code
+/// void XXXX::on_actionYYY_triggered()
+/// {
+///     QModelIndexList idxs = tableView->selectionModel()->selectedRows();
+///     if (idxs.isEmpty())
+///     {
+///         return;
+///     }
+///     int row = idxs.first().row();
+///     const QList<QVariantMap> &data = model->data();
+///     // 获取选定行的col1字段值
+///     QString strCol1 = data[row]["col1"].toString().trimmed();
+///     ......
+/// }
+/// @endcode
 class TIANCHI_API TcVariantMapTableModel : public QAbstractTableModel
 {
     Q_OBJECT
