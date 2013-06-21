@@ -482,6 +482,20 @@ TcDataAccessStatement::TcDataAccessStatement()
 {
 }
 
+TcDataAccessStatement::TcDataAccessStatement(const TcDataAccessStatement &da)
+{
+    _select = da._select;
+    _from = da._from;
+    _leftJoin = da._leftJoin;
+    _where = da._where;
+    _group = da._group;
+    _order = da._order;
+
+    _limit = da._limit;
+    _leftJoinBind = da._leftJoinBind;
+    _whereBind = da._whereBind;
+}
+
 TcDataAccessStatement::TcDataAccessStatement(const QString &table, 
             const QString &fields /* = QString("*") */)
 {
@@ -621,4 +635,20 @@ void TcDataAccessStatement::clear()
     _limit.clear();
     _leftJoinBind.clear();
     _whereBind.clear();
+}
+
+TcDataAccessStatement& TcDataAccessStatement::operator=(const TcDataAccessStatement &da)
+{
+    _select = da._select;
+    _from = da._from;
+    _leftJoin = da._leftJoin;
+    _where = da._where;
+    _group = da._group;
+    _order = da._order;
+
+    _limit = da._limit;
+    _leftJoinBind = da._leftJoinBind;
+    _whereBind = da._whereBind;
+
+    return *this;
 }

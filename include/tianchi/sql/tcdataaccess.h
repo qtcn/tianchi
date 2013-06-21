@@ -20,6 +20,7 @@ class TIANCHI_API TcDataAccessStatement
 {
 public:
     TcDataAccessStatement();
+    TcDataAccessStatement(const TcDataAccessStatement &da);
     // 使用表名table和字段列表fields初始化
     TcDataAccessStatement(const QString &table, 
             const QString &fields = QString("*"));
@@ -70,6 +71,8 @@ public:
 
     // 返回所有"?"的bind
     QVariantList bind() const;
+
+    TcDataAccessStatement& operator=(const TcDataAccessStatement &da);
 private:
     QStringList _select;
     QStringList _from;
