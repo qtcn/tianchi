@@ -32,16 +32,7 @@ QByteArray TcString::first(QByteArray& str, const QByteArray& split)
 
 int TcString::find(const QStringList& ss, const QString& s)
 {
-    int ret = -1;
-    for( int i=0;i<ss.count();i++ )
-    {
-        if ( ss.at(i).compare(s) == 0 )
-        {
-            ret = i;
-            break;
-        }
-    }
-    return ret;
+    return ss.indexOf(s);
 }
 
 int TcString::findOf(const QStringList& list, const QString& key)
