@@ -1,9 +1,9 @@
-Tianchi 0.0.1 is the first public release. supported in x86/x64's win32/linux
+Tianchi 0.0.2 is the second public release. supported in x86/x64's win32/linux
 Qt desktop edition, compilers tested in msvc2010/2012 and mingw(with Qt5)/gcc
 
 Tianchi Repository: https://github.com/qtcn/tianchi
 Tianchi Forum & Bug Report: http://www.qtcn.org/bbs/thread-htm-fid-105.html
-Tianchi Docs: http://www.qtcn.org/tianchi/docs/0.0.1
+Tianchi Docs: http://www.qtcn.org/tianchi/docs/0.0.2
 
 ****************************************************************************
 *                          Library                                         *
@@ -11,93 +11,135 @@ Tianchi Docs: http://www.qtcn.org/tianchi/docs/0.0.1
 
 Chinese
 -------
- - Chinese
-   class Chinese:
+ - TcChinese
+   class TcChinese:
         1. 取得多个汉字的首字母
         2. 取得多个汉字的全部拼音
         3. 混合字符时转换中不过滤英数符号等
 
 Core
 ----
- - Classes
-   class Player: 玩家信息类,常用在C/S中的客户端用户信息保存
-   class CInvokeObject: 映射执行对象类
-   class DBFields: 数据格式转换类,用于key=value格式数据读取
+ - TcClasses
+   class TcPlayer: 玩家信息类,常用在C/S中的客户端用户信息保存
+   class TcInvoke: 映射执行对象类
+   class TcDBFields: 数据格式转换类,用于key=value格式数据读取
 
- - Common
+ - TcCommon
+   function initQS: 全局字符集对象
    function QS: 汉字字符集转换
    function max/min: 最大最小判断
    function iif: 分支逻辑判断
    function MsgBox: 显示简易文本信息对话框
    function debug_out: 输出debug日志信息(到控制台或文件)
 
- - String
-   class String: 字符串功能增强与扩展
-   class StringList: 字符串列表功能增强与扩展
+ - TcString
+   class TcString: 字符串功能增强与扩展
+   class TcStringList: 字符串列表功能增强与扩展
 
- - Utils
-   class Utils: 常用小功能综合函数集
+ - TcUtils
+   class TcUtils: 常用小功能综合函数集
+ 
+ - TcTuple
+   class TcTuple: 简单的Tuple(元组)模板类,提供2~10个类型参数的模板
 
+ - TcSingleton
+   class TcSingleton: 用指针实现的单例模式的模版类
+
+ - TcVariantMapTableModel
+   class TcVariantMapTableModel: 以QVariantMap作为数据行的model
+
+ - TcFunctionalSortFilterProxyModel
+   class TcFunctionalSortFilterProxyModel 
+                    依所设过滤参数(QVariantMap)来使用已设滤函数进行过滤的模型
 File
 ----
- - Directory
-   class Directory: 可以复制目录树的类,也可以查找目录内所有的文件
+ - TcDir
+   class TcDir: 可以复制目录树的类,也可以查找目录内所有的文件
 
- - FileUtils
-   class FileUtils: 文件操作常用处理类
+ - TcFile
+   class TcFile: 文件操作常用处理类
 
- - Json
-   class JSONObject: 兼容Qt4.x的JSON文件生成和解析类
+ - TcJson
+   class TcJSONObject: 兼容Qt4.x的JSON文件生成和解析类
 
- - LogTiny
-   class LogTiny: 简单的文本文件输出日志类
+ - TcLog
+   class TcLog: 简单的文本文件输出日志类
 
- - MSExcel
-   class MSExcel: 通过OLE方式操作Microsoft Excel
+ - TcMSExcel
+   class TcMSExcel: 通过OLE方式操作Microsoft Excel
+
+ - TcFileIO
+   class TcFileIO: 一些文件复制和提取功能的类
+
+ - TcExcelReader
+   class TcExcelReader: 通过OLE方式读取Excel(要求已安装Excel或WPSOffice)
 
 Gui
 ---
+ - TcClickLabel
+   class TcClickLabel: 可发出clicked()信号的Label部件
 
- - ClickLabel
-   class ClickLabel: 可发出clicked()信号的Label部件
+ - TcDateEdit
+   class TcDateEdit: 允许为空的日期选择部件
 
- - DateEdit
-   class DateEdit: 允许为空的日期选择部件
+ - TcFlowLayout
+   class TcFlowLayout: 流式布局类
 
- - FlowLayout
-   class FlowLayout: 流式布局类
+ - TcGlowEffect
+   class TcGlowEffect: 发光效果的QGraphicsEffect
 
- - GlowEffect
-   class GlowEffect: 发光效果的QGraphicsEffect
+ - TcGuiUtils:
+   class TcCursorWait: 等待光标的设置和自动恢复处理类
+   class TcCursorBusy: 退出块时使光标自动恢复为原先光标形状
 
- - GuiUtils:
-   class CursorWait: 等待光标的设置和自动恢复处理类
-   class CursorBusy: 退出块时使光标自动恢复为原先光标形状
-
- - LineEdit
-   class LineEdit: 增强型LineEdit部件,可发出doubleClicked()信号,并且可使编辑
+ - TcLineEdit
+   class TcLineEdit: 增强型LineEdit部件,可发出doubleClicked()信号,并且可使编辑
                    和非编辑状态时显示不同的字符
 
- - MarqueeLabel
-   class MarqueeLabel: 跑马灯效果的Label,点击时自动打开链接
+ - TcMarqueeLabel
+   class TcMarqueeLabel: 跑马灯效果的Label,可左右或上下滚动，可设置速度
 
- - TreeWidgetHeadersSetupDialog
-   class TreeWidgetHeaderSetupDialog: 设置QTreeWidget标题的对话框
+ - TcHeaderSetupDialog
+   class TcHeaderSetupDialog: 设置QTreeWidget标题的对话框
+
+ - TcSortPaginationTableView
+   class TcSortPaginationTableView: 可排序和分页的TableView
 
 Network
 -------
- - DownloadHttp
-   class Download: HTTP文件多线程下载器
+ - TcDownloadHttp
+   class TcDownload: HTTP文件多线程下载器
+   class TcDownloadList: 用于管理HTTP文件多线程下载的容器
  
- - SingleInstance
-   class SingleInstance: 应用程序单例实现类
+ - TcSingleInstance
+   class TcSingleInstance: 应用程序单例实现类
+
+ - TcUdp
+   class TcUdp: UDP 协议的通讯器
 
 OS
 --
- - OS
-   class OS: 操作系统相关的操作类
+ - TcOS
+   class TcOS: 操作系统相关的操作类
 
 Sql
 -----
- - MSSQL
+ - TcMSSQL
    static class function availableODBCDrivers: 读取可用MSSQL ODBC驱动和版本信息
+   static class function ODBCDSN: 构造ODBC连接字符串
+
+ - TcOracle
+   static class function availableODBCDrivers: 读取可用Oracle ODBC驱动和版本信息
+   static class function ODBCDSN: 构造ODBC连接字符串
+
+ - TcDataAccess
+   class TcDataAccessStatement: 用于构造SQL语句的数据访问语句类
+   class TcDataAccess: 用于访问数据库的数据访问类
+
+ - TcDatabase
+   class TcDatabase: 数据库操作类
+
+Widget
+------
+ - TcTreeEx
+   class TcTreeEx: QTreeWidget的扩展，可直接导出到 Excel 中
