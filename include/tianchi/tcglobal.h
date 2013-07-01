@@ -28,11 +28,11 @@
 
 #include <QtCore/qglobal.h>
 
-#define TIANCHI_VERSION_STR   "0.0.1"
+#define TIANCHI_VERSION_STR   "0.0.2"
 /*
    TIANCHI_VERSION is (major << 16) + (minor << 8) + patch.
 */
-#define TIANCHI_VERSION 0x000001
+#define TIANCHI_VERSION 0x000002
 /*
    can be used like #if (TIANCHI_VERSION >= TIANCHI_VERSION_CHECK(4, 4, 0))
 */
