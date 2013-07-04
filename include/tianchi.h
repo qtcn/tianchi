@@ -25,6 +25,7 @@
 #include <tianchi/core/tcvariantmaptablemodel.h>
 #include <tianchi/core/tcsingleton.hpp>
 #include <tianchi/core/tctuple.hpp>
+#include <tianchi/core/tcmath.h>
 
 #include <tianchi/file/tcdir.h>
 #include <tianchi/file/tcfile.h>
