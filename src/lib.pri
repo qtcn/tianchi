@@ -79,6 +79,7 @@ HEADERS += \
     $$TC_INCL/tianchi/core/tcfunctionalsortfilterproxymodel.h \
     $$TC_INCL/tianchi/core/tcsingleton.hpp \
     $$TC_INCL/tianchi/core/tctuple.hpp \
+    $$TC_INCL/tianchi/core/tcmath.h \
     $$TC_INCL/tianchi/file/tcjson.h \
     $$TC_INCL/tianchi/file/tclog.h \
     $$TC_INCL/tianchi/file/tcmsexcel.h \
@@ -113,6 +114,7 @@ SOURCES += \
     $$PWD/core/tcstring.cpp \
     $$PWD/core/tcvariantmaptablemodel.cpp \
     $$PWD/core/tcfunctionalsortfilterproxymodel.cpp \
+    $$PWD/core/tcmath.cpp \
     $$PWD/file/tcjson.cpp \
     $$PWD/file/tclog.cpp \
     $$PWD/file/tcmsexcel.cpp \
@@ -144,3 +146,5 @@ FORMS += \
 
 RESOURCES += \
     $$PWD/../res/tianchi.qrc
+
+include($$PWD/bcmath/bcmath.pri)

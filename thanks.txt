@@ -28,3 +28,4 @@
 2013.06.07  XChinux             增加 class Core/TcFunctionalSortFilterProxyModel
                                 增加 class Core/TcVariantMapTableModel
                                 增加 class Gui/TcSortPaginationTableView
+2013.07.04  XChinux             增加 bcmath及Core/TcMath
