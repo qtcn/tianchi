@@ -25,86 +25,86 @@ class TIANCHI_API TcMath
 {
 public:
     /// @brief  Returns the sum of two arbitrary precision numbers
-    static inline std::string bcadd(const std::string &left, 
+    static std::string bcadd(const std::string &left, 
             const std::string &right, int scale = -1);
 
     /// @brief  Returns the difference between two arbitrary precision numbers
-    static inline std::string bcsub(const std::string &left, 
+    static std::string bcsub(const std::string &left, 
             const std::string &right, int scale = -1);
 
     /// @brief  Returns the multiplication of two arbitrary precision numbers
-    static inline std::string bcmul(const std::string &left, 
+    static std::string bcmul(const std::string &left, 
             const std::string &right, int scale = -1);
 
     /// @brief  Returns the quotient of two arbitrary precision numbers 
     ///         (division)
-    static inline std::string bcdiv(const std::string &left, 
+    static std::string bcdiv(const std::string &left, 
             const std::string &right, int scale = -1);
 
     /// @brief  Returns the modulus of the two arbitrary precision operands
-    static inline std::string bcmod(const std::string &left, 
+    static std::string bcmod(const std::string &left, 
             const std::string &right);
 
     /// @brief  Returns the value of an arbitrary precision number raised 
     ///         to the power of another reduced by a modulous
-    static inline std::string bcpowmod(const std::string &left, 
+    static std::string bcpowmod(const std::string &left, 
             const std::string &right, const std::string &mod, int scale = -1);
 
     /// @brief  Returns the value of an arbitrary precision number raised 
     ///         to the power of another
-    static inline std::string bcpow(const std::string &left, 
+    static std::string bcpow(const std::string &left, 
             const std::string &right, int scale = -1);
 
     /// @brief  Returns the square root of an arbitray precision number
-    static inline std::string bcsqrt(const std::string &left, int scale = -1);
+    static std::string bcsqrt(const std::string &left, int scale = -1);
 
     /// @brief  Compares two arbitrary precision numbers
-    static inline int bccomp(const std::string &left, const std::string &right, 
+    static int bccomp(const std::string &left, const std::string &right, 
             int scale = -1);
 
     /// @brief  Sets default scale parameter for all bc math functions
-    static inline bool bcscale(int scale);
+    static bool bcscale(int scale);
 
 
 
 
 
     /// @brief  Returns the sum of two arbitrary precision numbers
-    static inline QString bcadd(const QString &left, 
+    static QString bcadd(const QString &left, 
             const QString &right, int scale = -1);
 
     /// @brief  Returns the difference between two arbitrary precision numbers
-    static inline QString bcsub(const QString &left, 
+    static QString bcsub(const QString &left, 
             const QString &right, int scale = -1);
 
     /// @brief  Returns the multiplication of two arbitrary precision numbers
-    static inline QString bcmul(const QString &left, 
+    static QString bcmul(const QString &left, 
             const QString &right, int scale = -1);
 
     /// @brief  Returns the quotient of two arbitrary precision numbers 
     ///         (division)
-    static inline QString bcdiv(const QString &left, 
+    static QString bcdiv(const QString &left, 
             const QString &right, int scale = -1);
 
     /// @brief  Returns the modulus of the two arbitrary precision operands
-    static inline QString bcmod(const QString &left, 
+    static QString bcmod(const QString &left, 
             const QString &right);
 
     /// @brief  Returns the value of an arbitrary precision number raised 
     ///         to the power of another reduced by a modulous
-    static inline QString bcpowmod(const QString &left, 
+    static QString bcpowmod(const QString &left, 
             const QString &right, const QString &mod, int scale = -1);
 
     /// @brief  Returns the value of an arbitrary precision number raised 
     ///         to the power of another
-    static inline QString bcpow(const QString &left, 
+    static QString bcpow(const QString &left, 
             const QString &right, int scale = -1);
 
     /// @brief  Returns the square root of an arbitray precision number
-    static inline QString bcsqrt(const QString &left, int scale = -1);
+    static QString bcsqrt(const QString &left, int scale = -1);
 
     /// @brief  Compares two arbitrary precision numbers
-    static inline int bccomp(const QString &left, const QString &right, 
+    static int bccomp(const QString &left, const QString &right, 
             int scale = -1);
 };
 
