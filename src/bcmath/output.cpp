@@ -37,7 +37,6 @@
 #include <stdarg.h>
 #include <string.h>
 #include "bcmath_p.h"
-#include "private.h"
 
 
 /* The following routines provide output for bcd numbers package
@@ -83,8 +82,7 @@ void bc_out_long(long val, int size, int space, out_char_fn out_char)
 
 /* Output of a bcd number.  NUM is written in base O_BASE using OUT_CHAR
    as the routine to do the actual output of the characters. */
-
-void bc_out_num(bc_num num, int o_base, out_char_fn out_char, 
+void bc_struct::out_num(bc_num num, int o_base, out_char_fn out_char, 
         int leading_zero)
 {
     char *nptr;
@@ -96,7 +94,7 @@ void bc_out_num(bc_num num, int o_base, out_char_fn out_char,
     if (num->n_sign == MINUS) out_char('-');
 
     /* Output the number. */
-    if (bc_is_zero (num))
+    if (bc_struct::is_zero(num))
         out_char('0');
     else
         if (o_base == 10)
@@ -109,7 +107,7 @@ void bc_out_num(bc_num num, int o_base, out_char_fn out_char,
             else
                 nptr++;
 
-            if (leading_zero && bc_is_zero (num))
+            if (leading_zero && bc_struct::is_zero(num))
                 out_char('0');
 
             /* Now the fraction. */
@@ -123,36 +121,36 @@ void bc_out_num(bc_num num, int o_base, out_char_fn out_char,
         else
         {
 	    /* special case ... */
-	    if (leading_zero && bc_is_zero (num))
+	    if (leading_zero && bc_struct::is_zero(num))
 	        out_char('0');
 
 	    /* The number is some other base. */
             digits = NULL;
-            bc_init_num (&int_part);
-            bc_divide (num, BCG(_one_), &int_part, 0);
-            bc_init_num (&frac_part);
-            bc_init_num (&cur_dig);
-            bc_init_num (&base);
-            bc_sub (num, int_part, &frac_part, 0);
+            bc_struct::init_num(&int_part);
+            bc_struct::divide(num, BCG(_one_), &int_part, 0);
+            bc_struct::init_num(&frac_part);
+            bc_struct::init_num(&cur_dig);
+            bc_struct::init_num(&base);
+            bc_struct::sub(num, int_part, &frac_part, 0);
             /* Make the INT_PART and FRAC_PART positive. */
             int_part->n_sign = PLUS;
             frac_part->n_sign = PLUS;
-            bc_int2num (&base, o_base);
-            bc_init_num (&max_o_digit);
-            bc_int2num (&max_o_digit, o_base-1);
+            bc_struct::int2num(&base, o_base);
+            bc_struct::init_num(&max_o_digit);
+            bc_struct::int2num(&max_o_digit, o_base-1);
 
 
             /* Get the digits of the integer part and push them on a stack. */
-            while (!bc_is_zero (int_part))
+            while (!bc_struct::is_zero(int_part))
             {
-                bc_modulo (int_part, base, &cur_dig, 0);
+                bc_struct::modulo(int_part, base, &cur_dig, 0);
                     /* PHP Change:  malloc() -> emalloc() */
                 temp = (stk_rec *) malloc (sizeof(stk_rec));
-                if (temp == NULL) bc_out_of_memory();
-                temp->digit = bc_num2long (cur_dig);
+                if (temp == NULL) bc_struct::out_of_memory();
+                temp->digit = bc_struct::num2long(cur_dig);
                 temp->next = digits;
                 digits = temp;
-                bc_divide (int_part, base, &int_part, 0);
+                bc_struct::divide(int_part, base, &int_part, 0);
             }
 
             /* Print the digits on the stack. */
@@ -176,13 +174,13 @@ void bc_out_num(bc_num num, int o_base, out_char_fn out_char,
             {
                 out_char('.');
                 pre_space = 0;
-                t_num = bc_copy_num (BCG(_one_));
+                t_num = bc_struct::copy_num(BCG(_one_));
                 while (t_num->n_len <= num->n_scale)
                 {
-                    bc_multiply (frac_part, base, &frac_part, num->n_scale);
-                    fdigit = bc_num2long (frac_part);
-                    bc_int2num (&int_part, fdigit);
-                    bc_sub (frac_part, int_part, &frac_part, 0);
+                    bc_struct::multiply(frac_part, base, &frac_part, num->n_scale);
+                    fdigit = bc_struct::num2long(frac_part);
+                    bc_struct::int2num(&int_part, fdigit);
+                    bc_struct::sub(frac_part, int_part, &frac_part, 0);
                     if (o_base <= 16)
                         out_char(ref_str[fdigit]);
                     else
@@ -191,16 +189,16 @@ void bc_out_num(bc_num num, int o_base, out_char_fn out_char,
                                 out_char);
                         pre_space = 1;
                     }
-                    bc_multiply (t_num, base, &t_num, 0);
+                    bc_struct::multiply(t_num, base, &t_num, 0);
                 }
-                bc_free_num (&t_num);
+                bc_struct::free_num(&t_num);
             }
 
             /* Clean up. */
-            bc_free_num (&int_part);
-            bc_free_num (&frac_part);
-            bc_free_num (&base);
-            bc_free_num (&cur_dig);
-            bc_free_num (&max_o_digit);
+            bc_struct::free_num(&int_part);
+            bc_struct::free_num(&frac_part);
+            bc_struct::free_num(&base);
+            bc_struct::free_num(&cur_dig);
+            bc_struct::free_num(&max_o_digit);
         }
 }

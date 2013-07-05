@@ -36,7 +36,6 @@
 #include <ctype.h>
 #include <stdarg.h>
 #include "bcmath_p.h"
-#include "private.h"
 
 /* Recursive vs non-recursive multiply crossover ranges. */
 #if defined(MULDIGITS)
@@ -73,7 +72,7 @@ static void _bc_simp_mul(bc_num n1, int n1len, bc_num n2, int n2len,
 
     prodlen = n1len+n2len + 1;
 
-    *prod = bc_new_num(prodlen, 0);
+    *prod = bc_struct::new_num(prodlen, 0);
 
     n1end = (char *) (n1->n_value + n1len - 1);
     n2end = (char *) (n2->n_value + n2len - 1);
@@ -200,7 +199,7 @@ static void _bc_rec_mul(bc_num u, int ulen, bc_num v, int vlen, bc_num *prod,
     /* Split u and v. */
     if (ulen < n)
     {
-        u1 = bc_copy_num (BCG(_zero_));
+        u1 = bc_struct::copy_num(BCG(_zero_));
         u0 = new_sub_num (ulen,0, u->n_value);
     }
     else
@@ -210,7 +209,7 @@ static void _bc_rec_mul(bc_num u, int ulen, bc_num v, int vlen, bc_num *prod,
     }
     if (vlen < n)
     {
-        v1 = bc_copy_num (BCG(_zero_));
+        v1 = bc_struct::copy_num(BCG(_zero_));
         v0 = new_sub_num (vlen,0, v->n_value);
     }
     else
@@ -218,44 +217,44 @@ static void _bc_rec_mul(bc_num u, int ulen, bc_num v, int vlen, bc_num *prod,
         v1 = new_sub_num (vlen-n, 0, v->n_value);
         v0 = new_sub_num (n, 0, v->n_value+vlen-n);
     }
-    _bc_rm_leading_zeros (u1);
-    _bc_rm_leading_zeros (u0);
+    bc_struct::_bc_rm_leading_zeros (u1);
+    bc_struct::_bc_rm_leading_zeros (u0);
     //u0len = u0->n_len;
-    _bc_rm_leading_zeros (v1);
-    _bc_rm_leading_zeros (v0);
+    bc_struct::_bc_rm_leading_zeros (v1);
+    bc_struct::_bc_rm_leading_zeros (v0);
     //v0len = v0->n_len;
 
-    m1zero = bc_is_zero(u1) || bc_is_zero(v1);
+    m1zero = bc_struct::is_zero(u1) || bc_struct::is_zero(v1);
 
     /* Calculate sub results ... */
 
-    bc_init_num(&d1);
-    bc_init_num(&d2);
-    bc_sub (u1, u0, &d1, 0);
+    bc_struct::init_num(&d1);
+    bc_struct::init_num(&d2);
+    bc_struct::sub(u1, u0, &d1, 0);
     d1len = d1->n_len;
-    bc_sub (v0, v1, &d2, 0);
+    bc_struct::sub(v0, v1, &d2, 0);
     d2len = d2->n_len;
 
 
     /* Do recursive multiplies and shifted adds. */
     if (m1zero)
-        m1 = bc_copy_num (BCG(_zero_));
+        m1 = bc_struct::copy_num(BCG(_zero_));
     else
         _bc_rec_mul (u1, u1->n_len, v1, v1->n_len, &m1, 0);
 
-    if (bc_is_zero(d1) || bc_is_zero(d2))
-        m2 = bc_copy_num (BCG(_zero_));
+    if (bc_struct::is_zero(d1) || bc_struct::is_zero(d2))
+        m2 = bc_struct::copy_num(BCG(_zero_));
     else
         _bc_rec_mul (d1, d1len, d2, d2len, &m2, 0);
 
-    if (bc_is_zero(u0) || bc_is_zero(v0))
-        m3 = bc_copy_num (BCG(_zero_));
+    if (bc_struct::is_zero(u0) || bc_struct::is_zero(v0))
+        m3 = bc_struct::copy_num(BCG(_zero_));
     else
         _bc_rec_mul (u0, u0->n_len, v0, v0->n_len, &m3, 0);
 
     /* Initialize product */
     prodlen = ulen + vlen + 1;
-    *prod = bc_new_num(prodlen, 0);
+    *prod = bc_struct::new_num(prodlen, 0);
 
     if (!m1zero)
     {
@@ -267,22 +266,21 @@ static void _bc_rec_mul(bc_num u, int ulen, bc_num v, int vlen, bc_num *prod,
     _bc_shift_addsub (*prod, m2, n, d1->n_sign != d2->n_sign);
 
     /* Now clean up! */
-    bc_free_num(&u1);
-    bc_free_num(&u0);
-    bc_free_num(&v1);
-    bc_free_num(&m1);
-    bc_free_num(&v0);
-    bc_free_num(&m2);
-    bc_free_num(&m3);
-    bc_free_num(&d1);
-    bc_free_num(&d2);
+    bc_struct::free_num(&u1);
+    bc_struct::free_num(&u0);
+    bc_struct::free_num(&v1);
+    bc_struct::free_num(&m1);
+    bc_struct::free_num(&v0);
+    bc_struct::free_num(&m2);
+    bc_struct::free_num(&m3);
+    bc_struct::free_num(&d1);
+    bc_struct::free_num(&d2);
 }
 
 /* The multiply routine.  N2 times N1 is put int PROD with the scale of
    the result being MIN(N2 scale+N1 scale, MAX (SCALE, N2 scale, N1 scale)).
    */
-
-void bc_multiply(bc_num n1, bc_num n2, bc_num *prod, int scale)
+void bc_struct::multiply(bc_num n1, bc_num n2, bc_num *prod, int scale)
 {
     bc_num pval; 
     int len1, len2;
@@ -303,8 +301,8 @@ void bc_multiply(bc_num n1, bc_num n2, bc_num *prod, int scale)
     pval->n_len = len2 + len1 + 1 - full_scale;
     pval->n_scale = prod_scale;
     _bc_rm_leading_zeros (pval);
-    if (bc_is_zero(pval))
+    if (bc_struct::is_zero(pval))
         pval->n_sign = PLUS;
-    bc_free_num(prod);
+    bc_struct::free_num(prod);
     *prod = pval;
 }

@@ -26,31 +26,16 @@
 #include "bcmath_p.h"
 #include "bcmath.h"
 
-BCMATH_GLOBALS_TYPE bcmath_globals;
-
-BCMATH_GLOBALS_TYPE::BCMATH_GLOBALS_TYPE()
-    : _zero_(NULL), _one_(NULL), _two_(NULL), bc_precision(0)
-{
-    bc_init_numbers();
-}
-
-BCMATH_GLOBALS_TYPE::~BCMATH_GLOBALS_TYPE()
-{
-    _bc_free_num_ex(&bcmath_globals._zero_, 1);
-    _bc_free_num_ex(&bcmath_globals._one_, 1);
-    _bc_free_num_ex(&bcmath_globals._two_, 1);
-}
-
 /* Convert to bc_num detecting scale */
 static void _str2num(bc_num *num, const char *str)
 {
     const char *p;
     if (!(p = strchr(str, '.')))
     {
-        bc_str2num(num, str, 0);
+        bc_struct::str2num(num, str, 0);
         return;
     }
-    bc_str2num(num, str, strlen(p+1));
+    bc_struct::str2num(num, str, strlen(p+1));
 }
 
 /* Returns the sum of two arbitrary precision numbers */
@@ -65,24 +50,24 @@ std::string bcadd(const std::string &left, const std::string &right,
         scale = scale_param;
     }
 
-    bc_init_num(&first);
-    bc_init_num(&second);
-    bc_init_num(&result);
+    bc_struct::init_num(&first);
+    bc_struct::init_num(&second);
+    bc_struct::init_num(&result);
     _str2num(&first, left.c_str());
     _str2num(&second, right.c_str());
-    bc_add (first, second, &result, scale);
+    bc_struct::add(first, second, &result, scale);
     
     if (result->n_scale > scale)
     {
         result->n_scale = scale;
     }
 	
-    char *ret = bc_num2str(result);
+    char *ret = bc_struct::num2str(result);
     std::string return_value(ret);
     free(ret);
-    bc_free_num(&first);
-    bc_free_num(&second);
-    bc_free_num(&result);
+    bc_struct::free_num(&first);
+    bc_struct::free_num(&second);
+    bc_struct::free_num(&result);
     return return_value;
 }
 
@@ -98,24 +83,24 @@ std::string bcsub(const std::string &left, const std::string &right,
         scale = scale_param;
     }
 
-    bc_init_num(&first);
-    bc_init_num(&second);
-    bc_init_num(&result);
+    bc_struct::init_num(&first);
+    bc_struct::init_num(&second);
+    bc_struct::init_num(&result);
     _str2num(&first, left.c_str());
     _str2num(&second, right.c_str());
-    bc_sub (first, second, &result, scale);
+    bc_struct::sub(first, second, &result, scale);
 
     if (result->n_scale > scale)
     {
         result->n_scale = scale;
     }
 
-    char *ret = bc_num2str(result);
+    char *ret = bc_struct::num2str(result);
     std::string return_value(ret);
     free(ret);
-    bc_free_num(&first);
-    bc_free_num(&second);
-    bc_free_num(&result);
+    bc_struct::free_num(&first);
+    bc_struct::free_num(&second);
+    bc_struct::free_num(&result);
     return return_value;
 }
 
@@ -126,24 +111,24 @@ std::string bcmul(const std::string &left, const std::string &right,
     bc_num first, second, result;
     int scale = scale_param > -1 ? scale_param : BCG(bc_precision);
 
-    bc_init_num(&first);
-    bc_init_num(&second);
-    bc_init_num(&result);
+    bc_struct::init_num(&first);
+    bc_struct::init_num(&second);
+    bc_struct::init_num(&result);
     _str2num(&first, left.c_str());
     _str2num(&second, right.c_str());
-    bc_multiply (first, second, &result, scale);
+    bc_struct::multiply (first, second, &result, scale);
 
     if (result->n_scale > scale)
     {
         result->n_scale = scale;
     }
 
-    char *ret = bc_num2str(result);
+    char *ret = bc_struct::num2str(result);
     std::string return_value(ret); 
     free(ret);
-    bc_free_num(&first);
-    bc_free_num(&second);
-    bc_free_num(&result);
+    bc_struct::free_num(&first);
+    bc_struct::free_num(&second);
+    bc_struct::free_num(&result);
     return return_value;
 }
 
@@ -154,14 +139,14 @@ std::string bcdiv(const std::string &left,
     bc_num first, second, result;
     int scale = scale_param > -1 ? scale_param : BCG(bc_precision);
 
-    bc_init_num(&first);
-    bc_init_num(&second);
-    bc_init_num(&result);
+    bc_struct::init_num(&first);
+    bc_struct::init_num(&second);
+    bc_struct::init_num(&result);
     _str2num(&first, left.c_str());
     _str2num(&second, right.c_str());
 
     std::string return_value;
-    switch (bc_divide(first, second, &result, scale))
+    switch (bc_struct::divide(first, second, &result, scale))
     {
         case 0: /* OK */
             if (result->n_scale > scale)
@@ -169,7 +154,7 @@ std::string bcdiv(const std::string &left,
                 result->n_scale = scale;
             }
             {
-                char *ret = bc_num2str(result);
+                char *ret = bc_struct::num2str(result);
                 return_value = ret;
                 free(ret);
             }
@@ -179,9 +164,9 @@ std::string bcdiv(const std::string &left,
             break;
     }
 
-    bc_free_num(&first);
-    bc_free_num(&second);
-    bc_free_num(&result);
+    bc_struct::free_num(&first);
+    bc_struct::free_num(&second);
+    bc_struct::free_num(&result);
     return return_value;
 }
 
@@ -190,18 +175,18 @@ std::string bcmod(const std::string &left, const std::string &right)
 {
     bc_num first, second, result;
 
-    bc_init_num(&first);
-    bc_init_num(&second);
-    bc_init_num(&result);
-    bc_str2num(&first, left.c_str(), 0);
-    bc_str2num(&second, right.c_str(), 0);
+    bc_struct::init_num(&first);
+    bc_struct::init_num(&second);
+    bc_struct::init_num(&result);
+    bc_struct::str2num(&first, left.c_str(), 0);
+    bc_struct::str2num(&second, right.c_str(), 0);
     
     std::string return_value;
-    switch (bc_modulo(first, second, &result, 0))
+    switch (bc_struct::modulo(first, second, &result, 0))
     {
         case 0:
             {
-                char *ret = bc_num2str(result);
+                char *ret = bc_struct::num2str(result);
                 return_value =  ret;
                 free(ret);
             }
@@ -211,9 +196,9 @@ std::string bcmod(const std::string &left, const std::string &right)
             break;
     }        
 	
-    bc_free_num(&first);
-    bc_free_num(&second);
-    bc_free_num(&result);
+    bc_struct::free_num(&first);
+    bc_struct::free_num(&second);
+    bc_struct::free_num(&result);
     return return_value;
 }
 
@@ -224,22 +209,22 @@ std::string bcpowmod(const std::string &left, const std::string &right,
     bc_num first, second, mod, result;
     int scale = scale_param > -1 ? scale_param : BCG(bc_precision);
 
-    bc_init_num(&first);
-    bc_init_num(&second);
-    bc_init_num(&mod);
-    bc_init_num(&result);
+    bc_struct::init_num(&first);
+    bc_struct::init_num(&second);
+    bc_struct::init_num(&mod);
+    bc_struct::init_num(&result);
     _str2num(&first, left.c_str());
     _str2num(&second, right.c_str());
     _str2num(&mod, modulous.c_str());
 
     std::string return_value;
-    if (bc_raisemod(first, second, mod, &result, scale) != -1)
+    if (bc_struct::raisemod(first, second, mod, &result, scale) != -1)
     {
         if (result->n_scale > scale)
         {
             result->n_scale = scale;
         }
-        char *ret = bc_num2str(result);
+        char *ret = bc_struct::num2str(result);
         return_value = ret;
         free(ret);
     }
@@ -248,10 +233,10 @@ std::string bcpowmod(const std::string &left, const std::string &right,
         //RETVAL_FALSE;
     }
 	
-    bc_free_num(&first);
-    bc_free_num(&second);
-    bc_free_num(&mod);
-    bc_free_num(&result);
+    bc_struct::free_num(&first);
+    bc_struct::free_num(&second);
+    bc_struct::free_num(&mod);
+    bc_struct::free_num(&result);
     return return_value;
 }
 
@@ -262,24 +247,24 @@ std::string bcpow(const std::string &left,
     bc_num first, second, result;
     int scale = scale_param > -1 ? scale_param : BCG(bc_precision);
 
-    bc_init_num(&first);
-    bc_init_num(&second);
-    bc_init_num(&result);
+    bc_struct::init_num(&first);
+    bc_struct::init_num(&second);
+    bc_struct::init_num(&result);
     _str2num(&first, left.c_str());
     _str2num(&second, right.c_str());
-    bc_raise (first, second, &result, scale);
+    bc_struct::raise (first, second, &result, scale);
 
     if (result->n_scale > scale)
     {
         result->n_scale = scale;
     }
 
-    char *ret = bc_num2str(result);;
+    char *ret = bc_struct::num2str(result);;
     std::string return_value(ret);
     free(ret);
-    bc_free_num(&first);
-    bc_free_num(&second);
-    bc_free_num(&result);
+    bc_struct::free_num(&first);
+    bc_struct::free_num(&second);
+    bc_struct::free_num(&result);
     return return_value;
 }
 
@@ -289,17 +274,17 @@ std::string bcsqrt(const std::string &left, int scale_param /*= -1*/)
     bc_num result;
     int scale = scale_param > -1 ? scale_param : BCG(bc_precision);
 
-    bc_init_num(&result);
+    bc_struct::init_num(&result);
     _str2num(&result, left.c_str());
     
     std::string return_value;
-    if (bc_sqrt (&result, scale) != 0)
+    if (bc_struct::sqrt(&result, scale) != 0)
     {
         if (result->n_scale > scale)
         {
             result->n_scale = scale;
         }
-        char *ret = bc_num2str(result);
+        char *ret = bc_struct::num2str(result);
         return_value = ret;
         free(ret);
     }
@@ -309,7 +294,7 @@ std::string bcsqrt(const std::string &left, int scale_param /*= -1*/)
             << std::endl;
     }
 
-    bc_free_num(&result);
+    bc_struct::free_num(&result);
     return return_value;
 }
 
@@ -321,15 +306,15 @@ int bccomp(const std::string &left,
     bc_num first, second;
     int scale = scale_param > -1 ? scale_param : BCG(bc_precision);
 
-    bc_init_num(&first);
-    bc_init_num(&second);
+    bc_struct::init_num(&first);
+    bc_struct::init_num(&second);
 
-    bc_str2num(&first, left.c_str(), scale);
-    bc_str2num(&second, right.c_str(), scale);
-    int return_value = bc_compare(first, second);
+    bc_struct::str2num(&first, left.c_str(), scale);
+    bc_struct::str2num(&second, right.c_str(), scale);
+    int return_value = bc_struct::compare(first, second);
 
-    bc_free_num(&first);
-    bc_free_num(&second);
+    bc_struct::free_num(&first);
+    bc_struct::free_num(&second);
     return return_value;
 }
 
