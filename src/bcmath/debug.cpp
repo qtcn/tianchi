@@ -36,7 +36,6 @@
 #include <ctype.h>
 #include <stdarg.h>
 #include "bcmath_p.h"
-#include "private.h"
 
 /* pn prints the number NUM in base 10. */
 
@@ -47,7 +46,7 @@ static void out_char (int c)
 
 void pn(bc_num num)
 {
-    bc_out_num (num, 10, out_char, 0);
+    bc_struct::out_num(num, 10, out_char, 0);
     out_char ('\n');
 }
 
