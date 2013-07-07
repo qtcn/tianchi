@@ -93,7 +93,7 @@ int bc_struct::divide(bc_num n1, bc_num n2, bc_num *quot, int scale)
   unsigned int  norm;
 
   /* Test for divide by zero. */
-  if (bc_struct::is_zero(n2)) return -1;
+  if (n2->is_zero()) return -1;
 
   /* Test for divide by 1.  If it is we must truncate. */
   if (n2->n_scale == 0)
@@ -254,7 +254,7 @@ int bc_struct::divide(bc_num n1, bc_num n2, bc_num *quot, int scale)
 
   /* Clean up and return the number. */
   qval->n_sign = ( n1->n_sign == n2->n_sign ? PLUS : MINUS );
-  if (bc_struct::is_zero(qval)) qval->n_sign = PLUS;
+  if (qval->is_zero()) qval->n_sign = PLUS;
   _bc_rm_leading_zeros (qval);
   bc_struct::free_num(quot);
   *quot = qval;

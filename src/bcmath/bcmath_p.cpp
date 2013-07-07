@@ -57,7 +57,7 @@ BCMATH_GLOBALS_TYPE::~BCMATH_GLOBALS_TYPE()
 bc_struct::bc_struct(int length, int scale) : n_sign(PLUS), n_len(length), 
     n_scale(scale), n_refs(1), n_next(NULL), n_ptr(NULL), n_value(NULL)
 {
-    n_ptr = (char *)malloc(length + scale);
+    n_ptr = new char[length + scale];//(char *)malloc(length + scale);
     n_value = n_ptr;
     memset(n_ptr, 0, length + scale);
 }
@@ -66,7 +66,8 @@ bc_struct::~bc_struct()
 {
     if (n_ptr)
     {
-        free(n_ptr);
+        delete[] n_ptr;
+        //free(n_ptr);
     }
 }
 
@@ -181,159 +182,173 @@ void bc_struct::str2num(bc_num *num, const char *str, int scale)
 }
 
 /* Convert a numbers to a string.  Base 10 only.*/
-char* bc_struct::num2str(bc_num num)
+std::string bc_struct::to_string() const
 {
-  char *str, *sptr;
-  char *nptr;
-  int  index, signch;
+    // PASS
+    std::string str;
+    char *nptr;
+    int  index, signch;
 
-  /* Allocate the string memory. */
-  signch = ( num->n_sign == PLUS ? 0 : 1 );  /* Number of sign chars. */
-  if (num->n_scale > 0)
-    str = (char *) malloc (num->n_len + num->n_scale + (2 + signch));
-  else
-    str = (char *) malloc (num->n_len + (1 + signch));
-  if (str == NULL) bc_struct::out_of_memory();
+    /* Allocate the string memory. */
+    signch = ( this->n_sign == PLUS ? 0 : 1 );  /* Number of sign chars. */
 
-  /* The negative sign if needed. */
-  sptr = str;
-  if (signch) *sptr++ = '-';
-
-  /* Load the whole number. */
-  nptr = num->n_value;
-  for (index=num->n_len; index>0; index--)
-    *sptr++ = BCD_CHAR(*nptr++);
-
-  /* Now the fraction. */
-  if (num->n_scale > 0)
+    /* The negative sign if needed. */
+    if (signch)
     {
-      *sptr++ = '.';
-      for (index=0; index<num->n_scale; index++)
-	*sptr++ = BCD_CHAR(*nptr++);
+        str += '-';
     }
 
-  /* Terminate the string and return it! */
-  *sptr = '\0';
-  return (str);
+    /* Load the whole number. */
+    nptr = this->n_value;
+    for (index = this->n_len; index > 0; index--)
+    {
+        str += BCD_CHAR(*nptr++);
+    }
+
+    /* Now the fraction. */
+    if (this->n_scale > 0)
+    {
+        str += '.';
+        for (index = 0; index < this->n_scale; index++)
+        {
+            str += BCD_CHAR(*nptr++);
+        }
+    }
+
+    return str;
 }
 
 /* Convert an integer VAL to a bc number NUM. */
 void bc_struct::int2num(bc_num *num, int val)
 {
-  char buffer[30];
-  char *bptr, *vptr;
-  int  ix = 1;
-  char neg = 0;
+    // PASS
+    char buffer[30];
+    char *bptr, *vptr;
+    int  ix = 1;
+    char neg = 0;
 
-  /* Sign. */
-  if (val < 0)
+    /* Sign. */
+    if (val < 0)
     {
-      neg = 1;
-      val = -val;
+        neg = 1;
+        val = -val;
     }
 
-  /* Get things going. */
-  bptr = buffer;
-  *bptr++ = val % BASE;
-  val = val / BASE;
+    /* Get things going. */
+    bptr = buffer;
+    *bptr++ = val % BASE;
+    val = val / BASE;
 
-  /* Extract remaining digits. */
-  while (val != 0)
+    /* Extract remaining digits. */
+    while (val != 0)
     {
-      *bptr++ = val % BASE;
-      val = val / BASE;
-      ix++; 		/* Count the digits. */
+        *bptr++ = val % BASE;
+        val = val / BASE;
+        ix++; 		/* Count the digits. */
     }
 
-  /* Make the number. */
-  bc_struct::free_num(num);
-  *num = bc_struct::new_num(ix, 0);
-  if (neg) (*num)->n_sign = MINUS;
+    /* Make the number. */
+    bc_struct::free_num(num);
+    *num = bc_struct::new_num(ix, 0);
+    if (neg) 
+    {
+        (*num)->n_sign = MINUS;
+    }
 
-  /* Assign the digits. */
-  vptr = (*num)->n_value;
-  while (ix-- > 0)
-    *vptr++ = *--bptr;
+    /* Assign the digits. */
+    vptr = (*num)->n_value;
+    while (ix-- > 0)
+    {
+        *vptr++ = *--bptr;
+    }
 }
 
 /* Convert a number NUM to a long.  The function returns only the integer
    part of the number.  For numbers that are too large to represent as
    a long, this function returns a zero.  This can be detected by checking
    the NUM for zero after having a zero returned. */
-long bc_struct::num2long(bc_num num)
+long bc_struct::to_long() const
 {
-  long val;
-  char *nptr;
-  int  index;
+    // PASS
+    long val;
+    char *nptr;
+    int  index;
 
-  /* Extract the int value, ignore the fraction. */
-  val = 0;
-  nptr = num->n_value;
-  for (index=num->n_len; (index>0) && (val<=(LONG_MAX/BASE)); index--)
-    val = val*BASE + *nptr++;
+    /* Extract the int value, ignore the fraction. */
+    val = 0;
+    nptr = this->n_value;
+    for (index = this->n_len; (index > 0) && (val<=(LONG_MAX/BASE)); index--)
+    {
+        val = val*BASE + *nptr++;
+    }
 
-  /* Check for overflow.  If overflow, return zero. */
-  if (index>0) val = 0;
-  if (val < 0) val = 0;
+    /* Check for overflow.  If overflow, return zero. */
+    if (index>0) val = 0;
+    if (val < 0) val = 0;
 
-  /* Return the value. */
-  if (num->n_sign == PLUS)
-    return (val);
-  else
-    return (-val);
+    /* Return the value. */
+    return this->n_sign == PLUS ? val : -val;
 }
 
 /* In some places we need to check if the number is negative. */
-char bc_struct::is_neg(bc_num num)
+bool bc_struct::is_neg() const
 {
-  return num->n_sign == MINUS;
+    // PASS
+    return this->n_sign == MINUS;
 }
 
 /* In some places we need to check if the number NUM is almost zero.
    Specifically, all but the last digit is 0 and the last digit is 1.
    Last digit is defined by scale. */
-char bc_struct::is_near_zero(bc_num num, int scale)
+bool bc_struct::is_near_zero(int scale) const
 {
-  int  count;
-  char *nptr;
+    // PASS
+    int  count;
+    char *nptr;
 
-  /* Error checking */
-  if (scale > num->n_scale)
-    scale = num->n_scale;
+    /* Error checking */
+    if (scale > this->n_scale)
+    {
+        scale = this->n_scale;
+    }
 
-  /* Initialize */
-  count = num->n_len + scale;
-  nptr = num->n_value;
+    /* Initialize */
+    count = this->n_len + scale;
+    nptr = this->n_value;
 
-  /* The check */
-  while ((count > 0) && (*nptr++ == 0)) count--;
+    /* The check */
+    while ((count > 0) && (*nptr++ == 0)) 
+    {
+        count--;
+    }
 
-  if (count != 0 && (count != 1 || *--nptr != 1))
-    return FALSE;
-  else
-    return TRUE;
+    return (count == 0 || (count == 1 && *--nptr == 1));
 }
 
 /* In some places we need to check if the number NUM is zero. */
-char bc_struct::is_zero(bc_num num)
+bool bc_struct::is_zero() const
 {
+    // PASS
     int  count;
     char *nptr;
 
     /* Quick check. */
-    if (num == BCG(_zero_)) return TRUE;
+    if (this == BCG(_zero_))
+    {
+        return true;
+    }
 
     /* Initialize */
-    count = num->n_len + num->n_scale;
-    nptr = num->n_value;
+    count = this->n_len + this->n_scale;
+    nptr = this->n_value;
 
     /* The check */
-    while ((count > 0) && (*nptr++ == 0)) count--;
+    while ((count > 0) && (*nptr++ == 0)) 
+    {
+        count--;
+    }
 
-    if (count != 0)
-        return FALSE;
-    else
-        return TRUE;
+    return count == 0;
 }
 
 /* Compare two bc numbers.  Return value is 0 if equal, -1 if N1 is less
@@ -517,7 +532,7 @@ int bc_struct::sqrt(bc_num *num, int scale)
         bc_struct::add(guess, guess1, &guess, 0);
         bc_struct::multiply(guess, point5, &guess, cscale);
         bc_struct::sub(guess, guess1, &diff, cscale+1);
-        if (bc_struct::is_near_zero(diff, cscale))
+        if (diff->is_near_zero(cscale))
         {
             if (cscale < rscale + 1)
                 cscale = MIN (cscale*3, rscale+1);
@@ -637,7 +652,7 @@ int bc_struct::divmod(bc_num num1, bc_num num2, bc_num *quot, bc_num *rem,
   int rscale;
 
   /* Check for correct numbers. */
-  if (bc_struct::is_zero(num2)) return -1;
+  if (num2->is_zero()) return -1;
 
   /* Calculate final scale. */
   rscale = MAX (num1->n_scale, num2->n_scale+scale);
@@ -684,7 +699,7 @@ void bc_struct::raise(bc_num num1, bc_num num2, bc_num *result, int scale)
     /* Check the exponent for scale digits and convert to a long. */
     if (num2->n_scale != 0)
         std::cerr << "bc math warn: non-zero scale in exponent" << std::endl;
-    exponent = bc_struct::num2long(num2);
+    exponent = num2->to_long();
     if (exponent == 0 && (num2->n_len > 1 || num2->n_value[0] != 0))
         std::cerr << "bc math error: exponent too large in raise" << std::endl;
 
@@ -761,8 +776,8 @@ int bc_struct::raisemod(bc_num base, bc_num expo, bc_num mod, bc_num *result,
     int rscale;
 
     /* Check for correct numbers. */
-    if (bc_struct::is_zero(mod)) return -1;
-    if (bc_struct::is_neg(expo)) return -1;
+    if (mod->is_zero()) return -1;
+    if (expo->is_neg()) return -1;
 
     /* Set initial values.  */
     power = bc_struct::copy_num(base);
@@ -787,10 +802,10 @@ int bc_struct::raisemod(bc_num base, bc_num expo, bc_num mod, bc_num *result,
 
     /* Do the calculation. */
     rscale = MAX(scale, base->n_scale);
-    while (!bc_struct::is_zero(exponent))
+    while (!exponent->is_zero())
     {
         (void)bc_struct::divmod(exponent, BCG(_two_), &exponent, &parity, 0);
-        if (!bc_struct::is_zero(parity))
+        if (!parity->is_zero())
 	{
             bc_struct::multiply(temp, power, &temp, rscale);
             (void)bc_struct::modulo(temp, mod, &temp, scale);
