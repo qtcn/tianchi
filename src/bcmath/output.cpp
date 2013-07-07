@@ -94,7 +94,7 @@ void bc_struct::out_num(bc_num num, int o_base, out_char_fn out_char,
     if (num->n_sign == MINUS) out_char('-');
 
     /* Output the number. */
-    if (bc_struct::is_zero(num))
+    if (num->is_zero())
         out_char('0');
     else
         if (o_base == 10)
@@ -107,7 +107,7 @@ void bc_struct::out_num(bc_num num, int o_base, out_char_fn out_char,
             else
                 nptr++;
 
-            if (leading_zero && bc_struct::is_zero(num))
+            if (leading_zero && num->is_zero())
                 out_char('0');
 
             /* Now the fraction. */
@@ -121,7 +121,7 @@ void bc_struct::out_num(bc_num num, int o_base, out_char_fn out_char,
         else
         {
 	    /* special case ... */
-	    if (leading_zero && bc_struct::is_zero(num))
+	    if (leading_zero && num->is_zero())
 	        out_char('0');
 
 	    /* The number is some other base. */
@@ -141,13 +141,13 @@ void bc_struct::out_num(bc_num num, int o_base, out_char_fn out_char,
 
 
             /* Get the digits of the integer part and push them on a stack. */
-            while (!bc_struct::is_zero(int_part))
+            while (!int_part->is_zero())
             {
                 bc_struct::modulo(int_part, base, &cur_dig, 0);
                     /* PHP Change:  malloc() -> emalloc() */
                 temp = (stk_rec *) malloc (sizeof(stk_rec));
                 if (temp == NULL) bc_struct::out_of_memory();
-                temp->digit = bc_struct::num2long(cur_dig);
+                temp->digit = cur_dig->to_long();
                 temp->next = digits;
                 digits = temp;
                 bc_struct::divide(int_part, base, &int_part, 0);
@@ -178,7 +178,7 @@ void bc_struct::out_num(bc_num num, int o_base, out_char_fn out_char,
                 while (t_num->n_len <= num->n_scale)
                 {
                     bc_struct::multiply(frac_part, base, &frac_part, num->n_scale);
-                    fdigit = bc_struct::num2long(frac_part);
+                    fdigit = frac_part->to_long();
                     bc_struct::int2num(&int_part, fdigit);
                     bc_struct::sub(frac_part, int_part, &frac_part, 0);
                     if (o_base <= 16)

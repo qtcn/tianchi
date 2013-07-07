@@ -33,6 +33,7 @@
 #ifndef _BCMATH_P_H_
 #define _BCMATH_P_H_
 
+#include <string>
 
 typedef void(*out_char_fn)(int);
 
@@ -82,7 +83,7 @@ public:
 
 
     /* Convert a numbers to a string.  Base 10 only.*/
-    static char *num2str(bc_num num);
+    std::string to_string() const;
 
     /* Convert an integer VAL to a bc number NUM. */
     static void int2num(bc_num *num, int val);
@@ -91,18 +92,18 @@ public:
        part of the number.  For numbers that are too large to represent as
        a long, this function returns a zero.  This can be detected by checking
        the NUM for zero after having a zero returned. */
-    static long num2long(bc_num num);
+    long to_long() const;
 
     /* In some places we need to check if the number NUM is zero. */
-    static char is_zero(bc_num num);
+    bool is_zero() const;
 
     /* In some places we need to check if the number NUM is almost zero.
        Specifically, all but the last digit is 0 and the last digit is 1.
        Last digit is defined by scale. */
-    static char is_near_zero(bc_num num, int scale);
+    bool is_near_zero(int scale) const;
 
     /* In some places we need to check if the number is negative. */
-    static char is_neg(bc_num num);
+    bool is_neg() const;
 
     /* This is the "user callable" routine to compare numbers N1 and N2. */
     static int compare(bc_num n1, bc_num n2);
