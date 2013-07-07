@@ -224,7 +224,7 @@ static void _bc_rec_mul(bc_num u, int ulen, bc_num v, int vlen, bc_num *prod,
     bc_struct::_bc_rm_leading_zeros (v0);
     //v0len = v0->n_len;
 
-    m1zero = bc_struct::is_zero(u1) || bc_struct::is_zero(v1);
+    m1zero = u1->is_zero() || v1->is_zero();
 
     /* Calculate sub results ... */
 
@@ -242,12 +242,12 @@ static void _bc_rec_mul(bc_num u, int ulen, bc_num v, int vlen, bc_num *prod,
     else
         _bc_rec_mul (u1, u1->n_len, v1, v1->n_len, &m1, 0);
 
-    if (bc_struct::is_zero(d1) || bc_struct::is_zero(d2))
+    if (d1->is_zero() || d2->is_zero())
         m2 = bc_struct::copy_num(BCG(_zero_));
     else
         _bc_rec_mul (d1, d1len, d2, d2len, &m2, 0);
 
-    if (bc_struct::is_zero(u0) || bc_struct::is_zero(v0))
+    if (u0->is_zero() || v0->is_zero())
         m3 = bc_struct::copy_num(BCG(_zero_));
     else
         _bc_rec_mul (u0, u0->n_len, v0, v0->n_len, &m3, 0);
@@ -301,7 +301,7 @@ void bc_struct::multiply(bc_num n1, bc_num n2, bc_num *prod, int scale)
     pval->n_len = len2 + len1 + 1 - full_scale;
     pval->n_scale = prod_scale;
     _bc_rm_leading_zeros (pval);
-    if (bc_struct::is_zero(pval))
+    if (pval->is_zero())
         pval->n_sign = PLUS;
     bc_struct::free_num(prod);
     *prod = pval;

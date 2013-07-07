@@ -61,10 +61,8 @@ std::string bcadd(const std::string &left, const std::string &right,
     {
         result->n_scale = scale;
     }
-	
-    char *ret = bc_struct::num2str(result);
-    std::string return_value(ret);
-    free(ret);
+
+    std::string return_value = result->to_string();
     bc_struct::free_num(&first);
     bc_struct::free_num(&second);
     bc_struct::free_num(&result);
@@ -95,9 +93,7 @@ std::string bcsub(const std::string &left, const std::string &right,
         result->n_scale = scale;
     }
 
-    char *ret = bc_struct::num2str(result);
-    std::string return_value(ret);
-    free(ret);
+    std::string return_value = result->to_string();
     bc_struct::free_num(&first);
     bc_struct::free_num(&second);
     bc_struct::free_num(&result);
@@ -123,9 +119,7 @@ std::string bcmul(const std::string &left, const std::string &right,
         result->n_scale = scale;
     }
 
-    char *ret = bc_struct::num2str(result);
-    std::string return_value(ret); 
-    free(ret);
+    std::string return_value = result->to_string(); 
     bc_struct::free_num(&first);
     bc_struct::free_num(&second);
     bc_struct::free_num(&result);
@@ -153,11 +147,7 @@ std::string bcdiv(const std::string &left,
             {
                 result->n_scale = scale;
             }
-            {
-                char *ret = bc_struct::num2str(result);
-                return_value = ret;
-                free(ret);
-            }
+            return_value = result->to_string();
             break;
         case -1: /* division by zero */
             std::cerr << "bc math error: Division by zero" << std::endl;
@@ -185,11 +175,7 @@ std::string bcmod(const std::string &left, const std::string &right)
     switch (bc_struct::modulo(first, second, &result, 0))
     {
         case 0:
-            {
-                char *ret = bc_struct::num2str(result);
-                return_value =  ret;
-                free(ret);
-            }
+            return_value =  result->to_string();
             break;
         case -1:
             std::cerr << "bc math error: Division by zero" << std::endl;
@@ -224,9 +210,7 @@ std::string bcpowmod(const std::string &left, const std::string &right,
         {
             result->n_scale = scale;
         }
-        char *ret = bc_struct::num2str(result);
-        return_value = ret;
-        free(ret);
+        return_value = result->to_string();
     }
     else
     {
@@ -259,9 +243,7 @@ std::string bcpow(const std::string &left,
         result->n_scale = scale;
     }
 
-    char *ret = bc_struct::num2str(result);;
-    std::string return_value(ret);
-    free(ret);
+    std::string return_value = result->to_string();
     bc_struct::free_num(&first);
     bc_struct::free_num(&second);
     bc_struct::free_num(&result);
@@ -284,9 +266,7 @@ std::string bcsqrt(const std::string &left, int scale_param /*= -1*/)
         {
             result->n_scale = scale;
         }
-        char *ret = bc_struct::num2str(result);
-        return_value = ret;
-        free(ret);
+        return_value = result->to_string();
     }
     else
     {
