@@ -827,8 +827,8 @@ int bc_struct::raisemod(bc_num base, bc_num expo, bc_num mod, bc_num *result,
 /* Prototypes needed for external utility routines. */
 void bc_struct::out_of_memory(void)
 {
-  (void) fprintf (stderr, "bcmath: out of memory!\n");
-  exit (1);
+    std::cerr << "bcmath: out of memory" << std::endl;
+    exit(1);
 }
 
 
