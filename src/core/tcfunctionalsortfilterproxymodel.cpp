@@ -21,8 +21,9 @@ class TcFunctionalSortFilterProxyModelPrivate
     Q_DECLARE_PUBLIC(TcFunctionalSortFilterProxyModel)
 public:
     explicit TcFunctionalSortFilterProxyModelPrivate(
-            TcFunctionalSortFilterProxyModel *qptr) : q_ptr(qptr), 
+            TcFunctionalSortFilterProxyModel *qptr) : 
     func(NULL) // func(nullptr) // TODO C++11
+    , q_ptr(qptr)
     {}
     ~TcFunctionalSortFilterProxyModelPrivate(){}
 
