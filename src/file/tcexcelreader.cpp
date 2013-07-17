@@ -273,6 +273,10 @@ bool TcExcelReader::setCurrentSheet(const QString &sheetName)
 QVariant TcExcelReader::cell(int row, int col)
 {
     QVariant v;
+    if (row < 1 || col < 1)
+    {
+        return v;
+    }
 #ifdef Q_OS_WIN
     Q_D(TcExcelReader);
     if (!d->sheet)
@@ -291,4 +295,86 @@ QVariant TcExcelReader::cell(int row, int col)
     Q_UNUSED(col)
 #endif
     return v;
+}
+
+QVariant TcExcelReader::cell(const QString &colName, int rowIndex)
+{
+    QVariant val;
+
+    if (rowIndex < 1)
+    {
+        return val;
+    }
+
+    QRegExp reg("^([A-Z]+)$");
+    if (!reg.exactMatch(colName.toUpper()))
+    {
+        return val;
+    }
+
+    QString strColName = reg.capturedTexts().first();
+
+    int columnIndex = 0;
+    bool bOk = true;
+    for (int i = strColName.size() - 1, j = 1; i >= 0; i--, j *= 26)
+    {
+        char c = strColName[i].toLatin1();
+        if (c < 'A' || c > 'Z') 
+        {
+            bOk = false;
+            break;
+        }
+        columnIndex += (int(c) - 64) * j;
+    }
+    if (!bOk)
+    {
+        return val;
+    }
+    return cell(rowIndex, columnIndex);
+}
+
+QVariant TcExcelReader::cell(const QString &cellName)
+{
+    QVariant val;
+    QRegExp reg("^([A-Z]+)([0-9]+)$");
+    if (!reg.exactMatch(cellName.toUpper()))
+    {
+        return val;
+    }
+    QStringList slStr = reg.capturedTexts();
+    if (slStr.size() != 3)
+    {
+        return val;
+    }
+
+    int rowIndex = slStr[2].toInt();
+    if (rowIndex < 1)
+    {
+        return val;
+    }
+
+    QString strColumnName = slStr[1];
+
+    if (strColumnName.isEmpty())
+    {
+        return val;
+    }
+    int columnIndex = 0;
+    bool bOk = true;
+    for (int i = strColumnName.size() - 1, j = 1; i >= 0; i--, j *= 26)
+    {
+        char c = strColumnName[i].toLatin1();
+        if (c < 'A' || c > 'Z') 
+        {
+            bOk = false;
+            break;
+        }
+        columnIndex += (int(c) - 64) * j;
+    }
+    if (!bOk)
+    {
+        return val;
+    }
+
+    return cell(rowIndex, columnIndex);
 }

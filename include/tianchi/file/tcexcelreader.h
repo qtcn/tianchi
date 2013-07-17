@@ -39,9 +39,16 @@ public:
     /// @brief  open excel file, success to return true
     bool open(const QString &file);
     /// @brief  read cell's value
-    /// @param [in] row, index of row, from 1 start
-    /// @param [in] col, index of column, from 1 start
-    QVariant cell(int row, int col);
+    /// @param [in] rowIndex, index of row, from 1 start
+    /// @param [in] columnIndex, index of column, from 1 start
+    QVariant cell(int rowIndex, int columnIndex);
+    /// @brief  read cell's value
+    /// @param [in] colName, column name, from 'a' or 'AB' start
+    /// @param [in] rowIndex, index of row, from 1 start
+    QVariant cell(const QString &colName, int rowIndex);
+    /// @brief  read cell's value
+    /// @param [in] cellName, cell's name just like 'A2' or 'ac2'
+    QVariant cell(const QString &cellName);
 
     /// @brief  get sheets count
     int         sheetCount();
