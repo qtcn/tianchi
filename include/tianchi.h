@@ -53,7 +53,7 @@
 #include <tianchi/os/tcos.h>
 
 #include <tianchi/sql/tcmssql.h>
-#include <tianchi/sql/tcorcale.h>
+#include <tianchi/sql/tcoracle.h>
 #include <tianchi/sql/tcdatabase.h>
 #include <tianchi/sql/tcdataaccess.h>
 
