@@ -155,10 +155,10 @@ void TcMSExcel::save(const QString& filename)
 {
 #if defined(Q_OS_WIN)
     Q_D(TcMSExcel);
-    if ( d->books != NULL && ! d->books->isNull() )
+    if (d->book != NULL && !d->book->isNull())
     {
         d->filename = filename;
-        d->books->dynamicCall("SaveAs(const QString&)", d->filename);
+        d->book->dynamicCall("SaveAs(const QString&)", d->filename);
     }
 #else
     Q_UNUSED(filename)
