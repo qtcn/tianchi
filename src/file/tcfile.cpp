@@ -95,7 +95,7 @@ QString TcFile::fileVersion(const QString&  exeFile)
                         .append(QString::number(vBuild));
             }
         }
-        delete data;
+        delete [] data;
     }
 #else
     Q_UNUSED(exeFile)
