@@ -67,6 +67,7 @@ macx-g++*  : PRECOMPILED_HEADER = $$PWD/../src/tianchi_gcc_pch.h
 win32:LIBS += -lversion
 win32-msvc*:LIBS += -ladvapi32 -lole32
 
+
 HEADERS += \
     $$TC_INCL/tianchi.h \
     $$TC_INCL/tianchi/tcglobal.h \
@@ -148,3 +149,4 @@ RESOURCES += \
     $$PWD/../res/tianchi.qrc
 
 include($$PWD/bcmath/bcmath.pri)
+include($$PWD/libqqwry/qqwry.pri)
