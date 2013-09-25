@@ -83,6 +83,8 @@ public:
     static QByteArray addField(const QString& key, const QVariant& value);
     static QHash<QString, QByteArray> byFields(const QByteArray& fieldBytes);
 
+    static QString getAreaFromIP(const QString &ip_addr, 
+            const QString &qqwry_dat_file);
 };
 
 #endif // TIANCHI_UTILS_H
