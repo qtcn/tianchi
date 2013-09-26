@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <inttypes.h>
+#include <stdint.h>
 
 #define BE_32(x) ((((uint8_t*)(x))[0]<<24) |\
                   (((uint8_t*)(x))[1]<<16) |\
@@ -72,12 +72,13 @@ static uint32_t ip2long(const char *ip)
 static uint32_t search_index(const uint32_t ip, FILE *qqwry_file)
 {
     uint32_t        index_ip;
+    uint32_t        index_start;
+    uint32_t        index_end;
+    uint32_t        index_mid;
     unsigned char   head[8];
     unsigned char   index_bytes[7];
 
     fread(head, 8, 1, qqwry_file);
-
-    uint32_t        index_start, index_end, index_mid;
     index_start = (uint32_t)LE_32(&head[0]);
     index_end = (uint32_t)LE_32(&head[4]);
     while (1)

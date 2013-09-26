@@ -23,3 +23,5 @@ INCLUDEPATH += . $$TC_INCL
 win32-g++* : PRECOMPILED_HEADER = $$PWD/../src/tianchi_gcc_pch.h
 linux-g++* : PRECOMPILED_HEADER = $$PWD/../src/tianchi_gcc_pch.h
 macx-g++*  : PRECOMPILED_HEADER = $$PWD/../src/tianchi_gcc_pch.h
+
+include($$PWD/../src/3rdparty/libqqwry/qqwry.pri)
