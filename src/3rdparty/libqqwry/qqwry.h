@@ -7,8 +7,7 @@
  * see <http://www.gnu.org/licenses/lgpl.txt>
  */
 
-#include <stdio.h>
-#include <inttypes.h>
+#include <stdint.h>
 
 /*
  * 请自己给addr1和addr2分配内存，我的建议是:addr1为64字节，addr2为128字节。
@@ -24,10 +23,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 int qqwry_get_location(char *addr1,char *addr2,const char *ip,FILE *qqwry_file);
 int qqwry_get_location_by_long(char *addr1,char *addr2,const uint32_t ip,FILE *qqwry_file);
-
 #ifdef __cplusplus
 }
 #endif
