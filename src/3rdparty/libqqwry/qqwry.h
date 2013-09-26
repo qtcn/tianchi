@@ -7,7 +7,6 @@
  * see <http://www.gnu.org/licenses/lgpl.txt>
  */
 
-#include <stdio.h>
 #include <inttypes.h>
 
 /*
@@ -21,13 +20,5 @@
  * get_location和get_location_by_long的区别是前者传递的ip是一个字符串，例如
  * 222.89.22.122，这个也是我们通常所用的格式；后者传递的ip是一个十进制的ipv4地址
  */
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 int qqwry_get_location(char *addr1,char *addr2,const char *ip,FILE *qqwry_file);
 int qqwry_get_location_by_long(char *addr1,char *addr2,const uint32_t ip,FILE *qqwry_file);
-
-#ifdef __cplusplus
-}
-#endif

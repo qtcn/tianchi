@@ -1,3 +1,4 @@
+INCLUDEPATH += $$PWD
 HEADERS += $$PWD/bcmath.h \
         $$PWD/bcmath_p.h
 SOURCES += $$PWD/bcmath.cpp \
