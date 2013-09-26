@@ -10,9 +10,10 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.10   圣域天子    建立
+// 2013.09.25   XChinux     增加getLocationFromIP()函数
 //
 // ==========================================================================
-/// @file Utils.h 常用功能函数
+// @file tctils.h 常用功能函数
 // ==========================================================================
 #ifndef TIANCHI_TCUTILS_H
 #define TIANCHI_TCUTILS_H
@@ -83,7 +84,11 @@ public:
     static QByteArray addField(const QString& key, const QVariant& value);
     static QHash<QString, QByteArray> byFields(const QByteArray& fieldBytes);
 
-    static QString getAreaFromIP(const QString &ip_addr, 
+    /// @brief  使用qqwry.dat库从IP地址获取所在地区名称
+    /// @param  ip_addr         IP地址
+    /// @param  qqwry_dat_file  qqwry.dat文件路径
+    /// @return                 返回IP地址所在地区名称
+    static QString getLocationFromIP(const QString &ip_addr, 
             const QString &qqwry_dat_file);
 };
 

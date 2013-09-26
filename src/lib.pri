@@ -148,5 +148,4 @@ FORMS += \
 RESOURCES += \
     $$PWD/../res/tianchi.qrc
 
-include($$PWD/bcmath/bcmath.pri)
-include($$PWD/libqqwry/qqwry.pri)
+include($$PWD/3rdparty/3rdparty.pri)
