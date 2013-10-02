@@ -73,6 +73,31 @@ public:
     ///
     /// @endcode
     static QString toChars(const QString& Str, bool Tonality=false);
+
+    /// 中文名字翻译为英文
+    /// @param [in] Str 汉字字符串
+    /// @param [in] style 使用英语习惯即姓氏在后名字在前
+    /// @param [in] capitalization 姓氏只有首字母大写
+    /// @param [in] hyphenatedname 不是复姓
+    /// @return 名字英文形式
+    /// @par 示例:
+    /// @code
+    /// qDebug()<<TIANCHI::Chinese::toEnglishName(QS("杨海智"), true, false, false);
+    /// > Haizhi Yang
+    ///
+    /// qDebug()<<TIANCHI::Chinese::toEnglishName(QS("杨海智"), false, false, false);
+    /// > Yang Haizhi
+    ///
+    /// qDebug()<<TIANCHI::Chinese::toEnglishName(QS("杨海智"), true, true, false);
+    /// > Haizhi YANG
+    ///
+    /// qDebug()<<TIANCHI::Chinese::toEnglishName(QS("诸葛亮"), true, false, true);
+    /// > Liang Zhuge
+    ///
+    /// @endcode
+    static QString toEnglishName(const QString& Str, bool style=false, bool capitalization=false,
+        bool hyphenatedname= false);
+
 };
 
 #endif // TIANCHI_CHINESE_H
