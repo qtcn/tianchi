@@ -180,9 +180,86 @@ QString TcChinese::toPinyin(const QString& Str, bool Tonality)
             }
         }
     }
+
 #else
     Q_UNUSED(Str)
     Q_UNUSED(Tonality)
 #endif
+    return ret;
+}
+
+QString TcChinese::toEnglishName(const QString& Str, bool style, bool capitalization,
+        bool hyphenatedname)
+{
+    QString ret = "";
+    QString firstname = "";//名字
+    QString lastname = "";//姓氏
+    //名字和姓氏分开处理
+    if ( hyphenatedname )//是复姓
+    {
+        for(int i=2;i<Str.length();i++)
+        {
+            //处理名字
+            QString st = Str[i];
+            firstname += toPinyin(st, false);
+        }
+        QString left = firstname.left(1).toUpper();
+        QString right = firstname.right(firstname.length() -1);
+        firstname = left + right;
+
+        //名字处理完，处理姓氏
+        lastname += toPinyin(Str[0], false);
+        lastname += toPinyin(Str[1], false);
+
+        //判断姓氏是否要大写
+        if (! capitalization)//只有首字母大写
+        {
+            QString left = lastname.left(1).toUpper();
+            QString right = lastname.right(lastname.length() -1);
+            lastname = left + right;
+        }
+        else//姓氏字母全部大写
+        {
+            lastname = lastname.toUpper();
+        }
+
+    }
+    else//不是复姓处理名字
+    {
+        for(int i=1;i<Str.length();i++)
+        {
+            //处理名字
+            QString st = Str[i];
+            firstname += toPinyin(st, false);
+    }
+        QString left = firstname.left(1).toUpper();
+        QString right = firstname.right(firstname.length() -1);
+        firstname = left + right;
+        //名字处理完，处理姓氏
+        lastname += toPinyin(Str[0], false);
+
+        //判断姓氏是否要大写
+        if (! capitalization)//只有首字母大写
+        {
+            QString left = lastname.left(1).toUpper();
+            QString right = lastname.right(lastname.length() -1);
+            lastname = left + right;
+        }
+        else//姓氏字母全部大写
+        {
+            lastname = lastname.toUpper();
+        }
+    }
+
+    //判断汉语习惯还是英语习惯（即姓氏和名字顺序）
+    if (! style) //汉语习惯
+    {
+        ret = lastname + " " + firstname;
+    }
+    else
+    {
+        ret = firstname + " " + lastname;
+    }
+
     return ret;
 }
