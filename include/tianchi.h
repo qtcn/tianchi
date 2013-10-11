@@ -46,6 +46,7 @@
 #include <tianchi/gui/tclineedit.h>
 #include <tianchi/gui/tcmarqueelabel.h>
 #include <tianchi/gui/tcsortpaginationtableview.h>
+#include <tianchi/gui/tcscreencutdialog.h>
 
 #include <tianchi/network/tcdownloadhttp.h>
 #include <tianchi/network/tcsingleinstance.h>
