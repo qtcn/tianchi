@@ -80,6 +80,7 @@ HEADERS += \
     $$TC_INCL/tianchi/core/tcfunctionalsortfilterproxymodel.h \
     $$TC_INCL/tianchi/core/tcsingleton.hpp \
     $$TC_INCL/tianchi/core/tctuple.hpp \
+    $$TC_INCL/tianchi/core/tcrecentuse.hpp \
     $$TC_INCL/tianchi/core/tcmath.h \
     $$TC_INCL/tianchi/file/tcjson.h \
     $$TC_INCL/tianchi/file/tclog.h \
