@@ -29,4 +29,4 @@
                                 增加 class Core/TcVariantMapTableModel
                                 增加 class Gui/TcSortPaginationTableView
 2013.07.04  XChinux             增加 bcmath及Core/TcMath
-2013.07.04  cnhemiya            增加 class Core/TcRecentUse “最近使用”模版类
+2013.10.11  cnhemiya            增加 class Core/TcRecentUse “最近使用”模版类
