@@ -12,7 +12,7 @@
 // 2013.04.17   XChinux     建立
 //
 // ==========================================================================
-/// @file ClickLabel.h 可发出clicked信号的Label部件
+/// @file tcclicklabel.cpp 可发出clicked信号的Label部件
 // ==========================================================================
 #include <tianchi/gui/tcclicklabel.h>
 #include <QPoint>

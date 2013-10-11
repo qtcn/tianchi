@@ -12,7 +12,7 @@
 // 2013.04.17   XChinux     建立
 //
 // ==========================================================================
-/// @file ClickLabel.h 可发出clicked信号的Label部件
+/// @file tcclicklabel.h 可发出clicked信号的Label部件
 // ==========================================================================
 #ifndef TIANCHI_TCCLICKLABEL_H
 #define TIANCHI_TCCLICKLABEL_H
