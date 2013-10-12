@@ -40,7 +40,7 @@ CONFIG(static, static|shared) | CONFIG(staticlib, staticlib|shared) {
     win32 {
         RC_FILE = $$PWD/tianchi.rc
     } else {
-        VERSION = 0.0.1
+        VERSION = 0.0.2
     }
 }
 
