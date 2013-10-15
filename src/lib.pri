@@ -100,6 +100,7 @@ HEADERS += \
     $$TC_INCL/tianchi/gui/tcheadersetupdialog.h \
     $$TC_INCL/tianchi/gui/tcsortpaginationtableview.h \
     $$TC_INCL/tianchi/gui/tcscreencutdialog.h \
+    $$TC_INCL/tianchi/gui/tcarrowbutton.h \
     $$TC_INCL/tianchi/network/tcdownloadhttp.h \
     $$TC_INCL/tianchi/network/tcsingleinstance.h \
     $$TC_INCL/tianchi/network/tcudp.h \
@@ -109,6 +110,7 @@ HEADERS += \
     $$TC_INCL/tianchi/sql/tcoracle.h \
     $$TC_INCL/tianchi/sql/tcdatabase.h \
     $$TC_INCL/tianchi/widget/tctreeex.h
+
 SOURCES += \
     $$PWD/chinese/tcchinese.cpp \
     $$PWD/core/tcclasses.cpp \
@@ -136,6 +138,7 @@ SOURCES += \
     $$PWD/gui/tcformutils.cpp \
     $$PWD/gui/tcsortpaginationtableview.cpp \
     $$PWD/gui/tcscreencutdialog.cpp \
+    $$PWD/gui/tcarrowbutton.cpp \
     $$PWD/network/tcdownloadhttp.cpp \
     $$PWD/network/tcsingleinstance.cpp \
     $$PWD/network/tcudp.cpp \
