@@ -31,7 +31,7 @@ class TcScreenCutDialogPrivate;
 ///     dlg.exec();
 ///     QPixmap image = dlg.getPixmap();
 /// @endcode
-class TcScreenCutDialog : public QDialog
+class TIANCHI_API TcScreenCutDialog : public QDialog
 {
     Q_OBJECT
 public:
