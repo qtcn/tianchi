@@ -1,243 +1,293 @@
-// æ–‡æ¡£è¯´æ˜ï¼šå®ç°ä¸­é—´å¸¦æœ‰ä¸‰è§’ç®­å¤´çš„button
+// ÎÄµµËµÃ÷£ºÊµÏÖÖĞ¼ä´øÓĞÈı½Ç¼ıÍ·µÄbutton
 // ==========================================================================
-// å¼€å‘æ—¥å¿—ï¼š
-// æ—¥æœŸ         äººå‘˜        è¯´æ˜
+// ¿ª·¢ÈÕÖ¾£º
+// ÈÕÆÚ         ÈËÔ±        ËµÃ÷
 // --------------------------------------------------------------------------
-// 2013.10.14  younghz
+// 2013.10.14   younghz     ½¨Á¢
+// 2013.10.15   XChinux     ¸ñÊ½»¯´úÂë
 // ==========================================================================
-/// @file tcarrowbutton.cpp å®ç°ä¸­é—´å¸¦æœ‰ä¸‰è§’ç®­å¤´çš„button
+/// @file tcarrowbutton.cpp ÊµÏÖÖĞ¼ä´øÓĞÈı½Ç¼ıÍ·µÄbutton
 // ==========================================================================
 
 #include <tianchi/gui/tcarrowbutton.h>
 
-#include <qpainter.h>
-#include <qstyle.h>
-#include <qstyleoption.h>
-#include <qevent.h>
-#include <qapplication.h>
+#include <QPainter>
+#include <QStyle>
+#include <QStyleOption>
+#include <QEvent>
+#include <QApplication>
 
 static const int MaxNum = 3;
 static const int Spacing = 1;
 
-class TcArrowButton::PrivateData
+class TcArrowButtonPrivate
 {
+    Q_DECLARE_PUBLIC(TcArrowButton)
 public:
+
+    explicit TcArrowButtonPrivate(TcArrowButton *qptr);
+    ~TcArrowButtonPrivate();
+
+    TcArrowButton* const q_ptr;
+
     int num;
     Qt::ArrowType arrowType;
+
+    ////////////////////////////////////////
+    void drawButtonLabel(QPainter *p);
+    /// @brief »æÖÆ¼ıÍ·
+    void drawArrow(QPainter *, const QRect &, Qt::ArrowType) const;
+    QRect labelRect() const;
+    /// @brief ¼ıÍ·´óĞ¡
+    QSize arrowSize(Qt::ArrowType, const QSize &boundingSize ) const;
 };
 
-//ç»˜åˆ¶buttoné£æ ¼çš„ä¸€äº›å‚æ•°
-static QStyleOptionButton styleOpt( const TcArrowButton* btn )
+TcArrowButtonPrivate::TcArrowButtonPrivate(TcArrowButton *qptr) : q_ptr(qptr)
+{
+}
+
+TcArrowButtonPrivate::~TcArrowButtonPrivate()
+{
+}
+
+
+//»æÖÆbutton·ç¸ñµÄÒ»Ğ©²ÎÊı
+static QStyleOptionButton styleOpt(const TcArrowButton* btn)
 {
     QStyleOptionButton option;
-    option.init( btn );
-    //ä¸€ä¸ªnormal button
+    option.init(btn);
+    //Ò»¸önormal button
     option.features = QStyleOptionButton::None;
-    if ( btn->isFlat() )
+    if (btn->isFlat())
+    {
         option.features |= QStyleOptionButton::Flat;
-    if ( btn->menu() )
+    }
+    if (btn->menu())
+    {
         option.features |= QStyleOptionButton::HasMenu;
-    if ( btn->autoDefault() || btn->isDefault() )
+    }
+    if (btn->autoDefault() || btn->isDefault())
+    {
         option.features |= QStyleOptionButton::AutoDefaultButton;
-    if ( btn->isDefault() )
+    }
+    if (btn->isDefault())
+    {
         option.features |= QStyleOptionButton::DefaultButton;
-    if ( btn->isDown() )
+    }
+    if (btn->isDown())
+    {
         option.state |= QStyle::State_Sunken;
-    if ( !btn->isFlat() && !btn->isDown() )
+    }
+    if (!btn->isFlat() && !btn->isDown())
+    {
         option.state |= QStyle::State_Raised;
+    }
 
     return option;
 }
 
-TcArrowButton::TcArrowButton( int num,
-        Qt::ArrowType arrowType, QWidget *parent ):
-    QPushButton( parent )
+TcArrowButton::TcArrowButton(int num, Qt::ArrowType arrowType, 
+        QWidget *parent)
+    : QPushButton(parent), d_ptr(new TcArrowButtonPrivate(this))
 {
-    d_data = new PrivateData;
-    //æŒ‰é’®ä¸­ç®­å¤´çš„æ•°é‡åœ¨1~3ä¹‹é—´
-    d_data->num = qBound( 1, num, MaxNum );
-    d_data->arrowType = arrowType;
+    //°´Å¥ÖĞ¼ıÍ·µÄÊıÁ¿ÔÚ1~3Ö®¼ä
+    d_ptr->num = qBound(1, num, MaxNum);
+    d_ptr->arrowType = arrowType;
 
-    setAutoRepeat( true );
-    setAutoDefault( false );
+    setAutoRepeat(true);
+    setAutoDefault(false);
 
-    //è®¾ç½®ç®­å¤´çš„policy
-    setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
-
+    //ÉèÖÃ¼ıÍ·µÄpolicy
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
-//ææ„å‡½æ•°
+//Îö¹¹º¯Êı
 TcArrowButton::~TcArrowButton()
 {
-    delete d_data;
-    d_data = NULL;
+    delete d_ptr;
 }
 
-QRect TcArrowButton::labelRect() const
+QRect TcArrowButtonPrivate::labelRect() const//{{{
 {
     const int m = 2;
 
-    //å°†ä¸€ä¸ªå’Œå¹³å°ç›¸å…³çš„æŒ‰é’®å°ºå¯¸èµ‹äºˆr
-    QRect r = rect();
-    r.setRect( r.x() + m, r.y() + m,
-        r.width() - 2 * m, r.height() - 2 * m );
 
-    //æŒ‰é’®æŒ‰ä¸‹æ—¶
-    if ( isDown() )
+    Q_Q(const TcArrowButton);
+    //½«Ò»¸öºÍÆ½Ì¨Ïà¹ØµÄ°´Å¥³ß´ç¸³Óèr
+    QRect r = q->rect();
+    r.setRect(r.x() + m, r.y() + m, r.width() - 2 * m, r.height() - 2 * m);
+
+    //°´Å¥°´ÏÂÊ±
+    if (q->isDown())
     {
-        QStyleOptionButton option = styleOpt( this );
-        const int ph = style()->pixelMetric(
-            QStyle::PM_ButtonShiftHorizontal, &option, this );
-        const int pv = style()->pixelMetric(
-            QStyle::PM_ButtonShiftVertical, &option, this );
+        QStyleOptionButton option = styleOpt(q);
+        const int ph = q->style()->pixelMetric(
+            QStyle::PM_ButtonShiftHorizontal, &option, q);
+        const int pv = q->style()->pixelMetric(
+            QStyle::PM_ButtonShiftVertical, &option, q);
 
-        r.translate( ph, pv );
+        r.translate(ph, pv);
     }
 
     return r;
+}//}}}
+
+void TcArrowButton::paintEvent(QPaintEvent *event)
+{
+    QPushButton::paintEvent(event);
+    QPainter painter(this);
+
+    Q_D(TcArrowButton);
+    d->drawButtonLabel(&painter);
 }
 
-void TcArrowButton::paintEvent( QPaintEvent *event )
+void TcArrowButtonPrivate::drawButtonLabel(QPainter *painter)//{{{
 {
-    QPushButton::paintEvent( event );
-    QPainter painter( this );
-    drawButtonLabel( &painter );
-}
+    //ÅĞ¶ÏÊÇ·ñÊÇup/downArrow
+    const bool isVertical = this->arrowType == Qt::UpArrow ||
+        this->arrowType == Qt::DownArrow;
 
-void TcArrowButton::drawButtonLabel( QPainter *painter )
-{
-    //åˆ¤æ–­æ˜¯å¦æ˜¯up/downArrow
-    const bool isVertical = d_data->arrowType == Qt::UpArrow ||
-        d_data->arrowType == Qt::DownArrow;
+    //ÅäÖÃ°´Å¥µÄ´óĞ¡
+    const QRect r = this->labelRect();
+    QSize boundingSize = this->labelRect().size();
+    if (isVertical)
+    {
+        boundingSize.transpose();//½«widthºÍhightµÄÖµ½»»»
+    }
 
-    //é…ç½®æŒ‰é’®çš„å¤§å°
-    const QRect r = labelRect();
-    QSize boundingSize = labelRect().size();
-    if ( isVertical )
-        boundingSize.transpose();//å°†widthå’Œhightçš„å€¼äº¤æ¢
+    //ÅäÖÃ°´Å¥ÉÏ¼ıÍ·µÄ´óĞ¡
+    const int w = (boundingSize.width() - (MaxNum - 1) * Spacing) / MaxNum;
 
-    //é…ç½®æŒ‰é’®ä¸Šç®­å¤´çš„å¤§å°
-    const int w =
-        ( boundingSize.width() - ( MaxNum - 1 ) * Spacing ) / MaxNum;
+    QSize arrow = this->arrowSize(Qt::RightArrow, 
+            QSize(w, boundingSize.height()));
 
-    QSize arrow = arrowSize( Qt::RightArrow,
-        QSize( w, boundingSize.height() ) );
-
-    if ( isVertical )
+    if (isVertical)
+    {
         arrow.transpose();
+    }
 
     QRect contentsSize;
-    if ( d_data->arrowType == Qt::LeftArrow || d_data->arrowType == Qt::RightArrow )
+    if (this->arrowType == Qt::LeftArrow || this->arrowType == Qt::RightArrow)
     {
-        contentsSize.setWidth( d_data->num * arrow.width()
-            + ( d_data->num - 1 ) * Spacing );
-        contentsSize.setHeight( arrow.height() );
+        contentsSize.setWidth(this->num * arrow.width()
+            + (this->num - 1 ) * Spacing);
+        contentsSize.setHeight(arrow.height());
     }
     else
     {
-        contentsSize.setWidth( arrow.width() );
-        contentsSize.setHeight( d_data->num * arrow.height()
-            + ( d_data->num - 1 ) * Spacing );
+        contentsSize.setWidth(arrow.width());
+        contentsSize.setHeight(this->num * arrow.height()
+            + (this->num - 1 ) * Spacing);
     }
 
-    QRect arrowRect( contentsSize );
-    arrowRect.moveCenter( r.center() );
-    arrowRect.setSize( arrow );
+    QRect arrowRect(contentsSize);
+    arrowRect.moveCenter(r.center());
+    arrowRect.setSize(arrow);
 
     painter->save();
-    for ( int i = 0; i < d_data->num; i++ )
+    for (int i = 0; i < this->num; i++)
     {
-        drawArrow( painter, arrowRect, d_data->arrowType );
+        this->drawArrow(painter, arrowRect, this->arrowType);
 
         int dx = 0;
         int dy = 0;
 
-        if ( isVertical )
+        if (isVertical)
+        {
             dy = arrow.height() + Spacing;
+        }
         else
+        {
             dx = arrow.width() + Spacing;
+        }
 
-        arrowRect.translate( dx, dy );
+        arrowRect.translate(dx, dy);
     }
     painter->restore();
 
-    if ( hasFocus() )
+    Q_Q(TcArrowButton);
+    if (q->hasFocus())
     {
         QStyleOptionFocusRect option;
-        option.init( this );
-        option.backgroundColor = palette().color( QPalette::Window );
+        option.init(q);
+        option.backgroundColor = q->palette().color(QPalette::Window);
 
-        style()->drawPrimitive( QStyle::PE_FrameFocusRect,
-            &option, painter, this );
+        q->style()->drawPrimitive(QStyle::PE_FrameFocusRect,
+            &option, painter, q);
     }
-}
+}//}}}
 
-void TcArrowButton::drawArrow( QPainter *painter,
-    const QRect &r, Qt::ArrowType arrowType ) const
+void TcArrowButtonPrivate::drawArrow(QPainter *painter,
+    const QRect &r, Qt::ArrowType arrowType1) const//{{{
 {
-    QPolygon pa( 3 );
+    QPolygon pa(3);
 
-    switch ( arrowType )
+    switch (arrowType1)
     {
         case Qt::UpArrow:
-            pa.setPoint( 0, r.bottomLeft() );
-            pa.setPoint( 1, r.bottomRight() );
-            pa.setPoint( 2, r.center().x(), r.top() );
+            pa.setPoint(0, r.bottomLeft());
+            pa.setPoint(1, r.bottomRight());
+            pa.setPoint(2, r.center().x(), r.top());
             break;
         case Qt::DownArrow:
-            pa.setPoint( 0, r.topLeft() );
-            pa.setPoint( 1, r.topRight() );
-            pa.setPoint( 2, r.center().x(), r.bottom() );
+            pa.setPoint(0, r.topLeft());
+            pa.setPoint(1, r.topRight());
+            pa.setPoint(2, r.center().x(), r.bottom());
             break;
         case Qt::RightArrow:
-            pa.setPoint( 0, r.topLeft() );
-            pa.setPoint( 1, r.bottomLeft() );
-            pa.setPoint( 2, r.right(), r.center().y() );
+            pa.setPoint(0, r.topLeft());
+            pa.setPoint(1, r.bottomLeft());
+            pa.setPoint(2, r.right(), r.center().y());
             break;
         case Qt::LeftArrow:
-            pa.setPoint( 0, r.topRight() );
-            pa.setPoint( 1, r.bottomRight() );
-            pa.setPoint( 2, r.left(), r.center().y() );
+            pa.setPoint(0, r.topRight());
+            pa.setPoint(1, r.bottomRight());
+            pa.setPoint(2, r.left(), r.center().y());
             break;
         default:
             break;
     }
 
+    Q_Q(const TcArrowButton);
     painter->save();
 
-    painter->setRenderHint( QPainter::Antialiasing, true );
-    painter->setPen( Qt::NoPen );
-    painter->setBrush( palette().brush( QPalette::ButtonText ) );
-    painter->drawPolygon( pa );
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(q->palette().brush(QPalette::ButtonText));
+    painter->drawPolygon(pa);
 
     painter->restore();
-}
+}//}}}
 
-QSize TcArrowButton::arrowSize( Qt::ArrowType arrowType,
-    const QSize &boundingSize ) const
+QSize TcArrowButtonPrivate::arrowSize(Qt::ArrowType arrowType1,
+    const QSize &boundingSize) const//{{{
 {
     QSize bs = boundingSize;
-    if ( arrowType == Qt::UpArrow || arrowType == Qt::DownArrow )
+    if (arrowType1 == Qt::UpArrow || arrowType1 == Qt::DownArrow)
+    {
         bs.transpose();
+    }
 
     const int MinLen = 2;
-    const QSize sz = bs.expandedTo(
-        QSize( MinLen, 2 * MinLen - 1 ) ); // minimum
+    const QSize sz = bs.expandedTo(QSize(MinLen, 2 * MinLen - 1)); // minimum
 
     int w = sz.width();
     int h = 2 * w - 1;
 
-    if ( h > sz.height() )
+    if (h > sz.height())
     {
         h = sz.height();
-        w = ( h + 1 ) / 2;
+        w = (h + 1) / 2;
     }
 
-    QSize arrSize( w, h );
-    if ( arrowType == Qt::UpArrow || arrowType == Qt::DownArrow )
+    QSize arrSize(w, h);
+    if (arrowType1 == Qt::UpArrow || arrowType1 == Qt::DownArrow)
+    {
         arrSize.transpose();
+    }
 
     return arrSize;
-}
+}//}}}
 
 
+#include "moc_tcarrowbutton.cpp"

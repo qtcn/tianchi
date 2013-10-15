@@ -1,46 +1,39 @@
-// æ–‡æ¡£è¯´æ˜ï¼šå®ç°ä¸­é—´å¸¦æœ‰ä¸‰è§’ç®­å¤´çš„button
+// ÎÄµµËµÃ÷£ºÊµÏÖÖĞ¼ä´øÓĞÈı½Ç¼ıÍ·µÄbutton
 // ==========================================================================
-// å¼€å‘æ—¥å¿—ï¼š
-// æ—¥æœŸ         äººå‘˜        è¯´æ˜
+// ¿ª·¢ÈÕÖ¾£º
+// ÈÕÆÚ         ÈËÔ±        ËµÃ÷
 // --------------------------------------------------------------------------
-// 2013.10.14  younghz
+// 2013.10.14   younghz     ½¨Á¢
+// 2013.10.15   XChinux     ¸ñÊ½»¯´úÂë
 // ==========================================================================
-/// @file tcarrowbutton.h å®ç°ä¸­é—´å¸¦æœ‰ä¸‰è§’ç®­å¤´çš„button
+/// @file tcarrowbutton.h ÊµÏÖÖĞ¼ä´øÓĞÈı½Ç¼ıÍ·µÄbutton
 // ==========================================================================
 
-#ifndef TCARROWBUTTON_H
-#define TCARROWBUTTON_H
+#ifndef TIANCHI_TCARROWBUTTON_H
+#define TIANCHI_TCARROWBUTTON_H
 
 #include <tianchi/tcglobal.h>
-#include <qpushbutton.h>
+#include <QPushButton>
 
-/// @brief ç®­å¤´æŒ‰é’®ç±»
+class TcArrowButtonPrivate;
+
+/// @brief ¼ıÍ·°´Å¥Àà
 class TIANCHI_API TcArrowButton : public QPushButton
 {
+    Q_OBJECT
 public:
-
-    /// @brief æ„é€ å‡½æ•°
-    /// @param [in] num æŒ‰é’®ä¸­ç®­å¤´çš„æ•°é‡
-    /// @param [in] arrowType æ§åˆ¶ç®­å¤´çš„æ–¹å‘(Qt::UpArrow/Qt::DownArrow/Qt::LeftArrow/Qt::DownArrow)
+    /// @brief ¹¹Ôìº¯Êı
+    /// @param [in] num °´Å¥ÖĞ¼ıÍ·µÄÊıÁ¿
+    /// @param [in] arrowType ¿ØÖÆ¼ıÍ·µÄ·½Ïò(Qt::UpArrow/Qt::DownArrow/Qt::LeftArrow/Qt::DownArrow)
     /// @param [in] *parent
-    explicit TcArrowButton(int num, Qt::ArrowType, QWidget *parent = NULL );
+    explicit TcArrowButton(int num, Qt::ArrowType, QWidget *parent = 0);
     virtual ~TcArrowButton();
-
 protected:
-    virtual void paintEvent( QPaintEvent *event );
-
-    virtual void drawButtonLabel( QPainter *p );
-    /// @brief ç»˜åˆ¶ç®­å¤´
-    virtual void drawArrow( QPainter *,
-        const QRect &, Qt::ArrowType ) const;
-    virtual QRect labelRect() const;
-    /// @brief ç®­å¤´å¤§å°
-    virtual QSize arrowSize( Qt::ArrowType,
-        const QSize &boundingSize ) const;
-
+    virtual void paintEvent(QPaintEvent *event);
 private:
-    class PrivateData;
-    PrivateData *d_data;
+    Q_DISABLE_COPY(TcArrowButton)
+    Q_DECLARE_PRIVATE(TcArrowButton)
+    TcArrowButtonPrivate* const d_ptr;
 };
 
 #endif // TCARROWBUTTON_H
