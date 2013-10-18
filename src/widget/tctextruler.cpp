@@ -1,7 +1,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 
-#include "tctextruler.h"
+#include <tianchi/widget/tctextruler.h>
 
 static const QColor BgStartColor(221,221,221);
 static const QColor BgStopColor(230,230,230);

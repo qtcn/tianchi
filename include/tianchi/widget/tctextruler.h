@@ -2,10 +2,11 @@
 #define TCTEXTRULER_H
 
 #include <QWidget>
+#include <tianchi/tcglobal.h>
 
 class QPainter;
 class QMouseEvent;
-class TcTextRuler : public QWidget
+class TIANCHI_API TcTextRuler : public QWidget
 {
     Q_OBJECT
 public:
