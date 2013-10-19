@@ -28,8 +28,10 @@ public:
     /// @param [in] *parent
     explicit TcArrowButton(int num, Qt::ArrowType, QWidget *parent = 0);
     virtual ~TcArrowButton();
+
 protected:
     virtual void paintEvent(QPaintEvent *event);
+    virtual void keyPressEvent( QKeyEvent *event);
 private:
     Q_DISABLE_COPY(TcArrowButton)
     Q_DECLARE_PRIVATE(TcArrowButton)

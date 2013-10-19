@@ -141,6 +141,15 @@ void TcArrowButton::paintEvent(QPaintEvent *event)
     d->drawButtonLabel(&painter);
 }
 
+//重新实现keyPressEvent,并响应空格键
+void TcArrowButton::keyPressEvent( QKeyEvent *event )
+{
+    if ( event->isAutoRepeat() && event->key() == Qt::Key_Space )
+        Q_EMIT clicked();
+
+    QPushButton::keyPressEvent( event );
+}
+
 void TcArrowButtonPrivate::drawButtonLabel(QPainter *painter)//{{{
 {
     //判断是否是up/downArrow
