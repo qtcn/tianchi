@@ -107,6 +107,16 @@ TcArrowButton::~TcArrowButton()
     delete d_ptr;
 }
 
+Qt::ArrowType TcArrowButton::arrowType() const
+{
+    return d_ptr->arrowType;
+}
+
+int TcArrowButton::num() const
+{
+    return d_ptr->num;
+}
+
 QRect TcArrowButtonPrivate::labelRect() const//{{{
 {
     const int m = 2;
