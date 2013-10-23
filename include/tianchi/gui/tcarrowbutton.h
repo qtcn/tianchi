@@ -29,6 +29,14 @@ public:
     explicit TcArrowButton(int num, Qt::ArrowType, QWidget *parent = 0);
     virtual ~TcArrowButton();
 
+    /// @brief 箭头类型
+    /// @return 箭头的方向
+    Qt::ArrowType arrowType() const;
+
+    /// @brief 按钮上箭头的数量
+    /// @return 按钮上箭头的数量
+    int num() const;
+
 protected:
     virtual void paintEvent(QPaintEvent *event);
     virtual void keyPressEvent( QKeyEvent *event);
