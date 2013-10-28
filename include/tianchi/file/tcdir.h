@@ -28,7 +28,7 @@ class TIANCHI_API TcDir : public QObject
 {
     Q_OBJECT
 public:
-	explicit TcDir(QObject *parent = 0);
+    explicit TcDir(QObject *parent = 0);
 
     /// @brief 查找文件夹内所有的文件
     /// @param path 要查找的文件夹
@@ -43,7 +43,7 @@ public:
     /// @param nameFilters 文件过滤
     /// @param overWrite 是否覆盖
     /// @return 复制的文件数量
-	int copyDirs(const QString &fromPath, const QString &toPath,
+    int copyDirs(const QString &fromPath, const QString &toPath,
                         const QStringList &nameFilters = QStringList(), 
                         bool overWrite = true);
 
@@ -57,13 +57,11 @@ public:
 
     /// @brief 重置m_copyFileCount为0
     void resetCopyFileCount();
-
 Q_SIGNALS:
     /// @brief 信号：当前复制的文件的计数和文件名
     /// @param count 第几个文件
     /// @param name 源文件名
     void currentFile(int count, const QString &name);
-
 private:
     int m_copyFileCount;
 

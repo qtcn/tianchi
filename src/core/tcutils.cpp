@@ -11,6 +11,7 @@
 // --------------------------------------------------------------------------
 // 2013.04.10   圣域天子    建立
 // 2013.09.25   XChinux     增加getLocationFromIP()函数
+// 2013.10.28   XChinux     fopen()函数在MSVC编译器下改用fopen_s()函数
 //
 // ==========================================================================
 // @file tcutils.cpp 常用功能函数
@@ -283,8 +284,17 @@ QString TcUtils::getLocationFromIP(const QString &ip_addr,
                 memset(addr1, 0, 64);
                 memset(addr2, 0, 128);
 
-                FILE *qqwry_file = fopen(qqwry_dat_file.toStdString().c_str(),
-                        "rb");
+                FILE *qqwry_file;
+#ifdef Q_CC_MSVC
+                if (fopen_s(&qqwry_file, 
+                            qqwry_dat_file.toStdString().c_str(), "rb") != 0)
+                {
+                    qqwry_file = NULL;
+                }
+#else
+                qqwry_file = fopen(qqwry_dat_file.toStdString().c_str(), "rb");
+#endif
+                        
                 if (qqwry_file != NULL)
                 {
                     if (::qqwry_get_location(addr1, addr2, 

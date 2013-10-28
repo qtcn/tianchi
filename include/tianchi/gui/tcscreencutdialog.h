@@ -21,8 +21,11 @@
 #include <QPixmap>
 #include <QDialog>
 
+QT_BEGIN_NAMESPACE
 class QMouseEvent;
 class QPaintEvent;
+QT_END_NAMESPACE
+
 class TcScreenCutDialogPrivate;
 
 /// @brief  screen cut dialog

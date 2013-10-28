@@ -36,8 +36,8 @@
 /// }
 /// @endcode
 
-#ifndef TCRECENTUSE_HPP
-#define TCRECENTUSE_HPP
+#ifndef TIANCHI_TCRECENTUSE_HPP
+#define TIANCHI_TCRECENTUSE_HPP
 
 #include <QList>
 
@@ -165,4 +165,4 @@ private:
     const int m_defaultMax;
 };
 
-#endif // TCRECENTUSE_HPP
+#endif // TC_TCRECENTUSE_HPP
