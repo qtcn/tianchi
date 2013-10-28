@@ -43,66 +43,66 @@
 template<typename T>
 class TcSingleton
 {
-	typedef TcSingleton<T> this_type;
-
+    typedef TcSingleton<T> this_type;
 public:
-	/// @brief 构造函数
-	TcSingleton()
-	{
-		if (m_count == 0)
-			m_pointer = new T;
+    /// @brief 构造函数
+    TcSingleton()
+    {
+        if (m_count == 0)
+        {
+            m_pointer = new T;
+        }
+        ++m_count;
+    }
 
-		++m_count;
-	}
+    /// @brief 构造函数
+    TcSingleton(const this_type &)
+    {
+        ++m_count;
+    }
 
-	/// @brief 构造函数
-	TcSingleton(const this_type &)
-	{
-		++m_count;
-	}
+    /// @brief 析构函数
+    ~TcSingleton()
+    {
+        --m_count;
 
-	/// @brief 析构函数
-	~TcSingleton()
-	{
-		--m_count;
+        if (m_count == 0)
+        {
+            delete m_pointer;
+            m_pointer = 0;
+        }
+    }
 
-		if (m_count == 0)
-		{
-			delete m_pointer;
-			m_pointer = 0;
-		}
-	}
+    /// @brief 返回 T *
+    inline T * get() const
+    {
+        assert(m_pointer != 0);
+        return m_pointer;
+    }
 
-	/// @brief 返回 T *
-	inline T * get() const
-	{
-		assert(m_pointer != 0);
-		return m_pointer;
-	}
+    /// @brief operator *
+    inline const T & operator *() const
+    {
+        assert(m_pointer != 0);
+        return *m_pointer;
+    }
 
-	/// @brief operator *
-	inline const T & operator *() const
-	{
-		assert(m_pointer != 0);
-		return *m_pointer;
-	}
+    /// @brief operator ->
+    inline T * operator ->() const
+    {
+        assert(m_pointer != 0);
+        return m_pointer;
+    }
 
-	/// @brief operator ->
-	inline T * operator ->() const
-	{
-		assert(m_pointer != 0);
-		return m_pointer;
-	}
-
-	/// @brief operator =
-	inline this_type & operator =(const this_type &)
-	{
-		return *this;
-	}
+    /// @brief operator =
+    inline this_type & operator =(const this_type &)
+    {
+        return *this;
+    }
 
 private:
-	static T *m_pointer;
-	static int m_count;
+    static T *m_pointer;
+    static int m_count;
 };
 
 /// @brief 初始化宏

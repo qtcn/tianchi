@@ -10,12 +10,13 @@
 // ==========================================================================
 
 #include <tianchi/gui/tcarrowbutton.h>
-
-#include <QPainter>
-#include <QStyle>
-#include <QStyleOption>
 #include <QEvent>
+#include <QStyle>
+#include <QPainter>
+#include <QKeyEvent>
+#include <QPaintEvent>
 #include <QApplication>
+#include <QStyleOption>
 
 static const int MaxNum = 3;
 static const int Spacing = 1;

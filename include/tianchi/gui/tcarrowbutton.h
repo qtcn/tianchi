@@ -15,6 +15,11 @@
 #include <tianchi/tcglobal.h>
 #include <QPushButton>
 
+QT_BEGIN_NAMESPACE
+class QKeyEvent;
+class QPaintEvent;
+QT_END_NAMESPACE
+
 class TcArrowButtonPrivate;
 
 /// @brief ¼ýÍ·°´Å¥Àà
@@ -39,7 +44,7 @@ public:
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
-    virtual void keyPressEvent( QKeyEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
 private:
     Q_DISABLE_COPY(TcArrowButton)
     Q_DECLARE_PRIVATE(TcArrowButton)
