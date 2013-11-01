@@ -20,6 +20,9 @@
 #include <tianchi/tcglobal.h>
 #include <QLabel>
 
+QT_BEGIN_NAMESPACE
+QT_END_NAMESPACE
+
 class TcClickLabelPrivate;
 
 /// @brief emit clicked() signal's label while mouse clicked

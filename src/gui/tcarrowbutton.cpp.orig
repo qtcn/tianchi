@@ -11,6 +11,9 @@
 
 #include <tianchi/gui/tcarrowbutton.h>
 #include <QEvent>
+<<<<<<< HEAD
+#include <QKeyEvent>
+=======
 #include <QStyle>
 #include <QPainter>
 #include <QKeyEvent>

@@ -1,11 +1,14 @@
 #ifndef TCTEXTRULER_H
 #define TCTEXTRULER_H
 
-#include <QWidget>
 #include <tianchi/tcglobal.h>
+#include <QWidget>
 
+QT_BEGIN_NAMESPACE
 class QPainter;
 class QMouseEvent;
+QT_END_NAMESPACE
+
 class TIANCHI_API TcTextRuler : public QWidget
 {
     Q_OBJECT

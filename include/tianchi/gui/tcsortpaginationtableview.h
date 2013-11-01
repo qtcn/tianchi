@@ -19,7 +19,9 @@
 #include <tianchi/tcglobal.h>
 #include <QTableView>
 
+QT_BEGIN_NAMESPACE
 class QLabel;
+QT_END_NAMESPACE
 
 class TcSortPaginationTableViewPrivate;
 
