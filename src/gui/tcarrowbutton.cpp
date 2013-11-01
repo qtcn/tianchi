@@ -15,6 +15,7 @@
 #include <QStyle>
 #include <QStyleOption>
 #include <QEvent>
+#include <QKeyEvent>
 #include <QApplication>
 
 static const int MaxNum = 3;
@@ -149,6 +150,15 @@ void TcArrowButton::paintEvent(QPaintEvent *event)
 
     Q_D(TcArrowButton);
     d->drawButtonLabel(&painter);
+}
+
+//重新实现keyPressEvent,并响应空格键
+void TcArrowButton::keyPressEvent( QKeyEvent *event )
+{
+	if ( event->isAutoRepeat() && event->key() == Qt::Key_Space )
+        Q_EMIT clicked();
+	
+	QPushButton::keyPressEvent( event );
 }
 
 void TcArrowButtonPrivate::drawButtonLabel(QPainter *painter)//{{{

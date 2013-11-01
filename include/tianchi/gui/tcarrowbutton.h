@@ -39,7 +39,7 @@ public:
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
-    //virtual void keyPressEvent( QKeyEvent *event);
+    virtual void keyPressEvent( QKeyEvent *event);
 private:
     Q_DISABLE_COPY(TcArrowButton)
     Q_DECLARE_PRIVATE(TcArrowButton)
