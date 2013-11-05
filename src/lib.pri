@@ -101,6 +101,7 @@ HEADERS += \
     $$TC_INCL/tianchi/gui/tcsortpaginationtableview.h \
     $$TC_INCL/tianchi/gui/tcscreencutdialog.h \
     $$TC_INCL/tianchi/gui/tcarrowbutton.h \
+    $$TC_INCL/tianchi/gui/tccounter.h \
     $$TC_INCL/tianchi/network/tcdownloadhttp.h \
     $$TC_INCL/tianchi/network/tcsingleinstance.h \
     $$TC_INCL/tianchi/network/tcudp.h \
@@ -140,6 +141,7 @@ SOURCES += \
     $$PWD/gui/tcsortpaginationtableview.cpp \
     $$PWD/gui/tcscreencutdialog.cpp \
     $$PWD/gui/tcarrowbutton.cpp \
+    $$PWD/gui/tccounter.cpp \
     $$PWD/network/tcdownloadhttp.cpp \
     $$PWD/network/tcsingleinstance.cpp \
     $$PWD/network/tcudp.cpp \
