@@ -1,4 +1,4 @@
-ï»¿#include <tianchi/gui/tccounter.h>
+#include <tianchi/gui/tccounter.h>
 #include <tianchi/gui/tcarrowbutton.h>
 
 #include <QEvent>
@@ -12,13 +12,13 @@ public:
     explicit TcCounterPrivate(TcCounter *qptr);
     ~TcCounterPrivate();
 
-    /// @brief åˆå§‹åŒ–
+    /// @brief ³õÊ¼»¯
     void initcounter();
 
-    /// @brief æ›´æ–°arrowButtonçš„çŠ¶æ€
+    /// @brief ¸üĞÂarrowButtonµÄ×´Ì¬
     void updateButtons();
 
-    /// @brief æ˜¾ç¤ºvalueEditçš„å€¼
+    /// @brief ÏÔÊ¾valueEditµÄÖµ
     void showNumbers(double value);
 
     TcCounter* const q_ptr;
@@ -27,7 +27,7 @@ public:
         Button1,
         Button2,
         Button3,
-        //æŒ‰é’®æ•°é‡
+        //°´Å¥ÊıÁ¿
         ButtonCnt
     };
 
@@ -52,8 +52,8 @@ TcCounterPrivate::~TcCounterPrivate()
 {
 }
 
-/// @brief æ„é€ å‡½æ•°ã€‚åˆå§‹lineeditçš„å€¼çš„èŒƒå›´æ˜¯0.0-1.0ï¼Œå•é•¿0.01ï¼ŒçŠ¶æ€ä¸ºä¸å¯ç”¨ï¼Œ
-///        é»˜è®¤çš„æŒ‰é’®ä¸ªæ•°æ˜¯ä¸¤ä¸ªã€‚
+/// @brief ¹¹Ôìº¯Êı¡£³õÊ¼lineeditµÄÖµµÄ·¶Î§ÊÇ0.0-1.0£¬µ¥³¤0.01£¬×´Ì¬Îª²»¿ÉÓÃ£¬
+///        Ä¬ÈÏµÄ°´Å¥¸öÊıÊÇÁ½¸ö¡£
 /// @param parent
 TcCounter::TcCounter(QWidget *parent)
     : QWidget(parent), d_ptr(new TcCounterPrivate(this))
@@ -67,7 +67,7 @@ TcCounter::~TcCounter()
     delete d_ptr;
 }
 
-/// @brief åˆå§‹åŒ–ç»„ä»¶
+/// @brief ³õÊ¼»¯×é¼ş
 void TcCounterPrivate::initcounter()
 {
     Q_Q(TcCounter);
@@ -75,7 +75,7 @@ void TcCounterPrivate::initcounter()
     layout->setMargin(0);
     layout->setSpacing(0);
 
-    //valueEditå·¦ä¾§æŒ‰é’®
+    //valueEdit×ó²à°´Å¥
     for (int i = ButtonCnt - 1; i >= 0; i--)
     {
         TcArrowButton *lbtn = new TcArrowButton(i + 1, Qt::DownArrow, q);
@@ -89,12 +89,12 @@ void TcCounterPrivate::initcounter()
         downButton[i] = lbtn;
     }
 
-    //ä¸­é—´çš„valueEdit
+    //ÖĞ¼äµÄvalueEdit
     valueEdit = new QLineEdit(q);
     valueEdit->setReadOnly(true);
     layout->addWidget(valueEdit);
 
-    //valueEditå³ä¾§æŒ‰é’®
+    //valueEditÓÒ²à°´Å¥
     for (int i = 0; i <= ButtonCnt -1; i++)
     {
         TcArrowButton *rbtn = new TcArrowButton(i + 1, Qt::UpArrow, q);
@@ -112,14 +112,14 @@ void TcCounterPrivate::initcounter()
     q->setRange(0.0, 1.0);
     q->setSingleStep(0.001);
 
-    //è®¾ç½®FocusProxyå’ŒFocusPolicy
+    //ÉèÖÃFocusProxyºÍFocusPolicy
     q->setFocusProxy(valueEdit);
     q->setFocusPolicy(Qt::StrongFocus);
 
     q->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed));
 }
 
-/// @brief è®¾ç½®æŒ‰é’®æ•°é‡
+/// @brief ÉèÖÃ°´Å¥ÊıÁ¿
 void TcCounter::setButtonNum(int buttonNum)
 {
     Q_D(TcCounter);
@@ -144,7 +144,7 @@ void TcCounter::setButtonNum(int buttonNum)
     d->buttonNum = buttonNum;
 }
 
-/// @brief è®¾ç½®valueEditèŒƒå›´
+/// @brief ÉèÖÃvalueEdit·¶Î§
 void TcCounter::setRange(double minnum, double maxnum)
 {
     Q_D(TcCounter);
@@ -154,18 +154,18 @@ void TcCounter::setRange(double minnum, double maxnum)
         return;
     }
 
-    //æ›´æ–°æœ€å¤§æœ€å°å€¼
+    //¸üĞÂ×î´ó×îĞ¡Öµ
     d->minimum = minnum;
     d->maximum = maxnum;
 
-    //è®¾ç½®æ­¥é•¿
+    //ÉèÖÃ²½³¤
     setSingleStep(singleStep());
 
     const double value = qBound(minnum, d->value, maxnum);
 
     if (value != d->value)
     {
-        //æ›´æ–°valueå€¼
+        //¸üĞÂvalueÖµ
         d->value = value;
 
         if (d->isValid)
@@ -176,21 +176,21 @@ void TcCounter::setRange(double minnum, double maxnum)
     }
 }
 
-/// @brief è®¾ç½®æ­¥é•¿
+/// @brief ÉèÖÃ²½³¤
 void TcCounter::setSingleStep(double step)
 {
     Q_D(TcCounter);
     d->singleStep = qMax(step, 0.0);
 }
 
-/// @brief è¿”å›æ­¥é•¿å€¼
+/// @brief ·µ»Ø²½³¤Öµ
 double TcCounter::singleStep() const
 {
     Q_D(const TcCounter);
     return d->singleStep;
 }
 
-/// @brief è®¾ç½®çŠ¶æ€
+/// @brief ÉèÖÃ×´Ì¬
 void TcCounter::setValid(bool on)
 {
     Q_D(TcCounter);
@@ -199,7 +199,7 @@ void TcCounter::setValid(bool on)
         return;
     }
 
-    //æ›´æ–°isValidçš„å€¼
+    //¸üĞÂisValidµÄÖµ
     d->isValid = on;
 
     d->updateButtons();
@@ -215,7 +215,7 @@ void TcCounter::setValid(bool on)
     }
 }
 
-/// @brief æ›´æ–°æŒ‰é’®çŠ¶æ€
+/// @brief ¸üĞÂ°´Å¥×´Ì¬
 void TcCounterPrivate::updateButtons()
 {
     if (isValid)
@@ -236,7 +236,7 @@ void TcCounterPrivate::updateButtons()
     }
 }
 
-/// @brief æ˜¾ç¤ºvalueEditçš„å€¼
+/// @brief ÏÔÊ¾valueEditµÄÖµ
 void TcCounterPrivate::showNumbers(double value)
 {
     QString text;

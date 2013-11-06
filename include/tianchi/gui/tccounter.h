@@ -1,11 +1,11 @@
-ï»¿// æ–‡æ¡£è¯´æ˜ï¼šå®ç°å¯ç”¨ä¸¤è¾¹æŒ‰é’®è°ƒèŠ‚å¤§å°çš„counter
+// ÎÄµµËµÃ÷£ºÊµÏÖ¿ÉÓÃÁ½±ß°´Å¥µ÷½Ú´óĞ¡µÄcounter
 // ==========================================================================
-// å¼€å‘æ—¥å¿—ï¼š
-// æ—¥æœŸ         äººå‘˜        è¯´æ˜
+// ¿ª·¢ÈÕÖ¾£º
+// ÈÕÆÚ         ÈËÔ±        ËµÃ÷
 // --------------------------------------------------------------------------
-// 2013.10.31   younghz     å»ºç«‹
+// 2013.10.31   younghz     ½¨Á¢
 // ==========================================================================
-/// @file tccounter.h å®ç°å¯ç”¨ä¸¤è¾¹æŒ‰é’®è°ƒèŠ‚å¤§å°çš„counter
+/// @file tccounter.h ÊµÏÖ¿ÉÓÃÁ½±ß°´Å¥µ÷½Ú´óĞ¡µÄcounter
 // ==========================================================================
 
 #ifndef TIANCHI_TCCOUNTER_H
@@ -15,48 +15,48 @@
 #include <QWidget>
 
 /// @brief counter widget
-/// è¿™ä¸ªwidgetåŒ…å«ä¸€ä¸ªæ˜¾ç¤ºæ•°å­—çš„lineeditå’Œä¸€ä¸ªæˆ–è€…å¤šä¸ªå¯ä»¥ç”¨æ¥å¢åŠ å’Œå‡å°æ˜¾ç¤ºçš„æ•°å­—çš„å€¼çš„
-/// arrowbuttonï¼ŒæŒ‰é’®æŒ‰ä¸‹æ—¶å¢åŠ æˆ–æ˜¯å‡å°çš„æ•°å€¼å¯ä»¥ç”±setIncSteps()å‡½æ•°è®¾å®šï¼Œlineeditä¸¤è¾¹
-/// çš„arrowbuttonçš„ä¸ªæ•°å¯ä»¥ç”±setNumButtons()å‡½æ•°è®¾å®šã€‚
+/// Õâ¸öwidget°üº¬Ò»¸öÏÔÊ¾Êı×ÖµÄlineeditºÍÒ»¸ö»òÕß¶à¸ö¿ÉÒÔÓÃÀ´Ôö¼ÓºÍ¼õĞ¡ÏÔÊ¾µÄÊı×ÖµÄÖµµÄ
+/// arrowbutton£¬°´Å¥°´ÏÂÊ±Ôö¼Ó»òÊÇ¼õĞ¡µÄÊıÖµ¿ÉÒÔÓÉsetIncSteps()º¯ÊıÉè¶¨£¬lineeditÁ½±ß
+/// µÄarrowbuttonµÄ¸öÊı¿ÉÒÔÓÉsetNumButtons()º¯ÊıÉè¶¨¡£
 
 class TcCounterPrivate;
 
-/// @brief TcCounterç±»
+/// @brief TcCounterÀà
 class TIANCHI_API TcCounter : public QWidget
 {
     Q_OBJECT
 public:
-    /// @brief æ„é€ å‡½æ•°
+    /// @brief ¹¹Ôìº¯Êı
     explicit TcCounter(QWidget *parent = 0);
     ~TcCounter();
 
-    /// @brief è®¾ç½®æŒ‰é’®æ•°é‡
-    /// @param [in] æŒ‰é’®æ•°é‡å€¼
+    /// @brief ÉèÖÃ°´Å¥ÊıÁ¿
+    /// @param [in] °´Å¥ÊıÁ¿Öµ
     void setButtonNum(int n);
 
-    /// @brief è®¾ç½®valueEditæ˜¾ç¤ºæ•°çš„èŒƒå›´
-    /// @param [in] minnum æœ€å°å€¼
-    /// @param [in] maxnum æœ€å¤§å€¼
+    /// @brief ÉèÖÃvalueEditÏÔÊ¾ÊıµÄ·¶Î§
+    /// @param [in] minnum ×îĞ¡Öµ
+    /// @param [in] maxnum ×î´óÖµ
     void setRange(double minnum, double maxnum);
 
-    /// @brief è®¾ç½®æ­¥é•¿
-    /// @param [in] æ­¥é•¿å€¼
+    /// @brief ÉèÖÃ²½³¤
+    /// @param [in] ²½³¤Öµ
     void setSingleStep(double step);
 
-    /// @return æ­¥é•¿å¤§å°
+    /// @return ²½³¤´óĞ¡
     double singleStep() const;
 
-    /// @brief è®¾ç½®counterçš„çŠ¶æ€ï¼ˆæœ‰æ•ˆã€æ— æ•ˆï¼‰
-    ///        å½“è®¾ç½®ä¸ºæ— æ•ˆæ—¶ï¼ŒlineEditä¸­ä¸ä¼šæ˜¾ç¤ºæ•°å­—å¹¶ä¸”ä¸¤è¾¹çš„arrowButtonä¸å¯ç”¨
-    /// @param [in] on ä¸ºtrueæ—¶çŠ¶æ€çš„æœ‰æ•ˆï¼Œå¦åˆ™æ— æ•ˆ
+    /// @brief ÉèÖÃcounterµÄ×´Ì¬£¨ÓĞĞ§¡¢ÎŞĞ§£©
+    ///        µ±ÉèÖÃÎªÎŞĞ§Ê±£¬lineEditÖĞ²»»áÏÔÊ¾Êı×Ö²¢ÇÒÁ½±ßµÄarrowButton²»¿ÉÓÃ
+    /// @param [in] on ÎªtrueÊ±×´Ì¬µÄÓĞĞ§£¬·ñÔòÎŞĞ§
     void setValid(bool on);
 
-    /// @brief è¿”å›æ˜¯å¦æœ‰æ•ˆçŠ¶æ€
+    /// @brief ·µ»ØÊÇ·ñÓĞĞ§×´Ì¬
     bool isValid() const;
 Q_SIGNALS:
 
-    /// @brief å½“æ§ä»¶çš„å€¼æ”¹å˜æ—¶å‘å°„
-    /// @param value æ–°çš„å€¼
+    /// @brief µ±¿Ø¼şµÄÖµ¸Ä±äÊ±·¢Éä
+    /// @param value ĞÂµÄÖµ
     void valueChanged(double value);
 
 private:
