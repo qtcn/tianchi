@@ -1,12 +1,9 @@
-ï»¿//#include "tccounter.h"
-//#include "tcarrowbutton.h"
-
 #include <tianchi/gui/tccounter.h>
 #include <tianchi/gui/tcarrowbutton.h>
 
-#include <QHBoxLayout>
-#include <QLineEdit>
 #include <QEvent>
+#include <QLineEdit>
+#include <QHBoxLayout>
 
 class TcCounterPrivate
 {
@@ -15,13 +12,13 @@ public:
     explicit TcCounterPrivate(TcCounter *qptr);
     ~TcCounterPrivate();
 
-    /// @brief åˆå§‹åŒ–
+    /// @brief ³õÊ¼»¯
     void initcounter();
 
-    /// @brief æ›´æ–°arrowButtonçš„çŠ¶æ€
+    /// @brief ¸üĞÂarrowButtonµÄ×´Ì¬
     void updateButtons();
 
-    /// @brief æ˜¾ç¤ºvalueEditçš„å€¼
+    /// @brief ÏÔÊ¾valueEditµÄÖµ
     void showNumbers(double value);
 
     TcCounter* const q_ptr;
@@ -30,7 +27,7 @@ public:
         Button1,
         Button2,
         Button3,
-        //æŒ‰é’®æ•°é‡
+        //°´Å¥ÊıÁ¿
         ButtonCnt
     };
 
@@ -47,23 +44,22 @@ public:
 
 };
 
-TcCounterPrivate::TcCounterPrivate(TcCounter *qptr): q_ptr( qptr )
+TcCounterPrivate::TcCounterPrivate(TcCounter *qptr): q_ptr(qptr)
 {
-
 }
 
 TcCounterPrivate::~TcCounterPrivate()
 {
-
 }
 
-/// @brief æ„é€ å‡½æ•°ã€‚åˆå§‹lineeditçš„å€¼çš„èŒƒå›´æ˜¯0.0-1.0ï¼Œå•é•¿0.01ï¼ŒçŠ¶æ€ä¸ºä¸å¯ç”¨ï¼Œ
-///        é»˜è®¤çš„æŒ‰é’®ä¸ªæ•°æ˜¯ä¸¤ä¸ªã€‚
+/// @brief ¹¹Ôìº¯Êı¡£³õÊ¼lineeditµÄÖµµÄ·¶Î§ÊÇ0.0-1.0£¬µ¥³¤0.01£¬×´Ì¬Îª²»¿ÉÓÃ£¬
+///        Ä¬ÈÏµÄ°´Å¥¸öÊıÊÇÁ½¸ö¡£
 /// @param parent
 TcCounter::TcCounter(QWidget *parent)
     : QWidget(parent), d_ptr(new TcCounterPrivate(this))
 {
-    d_ptr->initcounter();
+    Q_D(TcCounter);
+    d->initcounter();
 }
 
 TcCounter::~TcCounter()
@@ -71,17 +67,18 @@ TcCounter::~TcCounter()
     delete d_ptr;
 }
 
-/// @brief åˆå§‹åŒ–ç»„ä»¶
+/// @brief ³õÊ¼»¯×é¼ş
 void TcCounterPrivate::initcounter()
 {
-    QHBoxLayout *layout = new QHBoxLayout( q_ptr );
+    Q_Q(TcCounter);
+    QHBoxLayout *layout = new QHBoxLayout(q);
     layout->setMargin(0);
     layout->setSpacing(0);
 
-    //valueEditå·¦ä¾§æŒ‰é’®
-    for(int i = ButtonCnt-1; i >= 0; i--)
+    //valueEdit×ó²à°´Å¥
+    for (int i = ButtonCnt - 1; i >= 0; i--)
     {
-        TcArrowButton *lbtn = new TcArrowButton(i+1, Qt::DownArrow, q_ptr);
+        TcArrowButton *lbtn = new TcArrowButton(i + 1, Qt::DownArrow, q);
         lbtn->setFocusPolicy(Qt::NoFocus);
         //lbtn->installEventFilter(this);
         lbtn->setMinimumWidth(12);
@@ -92,15 +89,15 @@ void TcCounterPrivate::initcounter()
         downButton[i] = lbtn;
     }
 
-    //ä¸­é—´çš„valueEdit
-    valueEdit = new QLineEdit(q_ptr);
+    //ÖĞ¼äµÄvalueEdit
+    valueEdit = new QLineEdit(q);
     valueEdit->setReadOnly(true);
     layout->addWidget(valueEdit);
 
-    //valueEditå³ä¾§æŒ‰é’®
-    for(int i = 0; i <= ButtonCnt -1; i++)
+    //valueEditÓÒ²à°´Å¥
+    for (int i = 0; i <= ButtonCnt -1; i++)
     {
-        TcArrowButton *rbtn = new TcArrowButton(i+1, Qt::UpArrow, q_ptr);
+        TcArrowButton *rbtn = new TcArrowButton(i + 1, Qt::UpArrow, q);
         rbtn->setFocusPolicy(Qt::NoFocus);
         rbtn->setMinimumWidth(12);
         rbtn->setMaximumWidth(12);
@@ -111,136 +108,140 @@ void TcCounterPrivate::initcounter()
         upButton[i] = rbtn;
     }
 
-    q_ptr->setButtonNum( 2 );
-    q_ptr->setRange(0.0, 1.0);
-    q_ptr->setSingleStep(0.001);
+    q->setButtonNum(2);
+    q->setRange(0.0, 1.0);
+    q->setSingleStep(0.001);
 
-    //è®¾ç½®FocusProxyå’ŒFocusPolicy
-    q_ptr->setFocusProxy(valueEdit);
-    q_ptr->setFocusPolicy(Qt::StrongFocus);
+    //ÉèÖÃFocusProxyºÍFocusPolicy
+    q->setFocusProxy(valueEdit);
+    q->setFocusPolicy(Qt::StrongFocus);
 
-    q_ptr->setSizePolicy(
-        QSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed ) );
+    q->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed));
 }
 
-/// @brief è®¾ç½®æŒ‰é’®æ•°é‡
+/// @brief ÉèÖÃ°´Å¥ÊıÁ¿
 void TcCounter::setButtonNum(int buttonNum)
 {
-    if(buttonNum < 0 || buttonNum > d_ptr->ButtonCnt)
+    Q_D(TcCounter);
+    if (buttonNum < 0 || buttonNum > d->ButtonCnt)
     {
         return;
     }
-    for(int i = 0; i < d_ptr->ButtonCnt; i++)
+    for (int i = 0; i < d->ButtonCnt; i++)
     {
-        if( i < buttonNum )
+        if (i < buttonNum)
         {
-            d_ptr->downButton[i]->show();
-            d_ptr->upButton[i]->show();
+            d->downButton[i]->show();
+            d->upButton[i]->show();
         }
         else
         {
-            d_ptr->downButton[i]->hide();
-            d_ptr->upButton[i]->hide();
+            d->downButton[i]->hide();
+            d->upButton[i]->hide();
         }
     }
 
-    d_ptr->buttonNum = buttonNum;
-
+    d->buttonNum = buttonNum;
 }
 
-/// @brief è®¾ç½®valueEditèŒƒå›´
+/// @brief ÉèÖÃvalueEdit·¶Î§
 void TcCounter::setRange(double minnum, double maxnum)
 {
+    Q_D(TcCounter);
     maxnum = qMax(minnum, maxnum);
-    if(d_ptr->minimum == minnum && d_ptr->maximum == maxnum)
+    if (d->minimum == minnum && d->maximum == maxnum)
     {
         return;
     }
 
-    //æ›´æ–°æœ€å¤§æœ€å°å€¼
-    d_ptr->minimum = minnum;
-    d_ptr->maximum = maxnum;
+    //¸üĞÂ×î´ó×îĞ¡Öµ
+    d->minimum = minnum;
+    d->maximum = maxnum;
 
-    //è®¾ç½®æ­¥é•¿
-    setSingleStep( singleStep() );
+    //ÉèÖÃ²½³¤
+    setSingleStep(singleStep());
 
-    const double value = qBound(minnum, d_ptr->value, maxnum);
+    const double value = qBound(minnum, d->value, maxnum);
 
-    if(value != d_ptr->value)
+    if (value != d->value)
     {
-        //æ›´æ–°valueå€¼
-        d_ptr->value = value;
+        //¸üĞÂvalueÖµ
+        d->value = value;
 
-        if( d_ptr->isValid )
+        if (d->isValid)
         {
-            d_ptr->showNumbers( d_ptr->value );
-            Q_EMIT valuechanged( d_ptr->value );
+            d->showNumbers(d->value);
+            Q_EMIT valueChanged(d->value);
         }
-
     }
 }
 
-/// @brief è®¾ç½®æ­¥é•¿
+/// @brief ÉèÖÃ²½³¤
 void TcCounter::setSingleStep(double step)
 {
-    d_ptr->singleStep = qMax(step, 0.0);
+    Q_D(TcCounter);
+    d->singleStep = qMax(step, 0.0);
 }
 
-/// @brief è¿”å›æ­¥é•¿å€¼
+/// @brief ·µ»Ø²½³¤Öµ
 double TcCounter::singleStep() const
 {
-    return d_ptr->singleStep;
+    Q_D(const TcCounter);
+    return d->singleStep;
 }
 
-/// @brief è®¾ç½®çŠ¶æ€
+/// @brief ÉèÖÃ×´Ì¬
 void TcCounter::setValid(bool on)
 {
-    if( on == d_ptr->isValid )
+    Q_D(TcCounter);
+    if (on == d->isValid)
     {
         return;
     }
 
-    //æ›´æ–°isvalidçš„å€¼
-    d_ptr->isValid = on;
+    //¸üĞÂisValidµÄÖµ
+    d->isValid = on;
 
-    d_ptr->updateButtons();
+    d->updateButtons();
 
-    if( d_ptr->isValid )
+    if (d->isValid)
     {
-        d_ptr->showNumbers(d_ptr->value);
-        Q_EMIT valuechanged( d_ptr->value );
+        d->showNumbers(d->value);
+        Q_EMIT valueChanged(d->value);
     }
     else
     {
-        d_ptr->valueEdit->setText(QString::null);
+        d->valueEdit->setText(QString::null);
     }
 }
 
-/// @brief æ›´æ–°æŒ‰é’®çŠ¶æ€
+/// @brief ¸üĞÂ°´Å¥×´Ì¬
 void TcCounterPrivate::updateButtons()
 {
-    if(isValid)
+    if (isValid)
     {
-        for(int i = 0; i < ButtonCnt; i++)
+        for (int i = 0; i < ButtonCnt; i++)
         {
-            upButton[i]->setEnabled( value > minimum );
-            downButton[i]->setEnabled( value < maximum );
+            upButton[i]->setEnabled(value > minimum);
+            downButton[i]->setEnabled(value < maximum);
         }
     }
     else
     {
-        for(int i =0; i < ButtonCnt; i++ )
+        for (int i = 0; i < ButtonCnt; i++)
         {
-            upButton[i]->setEnabled( false );
-            downButton[i]->setEnabled( false );
+            upButton[i]->setEnabled(false);
+            downButton[i]->setEnabled(false);
         }
     }
 }
 
-/// @brief æ˜¾ç¤ºvalueEditçš„å€¼
+/// @brief ÏÔÊ¾valueEditµÄÖµ
 void TcCounterPrivate::showNumbers(double value)
 {
     QString text;
     text.setNum(value);
-    valueEdit->setText( text );
+    valueEdit->setText(text);
 }
+
+#include "moc_tccounter.cpp"

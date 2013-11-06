@@ -48,6 +48,7 @@
 #include <tianchi/gui/tcsortpaginationtableview.h>
 #include <tianchi/gui/tcscreencutdialog.h>
 #include <tianchi/gui/tcarrowbutton.h>
+#include <tianchi/gui/tccounter.h>
 
 #include <tianchi/network/tcdownloadhttp.h>
 #include <tianchi/network/tcsingleinstance.h>
