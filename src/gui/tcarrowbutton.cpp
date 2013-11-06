@@ -15,7 +15,6 @@
 #include <QPainter>
 #include <QKeyEvent>
 #include <QPaintEvent>
->>>>>>> upstream/master
 #include <QApplication>
 #include <QStyleOption>
 
@@ -54,7 +53,7 @@ TcArrowButtonPrivate::~TcArrowButtonPrivate()
 
 
 //绘制button风格的一些参数
-static QStyleOptionButton styleOpt(const TcArrowButton* btn)
+static QStyleOptionButton styleOpt(const TcArrowButton *btn)
 {
     QStyleOptionButton option;
     option.init(btn);
@@ -93,8 +92,9 @@ TcArrowButton::TcArrowButton(int num, Qt::ArrowType arrowType,
     : QPushButton(parent), d_ptr(new TcArrowButtonPrivate(this))
 {
     //按钮中箭头的数量在1~3之间
-    d_ptr->num = qBound(1, num, MaxNum);
-    d_ptr->arrowType = arrowType;
+    Q_D(TcArrowButton);
+    d->num = qBound(1, num, MaxNum);
+    d->arrowType = arrowType;
 
     setAutoRepeat(true);
     setAutoDefault(false);
@@ -111,12 +111,14 @@ TcArrowButton::~TcArrowButton()
 
 Qt::ArrowType TcArrowButton::arrowType() const
 {
-    return d_ptr->arrowType;
+    Q_D(const TcArrowButton);
+    return d->arrowType;
 }
 
 int TcArrowButton::num() const
 {
-    return d_ptr->num;
+    Q_D(const TcArrowButton);
+    return d->num;
 }
 
 QRect TcArrowButtonPrivate::labelRect() const//{{{
@@ -154,12 +156,12 @@ void TcArrowButton::paintEvent(QPaintEvent *event)
 }
 
 //重新实现keyPressEvent,并响应空格键
-void TcArrowButton::keyPressEvent( QKeyEvent *event )
+void TcArrowButton::keyPressEvent(QKeyEvent *event)
 {
-	if ( event->isAutoRepeat() && event->key() == Qt::Key_Space )
-        Q_EMIT clicked();
+    if (event->isAutoRepeat() && event->key() == Qt::Key_Space)
+    Q_EMIT clicked();
 	
-	QPushButton::keyPressEvent( event );
+    QPushButton::keyPressEvent(event);
 }
 
 void TcArrowButtonPrivate::drawButtonLabel(QPainter *painter)//{{{

@@ -25,7 +25,6 @@ class TcCounterPrivate;
 class TIANCHI_API TcCounter : public QWidget
 {
     Q_OBJECT
-
 public:
     /// @brief 构造函数
     explicit TcCounter(QWidget *parent = 0);
@@ -50,15 +49,15 @@ public:
     /// @brief 设置counter的状态（有效、无效）
     ///        当设置为无效时，lineEdit中不会显示数字并且两边的arrowButton不可用
     /// @param [in] on 为true时状态的有效，否则无效
-    void setValid( bool on );
+    void setValid(bool on);
 
     /// @brief 返回是否有效状态
-    bool isvalid() const;
+    bool isValid() const;
 Q_SIGNALS:
 
     /// @brief 当控件的值改变时发射
     /// @param value 新的值
-    void valuechanged(double value);
+    void valueChanged(double value);
 
 private:
     Q_DISABLE_COPY(TcCounter)
