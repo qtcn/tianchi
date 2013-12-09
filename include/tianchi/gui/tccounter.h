@@ -19,6 +19,17 @@
 /// arrowbutton，按钮按下时增加或是减小的数值可以由setIncSteps()函数设定，lineedit两边
 /// 的arrowbutton的个数可以由setNumButtons()函数设定。
 
+/// Example:
+/// @code
+/// #include "TcCounter.h"
+///
+/// TcCounter *myCounter = new TcCounter(parent);
+///
+/// myCounter->setRange(0.0, 10.0);
+/// myCounter->setSingleStep(1.0);
+/// myCounter->setButtonNum(2);
+/// ...
+
 class TcCounterPrivate;
 
 /// @brief TcCounter类
@@ -28,7 +39,7 @@ class TIANCHI_API TcCounter : public QWidget
 public:
     /// @brief 构造函数
     explicit TcCounter(QWidget *parent = 0);
-    ~TcCounter();
+    virtual ~TcCounter();
 
     /// @brief 设置按钮数量
     /// @param [in] 按钮数量值
@@ -53,11 +64,46 @@ public:
 
     /// @brief 返回是否有效状态
     bool isValid() const;
+
+    /// @brief 设置lineEdit的只读属性
+    void setReadOnly(bool on);
+    bool isReadOnly() const;
+
+    /// @brief 设置lineEdit显示的最小值
+    void setMinimum(double min);
+    double minimum() const;
+
+    /// @brief 设置lineEdit的最大值
+    void setMaximum(double max);
+    double maximum() const;
+
+    /// @brief lineEdit的值
+    double value() const;
+
+    /// @brief 点击按钮增加的步数
+    void setStepButton1(int nSteps);
+    int stepButton1() const;
+
+    void setStepButton2(int nSteps);
+    int stepButton2() const;
+
+    void setStepButton3(int nSteps);
+    int stepButton3() const;
 Q_SIGNALS:
 
     /// @brief 当控件的值改变时发射
     /// @param value 新的值
     void valueChanged(double value);
+
+    void buttonReleased( double value);
+
+public Q_SLOTS:
+    void setValue(double value);
+
+private Q_SLOTS:
+    void btnRelease();
+    void btnClick();
+
 
 private:
     Q_DISABLE_COPY(TcCounter)

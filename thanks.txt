@@ -32,3 +32,4 @@
 2013.10.11  cnhemiya            增加 class Core/TcRecentUse “最近使用”模版类
 2013.10.11  XChinux             增加 class Gui/TcScreenCutDialog
 2013.10.14  younghz             增加 class Gui/TcArrowButton
+2013.12.09  younghz             增加 class Gui/TcCounter

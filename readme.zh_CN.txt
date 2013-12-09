@@ -56,7 +56,7 @@ Tianchi C++ library for Qt
 
     编译动态链接库：
         打开并编译：D:\Projects\Tianchi\build\shared\shared.pro
-        生成静态库：D:\Projects\Tianchi\output\qtx.y.z-platform-spec\shared
+        生成动态库：D:\Projects\Tianchi\output\qtx.y.z-platform-spec\shared
 
         ※ 编译 dll 时请在 .pro 中添加：
            DEFINES += TIANCHI_EXPORT
