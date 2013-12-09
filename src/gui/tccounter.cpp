@@ -8,18 +8,10 @@
 class TcCounterPrivate
 {
     Q_DECLARE_PUBLIC(TcCounter)
+
 public:
     explicit TcCounterPrivate(TcCounter *qptr);
     ~TcCounterPrivate();
-
-    /// @brief 初始化
-    void initcounter();
-
-    /// @brief 更新arrowButton的状态
-    void updateButtons();
-
-    /// @brief 显示valueEdit的值
-    void showNumbers(double value);
 
     TcCounter* const q_ptr;
     enum Button
@@ -30,6 +22,23 @@ public:
         //按钮数量
         ButtonCnt
     };
+
+    /// @brief 初始化
+    void initcounter();
+
+    /// @brief 更新arrowButton的状态
+    void updateButtons();
+
+    /// @brief 显示valueEdit的值
+    void showNumbers(double value);
+
+    /// @brief 点击按钮1增加的步数
+    void setIncSteps(TcCounterPrivate::Button btn, int nSteps);
+    int incSteps(TcCounterPrivate::Button btn) const;
+
+    void incrementValue(int numSteps);
+
+
 
     TcArrowButton *downButton[ButtonCnt];
     TcArrowButton *upButton[ButtonCnt];
@@ -42,10 +51,66 @@ public:
     double value;
     bool isValid;
 
+    int increment[ButtonCnt];
+
 };
+
+void TcCounterPrivate::incrementValue(int numSteps)
+{
+    Q_Q(TcCounter);
+    const double min = minimum;
+    const double max = maximum;
+    double stepSize = singleStep;
+
+    if ( !isValid || min >= max || stepSize <= 0.0 )
+        return;
+
+
+#if 1
+    stepSize = qMax( stepSize, 1.0e-10 * ( max - min ) );
+#endif
+
+    double value = TcCounterPrivate::value + numSteps * stepSize;
+
+    const double range = max - min;
+
+    if ( value < min )
+    {
+        value += ( ( min - value ) / range ) * range;
+    }
+    else if ( value > max )
+    {
+        value -= ( ( value - max ) / range ) * range;
+    }
+
+    value = min + qRound( ( value - min ) / stepSize ) * stepSize;
+    if ( qFuzzyCompare( value, max ) )
+        value = max;
+
+    if ( qFuzzyCompare( value + 1.0, 1.0 ) )
+        value = 0.0;
+
+    if ( value != TcCounterPrivate::value )
+    {
+        TcCounterPrivate::value = value;
+        TcCounterPrivate::showNumbers( TcCounterPrivate::value );
+        TcCounterPrivate::updateButtons();
+
+        Q_EMIT q->valueChanged( TcCounterPrivate::value );
+    }
+}
 
 TcCounterPrivate::TcCounterPrivate(TcCounter *qptr): q_ptr(qptr)
 {
+    maximum = 1.0;
+    minimum = 0.0;
+    value = 0.0;
+    singleStep = 1.0;
+    isValid = false;
+
+    increment[Button1] = 1;
+    increment[Button2] = 10;
+    increment[Button3] = 100;
 }
 
 TcCounterPrivate::~TcCounterPrivate()
@@ -64,12 +129,14 @@ TcCounter::TcCounter(QWidget *parent)
 
 TcCounter::~TcCounter()
 {
-    delete d_ptr;
+    Q_D(TcCounter);
+    delete d;
 }
 
 /// @brief 初始化组件
 void TcCounterPrivate::initcounter()
 {
+
     Q_Q(TcCounter);
     QHBoxLayout *layout = new QHBoxLayout(q);
     layout->setMargin(0);
@@ -85,6 +152,11 @@ void TcCounterPrivate::initcounter()
         lbtn->setMaximumWidth(12);
         lbtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         layout->addWidget(lbtn);
+
+        QObject::connect(lbtn, SIGNAL(released()),
+                         q, SLOT(btnRelease()));
+        QObject::connect(lbtn, SIGNAL(clicked()),
+                         q, SLOT(btnClick()));
 
         downButton[i] = lbtn;
     }
@@ -105,12 +177,19 @@ void TcCounterPrivate::initcounter()
         //rbtn->installEventFilter(this);
         layout->addWidget(rbtn);
 
+        QObject::connect(rbtn, SIGNAL(released()),
+                         q, SLOT(btnRelease()));
+        QObject::connect(rbtn, SIGNAL(clicked()),
+                         q, SLOT(btnClick()));
+
         upButton[i] = rbtn;
     }
 
     q->setButtonNum(2);
     q->setRange(0.0, 1.0);
     q->setSingleStep(0.001);
+    q->setValue(0.0);
+
 
     //设置FocusProxy和FocusPolicy
     q->setFocusProxy(valueEdit);
@@ -218,12 +297,13 @@ void TcCounter::setValid(bool on)
 /// @brief 更新按钮状态
 void TcCounterPrivate::updateButtons()
 {
+    Q_Q(TcCounter);
     if (isValid)
     {
         for (int i = 0; i < ButtonCnt; i++)
         {
-            upButton[i]->setEnabled(value > minimum);
-            downButton[i]->setEnabled(value < maximum);
+            upButton[i]->setEnabled(value < q->maximum());
+            downButton[i]->setEnabled(value > q->minimum());
         }
     }
     else
@@ -242,6 +322,141 @@ void TcCounterPrivate::showNumbers(double value)
     QString text;
     text.setNum(value);
     valueEdit->setText(text);
+}
+
+void TcCounterPrivate::setIncSteps(TcCounterPrivate::Button btn, int nSteps)
+{
+    if (btn >= 0 && btn < TcCounterPrivate::ButtonCnt)
+    {
+        increment[btn] = nSteps;
+    }
+}
+
+int TcCounterPrivate::incSteps(TcCounterPrivate::Button btn) const
+{
+    if (btn > 0 && btn < TcCounterPrivate::ButtonCnt)
+    {
+        return increment[btn];
+    }
+    return 0;
+}
+
+/// @brief 设置只读属性
+void TcCounter::setReadOnly(bool on)
+{
+    Q_D(TcCounter);
+    return d->valueEdit->setReadOnly( on );
+}
+
+bool TcCounter::isReadOnly() const
+{
+    Q_D(const TcCounter);
+    return d->valueEdit->isReadOnly();
+}
+
+void TcCounter::setMinimum(double minValue)
+{
+    setRange(minValue, maximum());
+}
+
+double TcCounter::minimum() const
+{
+    Q_D(const TcCounter);
+    return d->minimum;
+}
+
+void TcCounter::setMaximum(double maxValue)
+{
+    setRange(minimum(), maxValue);
+}
+
+double TcCounter::maximum() const
+{
+    Q_D(const TcCounter);
+    return d->maximum;
+}
+
+double TcCounter::value() const
+{
+    Q_D(const TcCounter);
+    return d->value;
+}
+void TcCounter::setValue(double value)
+{
+    Q_D(TcCounter);
+    const double valuemin = qMin(d->minimum, d->maximum);
+    const double valuemax = qMax(d->minimum, d->maximum);
+
+    value = qBound(valuemin, value, valuemax);
+
+    if (!d->isValid || value != d->value)
+    {
+        d->isValid = true;
+        d->value = value;
+
+        d->showNumbers(value);
+        d->updateButtons();
+
+        Q_EMIT valueChanged(value);
+    }
+}
+
+void TcCounter::setStepButton1(int nSteps)
+{
+    Q_D(TcCounter);
+    d->setIncSteps(d->Button1, nSteps);
+}
+
+int TcCounter::stepButton1() const
+{
+    Q_D(const TcCounter);
+    return d->incSteps(TcCounterPrivate::Button1);
+}
+
+void TcCounter::setStepButton2(int nSteps)
+{
+    Q_D(TcCounter);
+    d->setIncSteps(d->Button2, nSteps);
+}
+
+int TcCounter::stepButton2() const
+{
+    Q_D(const TcCounter);
+    return d->incSteps(TcCounterPrivate::Button2);
+}
+
+void TcCounter::setStepButton3(int nSteps)
+{
+    Q_D(TcCounter);
+    d->setIncSteps(d->Button3, nSteps);
+}
+
+int TcCounter::stepButton3() const
+{
+    Q_D(const TcCounter);
+    return d->incSteps(TcCounterPrivate::Button3);
+}
+
+void TcCounter::btnRelease()
+{
+    Q_EMIT buttonReleased(value());
+}
+
+void TcCounter::btnClick()
+{
+    Q_D(TcCounter);
+
+    for (int i = 0; i < d->ButtonCnt; i++)
+    {
+        if (d->upButton[i] == QObject::sender())
+        {
+            d->incrementValue(d->increment[i]);
+        }
+        if (d->downButton[i] == sender())
+        {
+            d->incrementValue(-d->increment[i]);
+        }
+    }
 }
 
 #include "moc_tccounter.cpp"
