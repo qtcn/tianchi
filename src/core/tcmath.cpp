@@ -15,6 +15,7 @@
 /// @file tcmath.cpp
 // ==========================================================================
 #include <tianchi/core/tcmath.h>
+#include <QStringList>
 #include "../3rdparty/bcmath/bcmath.h"
 
 std::string TcMath::bcadd(const std::string &left, const std::string &right, 
