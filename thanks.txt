@@ -33,3 +33,4 @@
 2013.10.11  XChinux             增加 class Gui/TcScreenCutDialog
 2013.10.14  younghz             增加 class Gui/TcArrowButton
 2013.12.09  younghz             增加 class Gui/TcCounter
+2014.01.02  XChinux             增加 static function Core/TcMath::currencyText()
