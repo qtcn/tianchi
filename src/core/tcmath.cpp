@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.07.04   XChinux     建立
-//
+// 2014.01.02   XChinux     add currencyText() function
 // ==========================================================================
 /// @file tcmath.cpp
 // ==========================================================================
@@ -140,17 +140,17 @@ int TcMath::bccomp(const QString &left, const QString &right,
 QString TcMath::currencyText(const QString &number)
 {
     //static QString str2 = C("仟佰拾万仟佰拾亿仟佰拾万仟佰拾元");
-    static const QString str2("\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\344\272\277\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\345\205\203");
+    static const QString str2 = QString::fromUtf8("\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\344\272\277\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\345\205\203");
     //static QString str3 = C("零壹贰叁肆伍陆柒捌玖");
-    static const QString str3("\351\233\266\345\243\271\350\264\260\345\217\201\350\202\206\344\274\215\351\231\206\346\237\222\346\215\214\347\216\226");
-    static const QString strYiWan("\344\272\277\344\270\207");//= C("亿万");
-    static QString strZero("\351\233\266");// = C("零");
-    static QString strZero2("\351\233\266\351\233\266");// = C("零零");
-    static QString strYuan("\345\205\203");// = C("元");
-    static QString strZheng("\346\225\264");// = C("整");
-    static QString strJiao("\350\247\222");// = C("角");
-    static QString strFen("\345\210\206");// = C("分");
-    static QString strJiaoZheng("\350\247\222\346\225\264");// = C("角整");
+    static const QString str3 = QString::fromUtf8("\351\233\266\345\243\271\350\264\260\345\217\201\350\202\206\344\274\215\351\231\206\346\237\222\346\215\214\347\216\226");
+    static const QString strYiWan = QString::fromUtf8("\344\272\277\344\270\207");//= C("亿万");
+    static const QString strZero = QString::fromUtf8("\351\233\266");// = C("零");
+    static const QString strZero2 = QString::fromUtf8("\351\233\266\351\233\266");// = C("零零");
+    static const QString strYuan = QString::fromUtf8("\345\205\203");// = C("元");
+    static const QString strZheng = QString::fromUtf8("\346\225\264");// = C("整");
+    static const QString strJiao = QString::fromUtf8("\350\247\222");// = C("角");
+    static const QString strFen = QString::fromUtf8("\345\210\206");// = C("分");
+    static const QString strJiaoZheng = QString::fromUtf8("\350\247\222\346\225\264");// = C("角整");
 
     QString str = bcadd(number, QString("0.00"), 2);
     str.replace("-", "");
