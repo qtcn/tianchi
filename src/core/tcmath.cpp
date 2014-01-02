@@ -16,7 +16,6 @@
 // ==========================================================================
 #include <tianchi/core/tcmath.h>
 #include <QStringList>
-//#include <QCoreApplication>
 #include "../3rdparty/bcmath/bcmath.h"
 
 std::string TcMath::bcadd(const std::string &left, const std::string &right, 
@@ -138,32 +137,21 @@ int TcMath::bccomp(const QString &left, const QString &right,
     return ::bccomp(left.toStdString(), right.toStdString(), scale);
 }
 
-QString tcmath_ts(const char *sourceText)
-{
-    return QString::fromUtf8(sourceText);
-#if 0
-    return QCoreApplication::translate("TcMath", sourceText, 0
-#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
-            , QCoreApplication::UnicodeUTF8
-#endif
-            );
-#endif
-}
-
 QString TcMath::currencyText(const QString &number)
 {
     //static QString str2 = C("Çª°ÛÊ°ÍòÇª°ÛÊ°ÒÚÇª°ÛÊ°ÍòÇª°ÛÊ°Ôª");
-    static const QString str2 = tcmath_ts("\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\344\272\277\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\345\205\203");
+    static const QString str2 = QString::fromUtf8("\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\344\272\277\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\345\205\203");
     //static QString str3 = C("ÁãÒ¼·¡ÈþËÁÎéÂ½Æâ°Æ¾Á");
-    static const QString str3 = tcmath_ts("\351\233\266\345\243\271\350\264\260\345\217\201\350\202\206\344\274\215\351\231\206\346\237\222\346\215\214\347\216\226");
-    static const QString strYiWan = tcmath_ts("\344\272\277\344\270\207");//= C("ÒÚÍò");
-    static const QString strZero = tcmath_ts("\351\233\266");// = C("Áã");
-    static const QString strZero2 = tcmath_ts("\351\233\266\351\233\266");// = C("ÁãÁã");
-    static const QString strYuan = tcmath_ts("\345\205\203");// = C("Ôª");
-    static const QString strZheng = tcmath_ts("\346\225\264");// = C("Õû");
-    static const QString strJiao = tcmath_ts("\350\247\222");// = C("½Ç");
-    static const QString strFen = tcmath_ts("\345\210\206");// = C("·Ö");
-    static const QString strJiaoZheng = tcmath_ts("\350\247\222\346\225\264");// = C("½ÇÕû");
+    static const QString str3 = QString::fromUtf8("\351\233\266\345\243\271\350\264\260\345\217\201\350\202\206\344\274\215\351\231\206\346\237\222\346\215\214\347\216\226");
+    static const QString strYiWan = QString::fromUtf8("\344\272\277\344\270\207");//= C("ÒÚÍò");
+    static const QString strZero = QString::fromUtf8("\351\233\266");// = C("Áã");
+    static const QString strZero2 = QString::fromUtf8("\351\233\266\351\233\266");// = C("ÁãÁã");
+    static const QString strYuan = QString::fromUtf8("\345\205\203");// = C("Ôª");
+    static const QString strZheng = QString::fromUtf8("\346\225\264");// = C("Õû");
+    static const QString strJiao = QString::fromUtf8("\350\247\222");// = C("½Ç");
+    static const QString strFen = QString::fromUtf8("\345\210\206");// = C("·Ö");
+    static const QString strJiaoZheng = QString::fromUtf8("\350\247\222\346\225\264");// = C("½ÇÕû");
+
     QString str = bcadd(number, QString("0.00"), 2);
     str.replace("-", "");
 
