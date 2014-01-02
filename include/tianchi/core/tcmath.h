@@ -68,7 +68,6 @@ public:
 
 
 
-
     /// @brief  Returns the sum of two arbitrary precision numbers
     static QString bcadd(const QString &left, 
             const QString &right, int scale = -1);
@@ -106,6 +105,13 @@ public:
     /// @brief  Compares two arbitrary precision numbers
     static int bccomp(const QString &left, const QString &right, 
             int scale = -1);
+
+
+    /// @brief  convert a number string to currency text ( > 0)
+    static std::string currencyText(const std::string &number);
+
+    /// @brief  convert a number string to currency text ( > 0)
+    static QString currencyText(const QString &number);
 };
 
 #endif  // TIANCHI_TCMATH_H

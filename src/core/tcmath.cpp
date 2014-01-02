@@ -135,3 +135,106 @@ int TcMath::bccomp(const QString &left, const QString &right,
 {
     return ::bccomp(left.toStdString(), right.toStdString(), scale);
 }
+
+QString TcMath::currencyText(const QString &number)
+{
+    //static QString str2 = C("Çª°ÛÊ°ÍòÇª°ÛÊ°ÒÚÇª°ÛÊ°ÍòÇª°ÛÊ°Ôª");
+    static const QString str2("\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\344\272\277\344\273\237\344\275\260\346\213\276\344\270\207\344\273\237\344\275\260\346\213\276\345\205\203");
+    //static QString str3 = C("ÁãÒ¼·¡ÈşËÁÎéÂ½Æâ°Æ¾Á");
+    static const QString str3("\351\233\266\345\243\271\350\264\260\345\217\201\350\202\206\344\274\215\351\231\206\346\237\222\346\215\214\347\216\226");
+    static const QString strYiWan("\344\272\277\344\270\207");//= C("ÒÚÍò");
+    static QString strZero("\351\233\266");// = C("Áã");
+    static QString strZero2("\351\233\266\351\233\266");// = C("ÁãÁã");
+    static QString strYuan("\345\205\203");// = C("Ôª");
+    static QString strZheng("\346\225\264");// = C("Õû");
+    static QString strJiao("\350\247\222");// = C("½Ç");
+    static QString strFen("\345\210\206");// = C("·Ö");
+    static QString strJiaoZheng("\350\247\222\346\225\264");// = C("½ÇÕû");
+
+    QString str = bcadd(number, QString("0.00"), 2);
+    str.replace("-", "");
+
+    int cnt = str3.size();
+    QStringList str3arr;
+    for (int i = 0; i < cnt; i++)
+    {
+        str3arr << str3.mid(i, 1);
+    }
+    int len2 = str.size() - 3;
+    QString str22 = str2.mid(str2.size() - len2);
+
+    QString str4 = "";
+    for (int i = 0; i < len2; i++)
+    {
+        int j = str.mid(i, 1).toInt();
+        QString word_unit = str22.mid(i, 1);
+        if (strYiWan.indexOf(word_unit) > -1)
+        {
+            if (j == 0)
+            {
+                str4 += word_unit;
+            }
+            else
+            {
+                str4 += str3arr[j] + word_unit;
+            }
+        }
+        else
+        {
+            if (j == 0)
+            {
+                str4 += strZero;//C("Áã");
+            }
+            else
+            {
+                str4 += str3arr[j] + word_unit;
+            }
+        }
+    }
+    int pos;
+    while ((pos = str4.indexOf(strZero2)) > -1)
+    {
+        str4 = str4.mid(0, pos) + str4.mid(pos + 1);
+    }
+    if (str4.right(1) == strZero)
+    {
+        if (str4.size() > 1)
+        {
+            str4 = str4.mid(0, str4.size() - 1) + strYuan;//C("Ôª");
+        }
+        else
+        {
+            str4 += strYuan;//C("Ôª");
+        }
+    }
+
+    if (str.right(2) == "00")
+    {
+        str4 += strZheng;//C("Õû");
+    }
+    else if (str.right(1) == "0")
+    {
+        // Áã·Ö
+        int j = str.right(2).left(1).toInt();
+        str4 += str3arr[j] + strJiaoZheng;
+    }
+    else if (str.right(2).left(1) == "0")
+    {
+        // Áã½Ç
+        int j = str.right(1).toInt();
+        str4 += strZero + str3arr[j] + strFen;
+    }
+    else
+    {
+        int j = str.right(2).left(1).toInt();
+        str4 += str3arr[j] + strJiao;
+        j = str.right(1).toInt();
+        str4 += str3arr[j] + strFen;
+    }
+    return str4;
+}
+
+std::string TcMath::currencyText(const std::string &number)
+{
+    return currencyText(QString::fromStdString(number)).toStdString();
+}
