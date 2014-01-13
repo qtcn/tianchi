@@ -1,9 +1,8 @@
 # ===========================================================================
 # 2013.04.17    XChinux created
-#
+# 2014.01.13	XChinux	added msvc2012-x86_64 support
 #
 # ===========================================================================
-
 TEMPLATE = lib
 TARGET = tianchi
 QT += gui sql network script
@@ -24,7 +23,7 @@ win32-msvc2005 : TC_SPEC = $${TC_SPEC}-vc2005_x86
 win32-msvc2008 : TC_SPEC = $${TC_SPEC}-vc2008_x86
 win32-msvc2010 : TC_SPEC = $${TC_SPEC}-vc2010_x86
 win32-msvc2012 : TC_SPEC = $${TC_SPEC}-vc2012_x86
-
+contains(DEFINES, WIN64) : TC_SPEC = $${TC_SPEC}_64
 
 CONFIG(debug, debug|release) {
     TARGET = $${TARGET}d
