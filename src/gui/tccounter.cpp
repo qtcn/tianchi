@@ -4,6 +4,7 @@
 #include <QEvent>
 #include <QLineEdit>
 #include <QHBoxLayout>
+#include <QKeyEvent>
 
 class TcCounterPrivate
 {
@@ -457,6 +458,42 @@ void TcCounter::btnClick()
             d->incrementValue(-d->increment[i]);
         }
     }
+}
+
+void TcCounter::keyPressEvent(QKeyEvent *event)
+{
+    bool acceptedFlag = true;
+    switch (event->key())
+    {
+        case Qt::Key_Home:
+        {
+            if (event->modifiers() & Qt::ControlModifier)
+                setValue(minimum());
+            else
+                acceptedFlag = false;
+            break;
+        }
+        case Qt::Key_End:
+        {
+            if (event->modifiers() & Qt::ControlModifier)
+                setValue(maximum());
+            else
+                acceptedFlag = false;
+            break;
+        }
+        default:
+        {
+            acceptedFlag = false;
+        }
+    }
+
+    if (acceptedFlag)
+    {
+        event->accept();
+        return;
+    }
+
+    QWidget::keyPressEvent(event);
 }
 
 #include "moc_tccounter.cpp"
