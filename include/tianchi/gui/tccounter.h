@@ -30,6 +30,10 @@
 /// myCounter->setButtonNum(2);
 /// ...
 
+QT_BEGIN_NAMESPACE
+class QKeyEvent;
+QT_END_NAMESPACE
+
 class TcCounterPrivate;
 
 /// @brief TcCounter¿‡
@@ -110,6 +114,9 @@ private:
     Q_DECLARE_PRIVATE(TcCounter)
 
     TcCounterPrivate* const d_ptr;
+
+protected:
+    virtual void keyPressEvent(QKeyEvent *);
 };
 
 #endif // TIANCHI_TCCOUNTER_H
