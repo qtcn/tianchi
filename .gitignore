@@ -16,7 +16,14 @@
 *.pro.user.*
 moc_*.cpp
 qrc_*.cpp
-Makefile
+Makefile*
+object_script.*
+build/static/release/*
+build/static/debug/*
+build/shared/release/*
+build/shared/debug/*
+build/plugin/release/*
+build/plugin/debug/*
 *-build-*
 
 ###################
@@ -32,3 +39,5 @@ staticlib
 
 tianchi-build-*
 tianchi_s-build-*
+
+output/*

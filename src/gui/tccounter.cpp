@@ -1,3 +1,13 @@
+// 文档说明：实现可用两边按钮调节大小的counter
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.10.31   younghz     建立
+// ==========================================================================
+/// @file tccounter.cpp 实现可用两边按钮调节大小的counter
+// ==========================================================================
+
 #include <tianchi/gui/tccounter.h>
 #include <tianchi/gui/tcarrowbutton.h>
 
@@ -9,7 +19,6 @@
 class TcCounterPrivate
 {
     Q_DECLARE_PUBLIC(TcCounter)
-
 public:
     explicit TcCounterPrivate(TcCounter *qptr);
     ~TcCounterPrivate();
@@ -38,9 +47,7 @@ public:
     int incSteps(TcCounterPrivate::Button btn) const;
 
     void incrementValue(int numSteps);
-
-
-
+public:
     TcArrowButton *downButton[ButtonCnt];
     TcArrowButton *upButton[ButtonCnt];
     QLineEdit *valueEdit;
@@ -53,7 +60,6 @@ public:
     bool isValid;
 
     int increment[ButtonCnt];
-
 };
 
 void TcCounterPrivate::incrementValue(int numSteps)
@@ -63,45 +69,50 @@ void TcCounterPrivate::incrementValue(int numSteps)
     const double max = maximum;
     double stepSize = singleStep;
 
-    if ( !isValid || min >= max || stepSize <= 0.0 )
+    if (!isValid || min >= max || stepSize <= 0.0)
+    {
         return;
-
+    }
 
 #if 1
-    stepSize = qMax( stepSize, 1.0e-10 * ( max - min ) );
+    stepSize = qMax(stepSize, 1.0e-10 * (max - min));
 #endif
 
     double value = TcCounterPrivate::value + numSteps * stepSize;
 
     const double range = max - min;
 
-    if ( value < min )
+    if (value < min)
     {
-        value += ( ( min - value ) / range ) * range;
+        value += ((min - value) / range) * range;
     }
-    else if ( value > max )
+    else if (value > max)
     {
-        value -= ( ( value - max ) / range ) * range;
+        value -= ((value - max) / range) * range;
     }
 
-    value = min + qRound( ( value - min ) / stepSize ) * stepSize;
-    if ( qFuzzyCompare( value, max ) )
+    value = min + qRound((value - min) / stepSize) * stepSize;
+    if (qFuzzyCompare(value, max))
+    {
         value = max;
+    }
 
-    if ( qFuzzyCompare( value + 1.0, 1.0 ) )
+    if (qFuzzyCompare(value + 1.0, 1.0))
+    {
         value = 0.0;
+    }
 
-    if ( value != TcCounterPrivate::value )
+    if (value != TcCounterPrivate::value)
     {
         TcCounterPrivate::value = value;
-        TcCounterPrivate::showNumbers( TcCounterPrivate::value );
+        TcCounterPrivate::showNumbers(TcCounterPrivate::value);
         TcCounterPrivate::updateButtons();
 
-        Q_EMIT q->valueChanged( TcCounterPrivate::value );
+        Q_EMIT q->valueChanged(TcCounterPrivate::value);
     }
 }
 
-TcCounterPrivate::TcCounterPrivate(TcCounter *qptr): q_ptr(qptr)
+TcCounterPrivate::TcCounterPrivate(TcCounter *qptr) : q_ptr(qptr)
 {
     maximum = 1.0;
     minimum = 0.0;
@@ -137,7 +148,6 @@ TcCounter::~TcCounter()
 /// @brief 初始化组件
 void TcCounterPrivate::initcounter()
 {
-
     Q_Q(TcCounter);
     QHBoxLayout *layout = new QHBoxLayout(q);
     layout->setMargin(0);
@@ -154,10 +164,8 @@ void TcCounterPrivate::initcounter()
         lbtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         layout->addWidget(lbtn);
 
-        QObject::connect(lbtn, SIGNAL(released()),
-                         q, SLOT(btnRelease()));
-        QObject::connect(lbtn, SIGNAL(clicked()),
-                         q, SLOT(btnClick()));
+        QObject::connect(lbtn, SIGNAL(released()), q, SLOT(btnRelease()));
+        QObject::connect(lbtn, SIGNAL(clicked()), q, SLOT(btnClick()));
 
         downButton[i] = lbtn;
     }
@@ -178,10 +186,8 @@ void TcCounterPrivate::initcounter()
         //rbtn->installEventFilter(this);
         layout->addWidget(rbtn);
 
-        QObject::connect(rbtn, SIGNAL(released()),
-                         q, SLOT(btnRelease()));
-        QObject::connect(rbtn, SIGNAL(clicked()),
-                         q, SLOT(btnClick()));
+        QObject::connect(rbtn, SIGNAL(released()), q, SLOT(btnRelease()));
+        QObject::connect(rbtn, SIGNAL(clicked()), q, SLOT(btnClick()));
 
         upButton[i] = rbtn;
     }
@@ -382,6 +388,7 @@ double TcCounter::value() const
     Q_D(const TcCounter);
     return d->value;
 }
+
 void TcCounter::setValue(double value)
 {
     Q_D(TcCounter);
