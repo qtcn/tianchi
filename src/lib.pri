@@ -109,6 +109,7 @@ HEADERS += \
     $$TC_INCL/tianchi/sql/tcmssql.h \
     $$TC_INCL/tianchi/sql/tcoracle.h \
     $$TC_INCL/tianchi/sql/tcdatabase.h \
+    $$TC_INCL/tianchi/sql/tcdbprocess.h \
     $$TC_INCL/tianchi/widget/tctreeex.h \
     $$TC_INCL/tianchi/widget/tctextruler.h
 
@@ -147,6 +148,7 @@ SOURCES += \
     $$PWD/os/tcos.cpp \
     $$PWD/sql/tcdataaccess.cpp \
     $$PWD/sql/tcdatabase.cpp \
+    $$PWD/sql/tcdbprocess.cpp \
     $$PWD/sql/tcmssql.cpp \
     $$PWD/sql/tcoracle.cpp \
     $$PWD/widget/tctreeex.cpp \

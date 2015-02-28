@@ -59,6 +59,7 @@
 #include <tianchi/sql/tcmssql.h>
 #include <tianchi/sql/tcoracle.h>
 #include <tianchi/sql/tcdatabase.h>
+#include <tianchi/sql/tcdbprocess.h>
 #include <tianchi/sql/tcdataaccess.h>
 
 #include <tianchi/widget/tctreeex.h>
