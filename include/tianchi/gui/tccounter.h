@@ -15,9 +15,9 @@
 #include <QWidget>
 
 /// @brief counter widget
-/// 这个widget包含一个显示数字的lineedit和一个或者多个可以用来增加和减小显示的数字的值的
-/// arrowbutton，按钮按下时增加或是减小的数值可以由setIncSteps()函数设定，lineedit两边
-/// 的arrowbutton的个数可以由setNumButtons()函数设定。
+/// 这个widget包含一个显示数字的lineedit和一个或者多个可以用来增加和减小显示
+/// 的数字的值的arrowbutton，按钮按下时增加或是减小的数值可以由setIncSteps()
+/// 函数设定，lineedit两边的arrowbutton的个数可以由setNumButtons()函数设定。
 
 /// Example:
 /// @code
