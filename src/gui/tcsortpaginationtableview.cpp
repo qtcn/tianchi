@@ -47,7 +47,7 @@ void TcSortPaginationTableViewPrivate::_q_sortIndicatorChanged(
     Q_UNUSED(logicalIndex)
     Q_UNUSED(order)
     Q_Q(TcSortPaginationTableView);
-    if (!q->isSortingEnabled())
+    if (!q->isSortingEnabled() || pageRowCount < 0)
     {
         return;
     }
@@ -57,6 +57,10 @@ void TcSortPaginationTableViewPrivate::_q_sortIndicatorChanged(
 void TcSortPaginationTableViewPrivate::_q_paginatorClicked(
         const QString &link)
 {
+    if (pageRowCount < 0)
+    {
+        return;
+    }
     if (link.left(5) == "page:")
     {
         int iPage = link.mid(5).toInt();
