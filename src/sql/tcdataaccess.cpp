@@ -75,9 +75,10 @@ QString TcDataAccess::_case(const QString &field)
 void TcDataAccess::_prepareExec(const QString &sql, 
         const QVariantList &bind)
 {
+    bool bOk;
     if (bind.isEmpty())
     {
-        _query->exec(sql);
+        bOk = _query->exec(sql);
     }
     else
     {
@@ -87,7 +88,11 @@ void TcDataAccess::_prepareExec(const QString &sql,
         {
             _query->addBindValue(it.next());
         }
-        _query->exec();
+        bOk = _query->exec();
+    }
+    if (!bOk)
+    {
+        qDebug() << _query->lastError();
     }
 }
 
@@ -387,7 +392,6 @@ int TcDataAccess::doDelete(const QString &table,
     }
     
     _prepareExec(sql, bind);
-    qDebug() << _query->lastError();
     return _query->numRowsAffected();
 }
 
@@ -426,7 +430,6 @@ int TcDataAccess::doUpdate(const QString &table, const QVariantMap &field,
         }
     }
     _query->exec();
-    qDebug() << _query->lastError();
     return _query->numRowsAffected();
 }
 
@@ -458,9 +461,10 @@ int TcDataAccess::doInsert(const QString &table, const QVariantMap &field)
             _query->addBindValue(it.next());
         }
     }
-    _query->exec();
-
-    qDebug() << _query->lastError();
+    if (!_query->exec())
+    {
+        qDebug() << _query->lastError();
+    }
     return _query->numRowsAffected();
 }
 
