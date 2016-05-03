@@ -23,6 +23,8 @@ win32-msvc2005 : TC_SPEC = $${TC_SPEC}-vc2005_x86
 win32-msvc2008 : TC_SPEC = $${TC_SPEC}-vc2008_x86
 win32-msvc2010 : TC_SPEC = $${TC_SPEC}-vc2010_x86
 win32-msvc2012 : TC_SPEC = $${TC_SPEC}-vc2012_x86
+win32-msvc2013 : TC_SPEC = $${TC_SPEC}-vc2013_x86
+win32-msvc2015 : TC_SPEC = $${TC_SPEC}-vc2015_x86
 contains(DEFINES, WIN64) : TC_SPEC = $${TC_SPEC}_64
 
 CONFIG(debug, debug|release) {
