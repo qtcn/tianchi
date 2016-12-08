@@ -1,4 +1,4 @@
-Tianchi 0.0.2 is the second public release. supported in x86/x64's win32/linux
+Tianchi 0.0.3 is the third public release. supported in x86/x64's win32/linux
 Qt desktop edition, compilers tested in msvc2010/2012 and mingw(with Qt5)/gcc
 
 Tianchi Repository: https://github.com/qtcn/tianchi
@@ -140,7 +140,7 @@ Sql
    class TcDatabase: 数据库操作类
  
  - TcDBProcess
-   class TcDBProcess: 一个数据库操作类
+   class TcDBProcess: 一个数据库操作类,需要C++11支持
 
 Widget
 ------

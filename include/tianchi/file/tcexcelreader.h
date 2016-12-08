@@ -62,6 +62,11 @@ public:
     int         currentSheetIndex();
     /// @brief  get current sheet name
     QString     currentSheetName();
+
+    /// @brief  get current sheet max rows count, error for -1
+    int currentSheetRowCount();
+    /// @brief  get current sheet max columns count, error for -1
+    int currentSheetColumnCount();
 private:
     Q_DISABLE_COPY(TcExcelReader)
     Q_DECLARE_PRIVATE(TcExcelReader)

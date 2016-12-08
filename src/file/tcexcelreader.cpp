@@ -378,3 +378,27 @@ QVariant TcExcelReader::cell(const QString &cellName)
 
     return cell(rowIndex, columnIndex);
 }
+
+int TcExcelReader::currentSheetRowCount()
+{
+    Q_D(TcExcelReader);
+#ifdef Q_OS_WIN
+    QAxObject *rows = d->sheet->querySubObject(
+            "UsedRange")->querySubObject("Rows");
+    return rows->property("Count").toInt();
+#else
+    return -1;
+#endif
+}
+
+int TcExcelReader::currentSheetColumnCount()
+{
+    Q_D(TcExcelReader);
+#ifdef Q_OS_WIN
+    QAxObject *cols = d->sheet->querySubObject(
+            "UsedRange")->querySubObject("Columns");
+    return cols->property("Count").toInt();
+#else
+    return -1;
+#endif
+}

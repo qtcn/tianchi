@@ -36,3 +36,4 @@
 2014.01.02  XChinux             增加 static function Core/TcMath::currencyText()
 2014.01.13  XChinux             增加MSVC2012-X86_64单独目录编译支持
 2015.02.28  XChinux             增加 class TcDBProcess类(原作者realfan)
+2016.11.08  XChinux             更新 class TcDBProcess类,需要C++11支持(原作者realfan)
