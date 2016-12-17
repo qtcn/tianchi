@@ -14,11 +14,9 @@
 #include <tianchi/tcglobal.h>
 
 #include <QString>
-#include <QMap>
 #include <QVariant>
 #include <QDateTime>
 #include <QSqlQuery>
-#include <typeinfo>
 
 QT_BEGIN_NAMESPACE
 class QSqlDatabase;
@@ -63,99 +61,37 @@ public:
         return __strDbName;
     }
 public:
-    //==============================================
-private:
-    template<typename T>
-    void assignVal(const QVariant & var, T &t) const
-    {
-        if(false == var.isValid())
-            return;
-        const size_t id = (typeid (t).hash_code());
-        T *p = &t;
-        if(id == typeid (int).hash_code())
-        {
-            *(int *)p = var.toInt();
-        }
-        if(id == typeid (unsigned int).hash_code())
-        {
-            *(unsigned int *)p = var.toUInt();
-        }
-        else if(id == typeid (bool).hash_code())
-        {
-            *(bool *)p = var.toBool();
-        }
-        else if(id == typeid (double).hash_code())
-        {
-            *(double *)p = var.toDouble();
-        }
-        else if(id == typeid (float).hash_code())
-        {
-            *(float *)p = var.toFloat();
-        }
-        else if(id == typeid (long long).hash_code())
-        {
-            *(long long *)p = var.toLongLong();
-        }
-        else if(id == typeid (unsigned long long).hash_code())
-        {
-            *(unsigned long long *)p = var.toULongLong();
-        }
-        else if(id == typeid (QString).hash_code())
-        {
-            *(QString *)p = var.toString();
-        }
-        else if(id == typeid (QDateTime).hash_code())
-        {
-            *(QDateTime *)p = var.toDateTime();
-        }
-        else if(id == typeid (QDate).hash_code())
-        {
-            *(QDate *)p = var.toDate();
-        }
-        else if(id == typeid (QTime).hash_code())
-        {
-            *(QTime *)p = var.toTime();
-        }
-        else if(id == typeid (QByteArray).hash_code())
-        {
-            *(QByteArray *)p = var.toByteArray();
-        }
-    }
-    //=========
     template <typename T>
-    void extractArg(const QSqlQuery *pQry, QString & strFldName, T &t)
+    bool readFieldsValueFromRec(const void *p, const QString str, T& t) const
     {
-        if(strFldName.isEmpty())
-        {
-            strFldName = QVariant(t).toString();
-        }
-        else
-        {
-            assignVal(pQry->value(strFldName), t);
-            strFldName.clear();
-        }
-    }
-public:
-    template <typename T, typename ...Args>
-    bool readFieldsValueFromRec(void *p, const QString &str, T &t, Args &... args)
-    {
-        const QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-        if(NULL == pQry || false == pQry->isValid())
+        const QSqlQuery *pQry = static_cast<const QSqlQuery *>(p);
+        if (nullptr == pQry || false == pQry->isValid())
         {
             return false;
         }
-        assignVal(pQry->value(str), t);
-        QString strFldName;
-        int arr[] = {(extractArg(pQry, strFldName, args), 0)...};
+        t = pQry->value(str).value<T>();
         return true;
+    }
+
+    template <typename T, typename ... Args>
+    bool readFieldsValueFromRec(const void *p, const QString str, T & t, Args& ... args) const
+    {
+        const QSqlQuery *pQry = static_cast<const QSqlQuery *>(p);
+        if (nullptr == pQry || false == pQry->isValid())
+        {
+            return false;
+        }
+        t = pQry->value(str).value<T>();
+        bool bRet = readFieldsValueFromRec(p, args...);
+        return bRet;
     }
     //---------------------------
 private:
     template <typename T>
-    void extractArg1(QStringList &lstFlds, QList<QVariant> &lstVars, const T &t)
+    void extractArg1(QStringList &lstFlds, QList<QVariant> &lstVars, const T &t) const
     {
         const QVariant var(t);
-        if(lstFlds.size() == lstVars.size())
+        if (lstFlds.size() == lstVars.size())
         {
             lstFlds << var.toString();
         }
@@ -172,11 +108,11 @@ public:
         QList<QVariant> lstVars;
         lstFlds << strFld;
         lstVars.push_back(t);
-        int arr[] = {(extractArg1(lstFlds, lstVars, args), 0)...};
+        std::initializer_list<int> {(extractArg1(lstFlds, lstVars, args), 0)...};
         //--------------------------------------
         QString strFlds;
         QString strPlaceholders;
-        Q_FOREACH (const QString &str, lstFlds)
+        for (const QString &str : lstFlds)
         {
             strFlds += "," + str;
             strPlaceholders += ",:" + str;
@@ -203,10 +139,10 @@ public:
         QList<QVariant> lstVars;
         lstFlds << strFld;
         lstVars << t;
-        int arr[] = {(extractArg1(lstFlds, lstVars, args), 0)...};
+        std::initializer_list<int> {(extractArg1(lstFlds, lstVars, args), 0)...};
         //---------------------------
         QString strFlds;
-        Q_FOREACH (const QString &str, lstFlds)
+        for (const QString &str : lstFlds)
         {
             strFlds += "," + str + "=:" + str;
         }
@@ -225,8 +161,6 @@ public:
         return bRet;
     }
     //=================================================
-
-
     QSqlDatabase *m_pDB;
 protected:
     bool __openMDB(const QString strMDBname, QString strUserID = "sa", const QString strPassword = "");

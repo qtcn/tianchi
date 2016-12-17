@@ -6,7 +6,7 @@
 *Date of Created:                                                       *
 *Date of Modified      Purpose of Modify       Person Name of Modify    *
 *------------------  ----------------------  -------------------------  *
-* 2016-1-07
+* 2016-12-16
 *                                                                       *
 ************************************************************************/
 #include <tianchi/sql/tcdbprocess.h>
@@ -298,7 +298,7 @@ void *TcDBProcess::openRecordsetBySql(const QString strSql)
 {
     if (false == isOpen())
     {
-        return NULL;
+        return nullptr;
     }
     QSqlQuery *pQry = new QSqlQuery(*m_pDB);
     pQry->clear();
@@ -306,7 +306,7 @@ void *TcDBProcess::openRecordsetBySql(const QString strSql)
     if(!b)
     {
         delete pQry;
-        pQry = NULL;
+        pQry = nullptr;
     }
     __lstQrys << pQry;
     return pQry;
@@ -319,20 +319,20 @@ void TcDBProcess::closeRecordset(void *p)
         __lstQrys.removeOne(pQry);
         pQry->clear();
         delete pQry;
-        pQry = NULL;
+        pQry = nullptr;
     }
 }
 bool TcDBProcess::recEOF(void *p) const
 {
     QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-    if(NULL == pQry)
+    if(nullptr == pQry)
         return true;
     return (QSql::AfterLastRow == pQry->at());
 }
 bool TcDBProcess::recBOF(void *p) const
 {
     QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-    if(NULL == pQry)
+    if(nullptr == pQry)
         return true;
     return (QSql::BeforeFirstRow == pQry->at());
 }
@@ -343,7 +343,7 @@ bool TcDBProcess::moveFirst(void *p) const
         return false;
     }
     QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-    if(NULL == pQry)
+    if(nullptr == pQry)
         return false;
     if(pQry->isActive())
     {
@@ -362,7 +362,7 @@ bool TcDBProcess::movePrevious(void *p) const
         return false;
     }
     QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-    if(NULL == pQry)
+    if(nullptr == pQry)
         return false;
     if(pQry->isActive())
     {
@@ -380,7 +380,7 @@ bool TcDBProcess::moveNext(void *p) const
         return false;
     }
     QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-    if(NULL == pQry)
+    if(nullptr == pQry)
         return false;
     if(pQry->isActive())
     {
@@ -398,7 +398,7 @@ bool TcDBProcess::moveLast(void *p) const
         return false;
     }
     QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-    if(NULL == pQry)
+    if(nullptr == pQry)
         return false;
     if(pQry->isActive())
     {
@@ -416,7 +416,7 @@ bool TcDBProcess::moveTo(int n, void *p) const
         return false;
     }
     QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-    if(NULL == pQry)
+    if(nullptr == pQry)
         return false;
     if(pQry->isActive())
     {
@@ -435,7 +435,7 @@ long TcDBProcess::getRecordCount(void *p) const
         return -1;
     }
     QSqlQuery *pQry = static_cast<QSqlQuery *>(p);
-    if(NULL == pQry)
+    if(nullptr == pQry)
         return -1;
     if(m_pDB->driver()->hasFeature(QSqlDriver::QuerySize))
     {
@@ -455,7 +455,7 @@ long TcDBProcess::getRecordCount(void *p) const
 bool TcDBProcess::exexProc(const QString strStoreProc, QString str1, QString &str2)
 {
     QSqlQuery *pQry = (QSqlQuery *)m_mapQry[-1];
-    if(NULL == pQry)
+    if(nullptr == pQry)
     {
         m_mapQry.remove(-1);
 
@@ -479,12 +479,12 @@ bool TcDBProcess::exexProc(const QString strStoreProc, QString str1, QString &st
 }
 bool TcDBProcess::execStoreProcOfArgList(int idx, const QString strStoreProc, const char *szFldsInfo, ...)
 {
-    if (NULL == szFldsInfo)
+    if (nullptr == szFldsInfo)
     {
         return false;
     }
     QSqlQuery *pQry = (QSqlQuery *)m_mapQry[idx];
-    if(NULL == pQry)
+    if(nullptr == pQry)
     {
         m_mapQry.remove(idx);
 
