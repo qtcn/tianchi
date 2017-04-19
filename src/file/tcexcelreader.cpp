@@ -41,7 +41,11 @@ TcExcelReaderPrivate::TcExcelReaderPrivate(TcExcelReader *qptr) : q_ptr(qptr),
     excel->setControl("Excel.Application");
     if (excel->isNull())
     {
-        excel->setControl("ET.Application");
+        excel->setControl("KET.Application");
+        if (excel->isNull())
+        {
+            excel->setControl("ET.Application");
+        }
     }
     if (!excel->isNull())
     {
