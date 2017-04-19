@@ -5,7 +5,7 @@
 # ===========================================================================
 TEMPLATE = lib
 TARGET = tianchi
-QT += gui sql network script
+QT += gui sql network
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += widgets concurrent
     win32:QT += axcontainer
@@ -41,7 +41,7 @@ CONFIG(static, static|shared) | CONFIG(staticlib, staticlib|shared) {
     win32 {
         RC_FILE = $$PWD/tianchi.rc
     } else {
-        VERSION = 0.0.2
+        VERSION = 0.0.3
     }
 }
 

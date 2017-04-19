@@ -65,7 +65,11 @@ void TcMSExcelPrivate::construct()
     excel->setControl("Excel.Application");
     if (excel->isNull())
     {
-        excel->setControl("ET.Application");
+        excel->setControl("KET.Application");
+        if (excel->isNull())
+        {
+            excel->setControl("ET.Application");
+        }
     }
     if (!excel->isNull())
     {

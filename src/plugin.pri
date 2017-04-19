@@ -16,7 +16,7 @@ contains(DEFINES, WIN64) : TC_SPEC = $${TC_SPEC}_64
 win32 {
     RC_FILE = $$PWD/plugin.rc
 } else {
-    VERSION = 0.0.2
+    VERSION = 0.0.3
 }
 
 TC_OUTPUT = $${TC_OUTPUT}/$${TC_SPEC}/shared
