@@ -110,6 +110,30 @@ QVariant TcVariantMapTableModel::data(const QModelIndex &index,
                     {
                         switch (item.type())
                         {
+                            case QVariant::String:
+                                v = item;
+                                if (!item.toString().isEmpty())
+                                {
+                                    bool bOk;
+                                    if (prec > 0)
+                                    {
+                                        double fV = item.toDouble(&bOk);
+                                        if (bOk)
+                                        {
+                                            v = QString("%L1").arg(fV, 
+                                                    0, 'f', prec);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        qlonglong iV = item.toLongLong(&bOk);
+                                        if (bOk)
+                                        {
+                                            v = QString("%L1").arg(iV);
+                                        }
+                                    }
+                                }
+                                break;
                             case QVariant::Int:
                                 if (prec > 0)
                                 {
