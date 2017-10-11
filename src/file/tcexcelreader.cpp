@@ -1,4 +1,5 @@
 #include <tianchi/file/tcexcelreader.h>
+#include <QDir>
 #include <QFile>
 #ifdef Q_OS_WIN
 #include <QDateTime>
@@ -171,7 +172,7 @@ bool TcExcelReader::open(const QString &file)
     }
 
     d->workbook = d->workbooks->querySubObject(
-            "Open(QString, QVariant)", d->tmpFile, 0);
+            "Open(QString, QVariant)", QDir::toNativeSeparators(d->tmpFile), 0);
     if (!d->workbook)
     {
         QFile::remove(d->tmpFile);
