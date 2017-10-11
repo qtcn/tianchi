@@ -2,6 +2,7 @@
 #include <tianchi/core/tccommon.h>
 #include <tianchi/core/tcutils.h>
 
+#include <QDir>
 #include <QList>
 
 #if defined(Q_OS_WIN)
@@ -140,7 +141,8 @@ bool TcMSExcel::open(const QString& filename)
     d->construct();
     if ( d->books != NULL && ! d->books->isNull() )
     {
-        d->book = d->books->querySubObject("Open(QString, QVariant)", filename, 0);
+        d->book = d->books->querySubObject("Open(QString, QVariant)", 
+                QDir::toNativeSeparators(filename), 0);
         ret = d->book != NULL && ! d->book->isNull();
         if ( ret )
         {
