@@ -1,3 +1,19 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：HTTP 文件多线程下载器
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.04.19   圣域天子    建立
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file DownloadHttp.cpp HTTP 文件多线程下载器
+
 #include <tianchi/network/tcdownloadhttp.h>
 
 TcDownload::TcDownload(int index, QObject *parent)
@@ -25,8 +41,13 @@ void TcDownload::StartDownload(const QUrl &url,
     //根据HTTP协议，写入RANGE头部，说明请求文件的范围
     QNetworkRequest qheader;
     qheader.setUrl(url);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    QString range = QString::asprintf("Bytes=%lld-%lld", m_StartPoint, m_EndPoint);
+#else
     QString range;
     range.sprintf("Bytes=%lld-%lld", m_StartPoint, m_EndPoint);
+#endif
+
     qheader.setRawHeader("Range", range.toLocal8Bit());
 
     //开始下载

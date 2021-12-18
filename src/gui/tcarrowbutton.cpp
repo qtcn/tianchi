@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------
 // 2013.10.14   younghz     建立
 // 2013.10.15   XChinux     格式化代码
+// 2021.12.18   XChinux     add Qt6 support
 // ==========================================================================
 /// @file tcarrowbutton.cpp 实现中间带有三角箭头的button
 // ==========================================================================
@@ -56,7 +57,11 @@ TcArrowButtonPrivate::~TcArrowButtonPrivate()
 static QStyleOptionButton styleOpt(const TcArrowButton *btn)
 {
     QStyleOptionButton option;
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    option.initFrom(btn);
+#else
     option.init(btn);
+#endif
     //一个normal button
     option.features = QStyleOptionButton::None;
     if (btn->isFlat())
@@ -232,7 +237,11 @@ void TcArrowButtonPrivate::drawButtonLabel(QPainter *painter)//{{{
     if (q->hasFocus())
     {
         QStyleOptionFocusRect option;
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+        option.initFrom(q);
+#else
         option.init(q);
+#endif
         option.backgroundColor = q->palette().color(QPalette::Window);
 
         q->style()->drawPrimitive(QStyle::PE_FrameFocusRect,

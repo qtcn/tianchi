@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.15   圣域天子    建立
-//
+// 2021.12.18   XChinux     增加Qt6支持
 // ==========================================================================
 /// @file Common.h 公共单元
 #ifndef TIANCHI_TCCOMMON_H
@@ -18,7 +18,11 @@
 
 #include <tianchi/tcglobal.h>
 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+#else
 #include <QTextCodec>
+#endif
+
 #include <QDateTime>
 
 #ifdef QT_WIDGETS_LIB
@@ -29,6 +33,9 @@
     #include <iostream>
     using namespace std;
 #endif
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+#else
 /// @brief 设置字符集，使用汉字前应该为 "GBK"
 /// @param [in] name 字符集名称
 /// @par 示例:
@@ -52,6 +59,7 @@
 /// @author 圣域天子 Jonix@qtcn.org
 /// @date 2013-05-06
 QTextCodec* initQS(const QByteArray& name="GBK");
+#endif
 
 /// @brief 汉字字符集转换
 /// @param [in] s 汉字常量，或 char* 型的变量
@@ -77,7 +85,11 @@ QTextCodec* initQS(const QByteArray& name="GBK");
 /// @date 2013-04-15
 inline QString QS(const char* s)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    return QStringDecoder(QStringConverter::System).decode(QByteArray(s));
+#else
     return QTextCodec::codecForLocale()->toUnicode(s);
+#endif
 }
 
 /// @brief 取最大值

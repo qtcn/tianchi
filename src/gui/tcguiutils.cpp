@@ -1,3 +1,19 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：GUI相关常用单元
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.04.15   圣域天子    建立
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file GuiUtils.cpp GUI相关常用单元
+
 #include <tianchi/gui/tcguiutils.h>
 #include <tianchi/core/tccommon.h>
 
@@ -172,14 +188,22 @@ void cellValue(QTreeWidgetItem* item, int column, double value, int digits)
 void cellPrice(QTreeWidgetItem* item, int column, double value, int digits)
 {
     cellValue(item, column, value, digits);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    item->setForeground(column, QBrush(value < 0.0 ? Qt::red : Qt::blue));
+#else
     item->setTextColor(column, value < 0.0 ? Qt::red : Qt::blue);
+#endif
 }
 
 void cellPercent(QTreeWidgetItem* item, int column, double value, int digits)
 {
     item->setData(column, Qt::UserRole, value);
     item->setText(column, QString("%L1%").arg(value, 0, 'f', digits));
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    item->setForeground(column, QBrush(value < 0.0 ? Qt::red : Qt::blue));
+#else
     item->setTextColor(column, value < 0.0 ? Qt::red : Qt::blue);
+#endif
 }
 
 QLabel* createLabel(QTreeWidgetItem* item, int col, const QString& htmlText, const QVariant& data)

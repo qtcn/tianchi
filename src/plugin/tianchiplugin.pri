@@ -3,10 +3,20 @@ include($$PWD/../plugin.pri)
 TARGET = tianchidesignerplugin
 DEPENDPATH += .
 greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets designer concurrent
-    PLUGIN_TYPE = designer
-    CONFIG += tool_plugin
-    PLUGIN_CLASS_NAME = TcDesignerWidgets
+
+    greaterThan(QT_MAJOR_VERSION, 5) {
+        QT += widgets designer concurrent
+        PLUGIN_TYPE = designer
+        CONFIG += tool_plugin c++17
+        PLUGIN_CLASS_NAME = TcDesignerWidgets
+    }
+    else
+    {
+        QT += widgets designer concurrent
+        PLUGIN_TYPE = designer
+        CONFIG += tool_plugin
+        PLUGIN_CLASS_NAME = TcDesignerWidgets
+    }
 } else {
     CONFIG += designer plugin
 }

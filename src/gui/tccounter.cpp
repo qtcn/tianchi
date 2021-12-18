@@ -4,6 +4,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.10.31   younghz     建立
+// 2021.12.18   XChinux     add Qt6 support
 // ==========================================================================
 /// @file tccounter.cpp 实现可用两边按钮调节大小的counter
 // ==========================================================================
@@ -150,7 +151,11 @@ void TcCounterPrivate::initcounter()
 {
     Q_Q(TcCounter);
     QHBoxLayout *layout = new QHBoxLayout(q);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    layout->setContentsMargins(0, 0, 0, 0);
+#else
     layout->setMargin(0);
+#endif
     layout->setSpacing(0);
 
     //valueEdit左侧按钮
@@ -297,7 +302,11 @@ void TcCounter::setValid(bool on)
     }
     else
     {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+        d->valueEdit->setText(QString(QChar(QChar::Null)));
+#else
         d->valueEdit->setText(QString::null);
+#endif
     }
 }
 

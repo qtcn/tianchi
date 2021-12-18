@@ -1,3 +1,19 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：SQL Server 相关应用
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.04.18   XChinux     建立
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file tcdataaccess.cpp SQL Server 相关应用
+
 #include <tianchi/sql/tcdataaccess.h>
 #include <QtCore>
 #include <QtSql>
@@ -281,7 +297,12 @@ QString TcDataAccess::limit(const QString &sql, int count,
             // 待增加MSSQL支持
             if (offset == 0)
             {
-                strSql.replace(QRegExp("^SELECT\\s", Qt::CaseInsensitive),
+                strSql.replace(
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                        QRegularExpression("^SELECT\\s", QRegularExpression::CaseInsensitiveOption),
+#else
+                        QRegExp("^SELECT\\s", Qt::CaseInsensitive),
+#endif
                         QString("SELECT TOP %1 ").arg(count));
             }
             else
@@ -302,11 +323,21 @@ QString TcDataAccess::limit(const QString &sql, int count,
                 {
                     over = orderby;
                     over.replace(
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                        QRegularExpression("\\\"[^,]*\\\".\\\"([^,]*)\\\"", 
+                            QRegularExpression::CaseInsensitiveOption),
+#else
                             QRegExp("\\\"[^,]*\\\".\\\"([^,]*)\\\"", 
                                 Qt::CaseInsensitive),
+#endif
                             QString("\"inner_tbl\".\"$1\""));
                 }
-                strSql.replace(QRegExp("\\s+ORDER BY(.*)", Qt::CaseInsensitive),
+                strSql.replace(
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                        QRegularExpression("\\s+ORDER BY(.*)", QRegularExpression::CaseInsensitiveOption),
+#else
+                        QRegExp("\\s+ORDER BY(.*)", Qt::CaseInsensitive),
+#endif
                         "");
 
                 strSql = QString("SELECT *, ROW_NUMBER() OVER (%1) "
@@ -336,7 +367,12 @@ QString TcDataAccess::limit(const QString &sql, int count,
     else if (strDriverName.left(6) == "QIBASE")
     {
         // OVER
-        strSql = strSql.replace(QRegExp("^SELECT\\s", Qt::CaseInsensitive),
+        strSql = strSql.replace(
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                QRegularExpression("^SELECT\\s", QRegularExpression::CaseInsensitiveOption),
+#else
+                QRegExp("^SELECT\\s", Qt::CaseInsensitive),
+#endif
                         QString("SELECT FIRST %1 SKIP %2 ")
                         .arg(count).arg(offset));
     }

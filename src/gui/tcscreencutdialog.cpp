@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.10.11   XChinux     建立
-//
+// 2021.12.18   XChinux     add Qt6 support
 // ==========================================================================
 /// @file tcscreencutdialog.cpp 截屏对话框
 // ==========================================================================
@@ -21,7 +21,10 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QApplication>
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+#else
 #include <QDesktopWidget>
+#endif
 
 class TcScreenCutDialogPrivate
 {
@@ -56,11 +59,19 @@ TcScreenCutDialog::TcScreenCutDialog(QWidget *parent, Qt::WindowFlags f)
             | Qt::WindowStaysOnTopHint);
     setWindowState(Qt::WindowFullScreen);
     setCursor(Qt::CrossCursor);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    setGeometry(QGuiApplication::primaryScreen()->availableGeometry());
+#else
     QDesktopWidget *desk = QApplication::desktop();
     setGeometry(desk->availableGeometry());
+#endif
     
     Q_D(TcScreenCutDialog);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    d->_image = QGuiApplication::primaryScreen()->grabWindow(0).toImage();
+#else
     d->_image = QPixmap::grabWindow(desk->winId()).toImage();
+#endif
     d->_darkImage = d->_image;
     int bytesPerLine = d->_darkImage.width() * d->_darkImage.depth() / 8;
     int h = d->_darkImage.height();

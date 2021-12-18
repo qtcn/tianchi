@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.21   XChinux     修改自Qt examples&demos里的flowlayout示例
-//
+// 2021.12.18   XChinux     add Qt6 support
 // ==========================================================================
 /// @file FlowLayout.cpp 流式布局FlowLayout
 // ==========================================================================
@@ -128,7 +128,11 @@ QLayoutItem *TcFlowLayout::takeAt(int index)
 
 Qt::Orientations TcFlowLayout::expandingDirections() const
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    return Qt::Orientations();
+#else
     return 0;
+#endif
 }
 
 bool TcFlowLayout::hasHeightForWidth() const
@@ -162,7 +166,14 @@ QSize TcFlowLayout::minimumSize() const
     QLayoutItem *item;
     foreach (item, d->itemList)
         size = size.expandedTo(item->minimumSize());
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    auto margin = contentsMargins();
+    size += QSize(margin.left() + margin.right(), margin.top() + margin.bottom());
+    
+#else
     size += QSize(2*margin(), 2*margin());
+#endif
     return size;
 }
 

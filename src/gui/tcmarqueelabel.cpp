@@ -12,6 +12,7 @@
 // 2013.04.18   XChinux     建立
 // 2013.05.19   XChinux     修改原移动Label位置的实现为使用contentsMargin来实现
 // 2013.05.22   XChinux     增加interval active属性及相关信号和槽函数
+// 2021.12.18   XChinux     add Qt6 support
 // ==========================================================================
 /// @file MarqueeLabel.cpp 跑马灯Label, 点击时自动打开网址
 // ==========================================================================
@@ -265,7 +266,13 @@ void TcMarqueeLabel::reset()
     }
 }
 
-void TcMarqueeLabel::enterEvent(QEvent *event)
+void TcMarqueeLabel::enterEvent(
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+        QEnterEvent *event
+#else
+        QEvent *event
+#endif
+        )
 {
     Q_D(TcMarqueeLabel);
     d->mouseIn = true;

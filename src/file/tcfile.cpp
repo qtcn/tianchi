@@ -1,3 +1,20 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：文件操作常用处理类
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.04.15   圣域天子    建立
+// 2013.06.14   XChinux     为loadFromFile()函数增加codec参数
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file FileUtils.cpp 文件操作常用处理类
+// ==========================================================================
 #include <tianchi/file/tcfile.h>
 
 #include <QDir>
@@ -19,7 +36,11 @@ bool TcFile::loadFromFile(QString &context, const QString &filename,
        QTextStream in(&file);
        if (!codec.isEmpty())
        {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+           // TODO 系统自动识别内容编码，若要自定义需要调用void QTextStream::setEncoding(QStringConverter::Encoding encoding)
+#else
            in.setCodec(codec.toLatin1().data());
+#endif
        }
        context = in.readAll();
        ret = true;

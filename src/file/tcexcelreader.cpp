@@ -1,3 +1,23 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：通过 OLE 方式操作 Microsoft Excel（仅限 Windows 下使用，要求已
+//           安装 Excel）
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.05.02   XChinux     建立
+// 2017.04.19   XChinux     增加WPS ET打开文件支持
+// 2017.10.11   XChinux     修正文件路径未加本地路径分隔符转换的问题
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file ExcelReader.h 通过 OLE 方式读取 Microsoft Excel（仅限 Windows 下使用，
+//                  要求已安装 Excel或WPSOffice）
+// ==========================================================================
 #include <tianchi/file/tcexcelreader.h>
 #include <QDir>
 #include <QFile>
@@ -9,6 +29,9 @@
 #else
 #include <QDesktopServices>
 #endif
+#endif
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+#include <QRegularExpression>
 #endif
 
 class TcExcelReaderPrivate
@@ -311,8 +334,13 @@ QVariant TcExcelReader::cell(const QString &colName, int rowIndex)
         return val;
     }
 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    QRegularExpressionMatch reg = QRegularExpression("^([A-Z]+)$").match(colName.toUpper());
+    if (!reg.hasMatch())
+#else
     QRegExp reg("^([A-Z]+)$");
     if (!reg.exactMatch(colName.toUpper()))
+#endif
     {
         return val;
     }
@@ -341,8 +369,13 @@ QVariant TcExcelReader::cell(const QString &colName, int rowIndex)
 QVariant TcExcelReader::cell(const QString &cellName)
 {
     QVariant val;
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    QRegularExpressionMatch reg = QRegularExpression("^([A-Z]+)([0-9]+)$").match(cellName.toUpper());
+    if (!reg.hasMatch())
+#else
     QRegExp reg("^([A-Z]+)([0-9]+)$");
     if (!reg.exactMatch(cellName.toUpper()))
+#endif
     {
         return val;
     }
