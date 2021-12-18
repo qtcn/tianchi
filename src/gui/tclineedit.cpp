@@ -12,6 +12,7 @@
 // 2013.04.22   XChinux     ½¨Á¢
 // 2013.04.29   XChinux     add LineEditPrivate::_q_editingFinished()
 //                          add LineEdit::clear()
+// 2021.12.18   XChinux     add Qt6 support
 // ==========================================================================
 /// @file LineEdit.cpp extended QLineEdit widget
 // ==========================================================================
@@ -122,7 +123,11 @@ void TcLineEdit::paintEvent(QPaintEvent *event)
         QRect r = rect();
         QPalette pal = palette();
 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+        QStyleOptionFrame panel;
+#else
         QStyleOptionFrameV2 panel;
+#endif
         initStyleOption(&panel);
         style()->drawPrimitive(QStyle::PE_PanelButtonBevel, &panel, &p, this);
         r = style()->subElementRect(QStyle::SE_LineEditContents, &panel, this);

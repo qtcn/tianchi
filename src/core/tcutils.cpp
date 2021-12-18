@@ -12,13 +12,17 @@
 // 2013.04.10   圣域天子    建立
 // 2013.09.25   XChinux     增加getLocationFromIP()函数
 // 2013.10.28   XChinux     fopen()函数在MSVC编译器下改用fopen_s()函数
+// 2021.12.18   XChinux     add Qt6 support
 //
 // ==========================================================================
 // @file tcutils.cpp 常用功能函数
 // ==========================================================================
 #include <tianchi/core/tcutils.h>
 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+#else
 #include <QTextCodec>
+#endif
 #include <QDateTime>
 #include <QFileInfo>
 #include <QDir>
@@ -42,7 +46,13 @@ using namespace std;
 
 QHash<QString, QString> TcUtils::StringToMap(const QString& mapStrings)
 {
-    QStringList strings = mapStrings.split("\n", QString::SkipEmptyParts);
+    QStringList strings = mapStrings.split("\n", 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))            
+            Qt::SkipEmptyParts
+#else
+            QString::SkipEmptyParts
+#endif
+            );
 
     return StringToMap(strings);
 }
@@ -226,7 +236,11 @@ QByteArray TcUtils::addField(const QString& key, const QVariant& value)
     QByteArray bytes = value.toByteArray();
 
     return QByteArray()
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+            .append(key.toLower().toUtf8()).append('\0')
+#else
             .append(key.toLower()).append('\0')
+#endif
             .append(typeFrom(value.type())).append('\0')
             .append(QByteArray::number(bytes.length())).append('\0')
             .append(bytes);
@@ -258,7 +272,11 @@ QString TcUtils::getLocationFromIP(const QString &ip_addr,
 {
     QString strReturn;
 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))            
+    if (QRegularExpression("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$").match(ip_addr).hasMatch())
+#else
     if (QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$").indexIn(ip_addr) != -1)
+#endif
     {
         QStringList iparray = ip_addr.split(".");
 

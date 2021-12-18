@@ -39,3 +39,4 @@
 2016.11.08  XChinux             更新 class TcDBProcess类,需要C++11支持(原作者realfan)
 2017.04.19  XChinux             TcExcelReader/TcMsExcel增加WPS ET支持
 2017.10.11  XChinux             修正文件路径未加本地路径分隔符转换的问题
+2021.12.18  XChinux             增加Qt6支持,去除tccommon.h里的max、min宏

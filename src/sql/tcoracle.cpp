@@ -1,9 +1,24 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：Oracle 相关应用
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.06.04   XChinux     建立
+// 2013.06.04   XChinux     增加ODBCDSN()函数
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file tcoracle.cpp SQL Server 相关应用
+
 #include <tianchi/sql/tcoracle.h>
 #include <tianchi/file/tcfile.h>
 #include <QSettings>
-#include <QStringListIterator>
-#include <QtAlgorithms>
-
+#include <algorithm>
 /**
  * get Oracle ODBC drivers name and version, every item such as:
  * -------------------------------------------------------------
@@ -32,7 +47,7 @@ QStringList TcOracle::availableODBCDrivers()
         }
     }
     slKeys2.removeDuplicates();
-    QStringListIterator it(slKeys2);
+    QListIterator<QString> it(slKeys2);
 
     while (it.hasNext())
     {
@@ -46,7 +61,7 @@ QStringList TcOracle::availableODBCDrivers()
             slDrivers << strV;
         }
     }
-    qSort(slDrivers.begin(), slDrivers.end(), qGreater<QString>());
+    std::sort(slDrivers.begin(), slDrivers.end(), std::greater<QString>());
 #endif
     return slDrivers;
 }

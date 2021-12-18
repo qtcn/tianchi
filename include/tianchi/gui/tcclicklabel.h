@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.17   XChinux     建立
-//
+// 2021.12.18   XChinux     增加Qt6支持
 // ==========================================================================
 /// @file tcclicklabel.h 可发出clicked信号的Label部件
 // ==========================================================================
@@ -30,9 +30,21 @@ class TIANCHI_API TcClickLabel : public QLabel
 {
     Q_OBJECT
 public:
-    TcClickLabel(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    TcClickLabel(QWidget *parent = 0, 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+            Qt::WindowFlags f = Qt::WindowFlags()
+#else
+            Qt::WindowFlags f = 0
+#endif
+            );
     TcClickLabel(const QString &text, QWidget *parent = 0, 
-            Qt::WindowFlags f = 0);
+            
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+            Qt::WindowFlags f =  Qt::WindowFlags()
+#else
+            Qt::WindowFlags f = 0
+#endif
+            );
     virtual ~TcClickLabel();
 Q_SIGNALS:
     /// @brief emit when mouse click label

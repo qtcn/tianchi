@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.06.07   XChinux     建立
-//
+// 2021.12.18   XChinux     add Qt6 support
 // ==========================================================================
 /// @file tcvariantmaptablemodel.cpp
 // ==========================================================================
@@ -216,7 +216,11 @@ QVariant TcVariantMapTableModel::data(const QModelIndex &index,
             {
                 if (d->numberCols.contains(d->title[col].first))
                 {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                    v = int(Qt::AlignRight | Qt::AlignVCenter);
+#else
                     v = Qt::AlignRight + Qt::AlignVCenter;
+#endif                
                 }
                 else
                 {
@@ -229,10 +233,18 @@ QVariant TcVariantMapTableModel::data(const QModelIndex &index,
                         case QVariant::LongLong:
                         case QVariant::UInt:
                         case QVariant::ULongLong:
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                            v = int(Qt::AlignRight | Qt::AlignVCenter);
+#else
                             v = Qt::AlignRight + Qt::AlignVCenter;
+#endif
                             break;
                         default:
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                            v = int(Qt::AlignLeft | Qt::AlignVCenter);
+#else
                             v = Qt::AlignLeft + Qt::AlignVCenter;
+#endif
                     }
                 }
             }

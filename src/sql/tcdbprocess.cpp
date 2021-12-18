@@ -1,14 +1,20 @@
 #if __cplusplus >= 201103L
-// DBProcess.cpp :
-/************************************************************************
-*Description:                                                           *
-*Author: realfan                                                        *
-*Date of Created:                                                       *
-*Date of Modified      Purpose of Modify       Person Name of Modify    *
-*------------------  ----------------------  -------------------------  *
-* 2016-12-16
-*                                                                       *
-************************************************************************/
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：数据库操作类
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2016.12.16   realfan     建立
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file tcdbprocess.h  数据库操作类
+// ==========================================================================
 #include <tianchi/sql/tcdbprocess.h>
 
 #include <QSqlDatabase>
@@ -138,11 +144,19 @@ bool TcDBProcess::__openMDBByUDL(const QString strUDL)
     if(!file.open(QIODevice::ReadOnly)) return false;
 
     QTextStream in(&file);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    in.setEncoding(QStringConverter::Utf8);
+#else
     in.setCodec("UTF-8");
+#endif
     QString strAll = in.readAll();
     if(strAll.length() > 3 && QChar(0) == strAll[1])
     {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    in.setEncoding(QStringConverter::Utf16);
+#else
         in.setCodec("UTF-16");
+#endif
         in.seek(0);
         strAll = in.readAll();
     }

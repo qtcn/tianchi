@@ -12,6 +12,7 @@
 // 2013.04.18   XChinux     建立
 // 2013.05.19   XChinux     修改原移动Label位置的实现为使用contentsMargin来实现
 // 2013.05.22   XChinux     增加interval active属性及相关信号和槽函数
+// 2021.12.18   XChinux     增加Qt6支持
 // ==========================================================================
 /// @file MarqueeLabel.h 跑马灯Label,点击时自动打开网址
 // ==========================================================================
@@ -61,9 +62,20 @@ class TIANCHI_API TcMarqueeLabel : public QLabel
             WRITE setAlignment
             DESIGNABLE true)
 public:
-    TcMarqueeLabel(QWidget * parent = 0, Qt::WindowFlags f = 0);
+    TcMarqueeLabel(QWidget * parent = 0, 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+            Qt::WindowFlags f = Qt::WindowFlags()
+#else
+            Qt::WindowFlags f = 0
+#endif
+            );
     TcMarqueeLabel(const QString &text, QWidget *parent = 0, 
-            Qt::WindowFlags f = 0);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+            Qt::WindowFlags f = Qt::WindowFlags()
+#else
+            Qt::WindowFlags f = 0
+#endif
+            );
     virtual ~TcMarqueeLabel();
     /// @brief  返回interval
     int interval() const;
@@ -105,7 +117,11 @@ public Q_SLOTS:
     /// @see    direction(), directionChagned(Direction direction)
     void setDirection(Direction direciton);
 protected:
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    virtual void enterEvent(QEnterEvent *event);
+#else
     virtual void enterEvent(QEvent *event);
+#endif
     virtual void leaveEvent(QEvent *event);
     virtual void resizeEvent(QResizeEvent *event);
     virtual void timerEvent(QTimerEvent *event);

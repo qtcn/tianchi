@@ -1,3 +1,20 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：简单的 Log 输出类
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.04.10   圣域天子    建立
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file LogTiny.cpp 简单的 Log 输出类
+// ==========================================================================
+
 #include <tianchi/file/tclog.h>
 #include <QCoreApplication>
 #include <QDir>
@@ -47,7 +64,13 @@ void TcLog::write(const QString& S, const QString& SourceName, int SourceLine)
             }
             QTextStream out(&f);
             out << QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss.zzz")
-                << "\t" << line.trimmed() <<endl;
+                << "\t" << line.trimmed() 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                << Qt::endl
+#else
+                << endl
+#endif
+                ;
 
             f.close();
         }

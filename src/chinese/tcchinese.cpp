@@ -1,3 +1,19 @@
+// **************************************************************************
+// Tianchi share library for Qt (C++)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明： 汉语相关处理
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.04.15   圣域天子    建立
+// 2021.12.18   XChinux     增加Qt6支持
+// ==========================================================================
+/// @file Chinese.cpp 汉语相关处理
+
 #include <tianchi/chinese/tcchinese.h>
 
 #include <QString>
@@ -231,7 +247,7 @@ QString TcChinese::toEnglishName(const QString& Str, bool style, bool capitaliza
             //处理名字
             QString st = Str[i];
             firstname += toPinyin(st, false);
-    }
+        }
         QString left = firstname.left(1).toUpper();
         QString right = firstname.right(firstname.length() -1);
         firstname = left + right;

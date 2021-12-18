@@ -1,3 +1,20 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：QTreeWidget 控件扩展
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.10.18   kimtaikee   建立
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file tctextruler.cpp 
+// ==========================================================================
+
 #include <QPainter>
 #include <QMouseEvent>
 
@@ -27,7 +44,11 @@ TcTextRuler::TcTextRuler(QWidget *parent) :
     QWidget(parent)
 {
     mData = new PrivateData();
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    mData->textWidth = fontMetrics().size(Qt::TextSingleLine, QString("A")).width() * 2;
+#else
     mData->textWidth = fontMetrics().width('A') * 2;
+#endif
     setFixedHeight(MaxHeight);
     setMouseTracking(true);
 }
@@ -122,7 +143,14 @@ void TcTextRuler::drawMarks(QPainter *painter)
             // draw text
             painter->setPen(TextColor);
             const QString text = tr("%1").arg(counter - 1);
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+            int textWidth = fontMetrics().size(Qt::TextSingleLine, QString(text)).width();
+#else
             int textWidth = fontMetrics().width(text);
+#endif
+
+
             QPointF textPoint(initX - textWidth/2, upperPoint.y() - TextMarkSpace);
             if (textPoint.x() <= 0) {
                 textPoint.setX(0);

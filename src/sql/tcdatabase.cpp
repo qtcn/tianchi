@@ -1,3 +1,20 @@
+// **************************************************************************
+// Tianchi C++ library for Qt (open source)
+// 天池共享源码库
+// 版权所有 (C) 天池共享源码库开发组
+// 授权协议：请阅读天池共享源码库附带的授权协议
+// **************************************************************************
+// 文档说明：数据库操作类
+// ==========================================================================
+// 开发日志：
+// 日期         人员        说明
+// --------------------------------------------------------------------------
+// 2013.05.03   圣域天子    建立
+// 2021.12.18   XChinux     add Qt6 support
+// ==========================================================================
+/// @file DatabaseInterface.cpp 数据库操作类
+// ==========================================================================
+
 #include <tianchi/core/tcutils.h>
 #include <tianchi/sql/tcdatabase.h>
 
@@ -261,7 +278,12 @@ int TcDatabase::open()
                         fileText = fileText.trimmed();
 
                         QStringList sqlLines = sqlText.split("\n", 
-                                QString::SkipEmptyParts);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+                                Qt::SkipEmptyParts
+#else
+                                QString::SkipEmptyParts
+#endif
+                                );
                         QString sql;
                         for (int i = 0; i < sqlLines.count(); i++)
                         {

@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.10.11   XChinux     建立
-//
+// 2021.12.18   XChinux     增加Qt6支持
 // ==========================================================================
 /// @file tcscreencutdialog.h 截屏对话框
 // ==========================================================================
@@ -38,7 +38,14 @@ class TIANCHI_API TcScreenCutDialog : public QDialog
 {
     Q_OBJECT
 public:
-    TcScreenCutDialog(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    TcScreenCutDialog(QWidget *parent = 0, 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+            Qt::WindowFlags f = Qt::WindowFlags()
+#else
+            Qt::WindowFlags f = 0
+#endif
+            );
+
     virtual ~TcScreenCutDialog();
     /// @brief  get cutted screen pixmap
     QPixmap getPixmap() const;
