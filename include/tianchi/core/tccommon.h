@@ -10,7 +10,7 @@
 // 日期         人员        说明
 // --------------------------------------------------------------------------
 // 2013.04.15   圣域天子    建立
-// 2021.12.18   XChinux     增加Qt6支持
+// 2021.12.18   XChinux     增加Qt6支持,并去除min、max宏
 // ==========================================================================
 /// @file Common.h 公共单元
 #ifndef TIANCHI_TCCOMMON_H
@@ -93,9 +93,9 @@ inline QString QS(const char* s)
 }
 
 /// @brief 取最大值
-#define max(a,b)    (((a) > (b)) ? (a) : (b))
+//#define max(a,b)    (((a) > (b)) ? (a) : (b))
 /// @brief 取最小值
-#define min(a,b)    (((a) < (b)) ? (a) : (b))
+//#define min(a,b)    (((a) < (b)) ? (a) : (b))
 /// @brief 分支逻辑判断
 inline int     iif(bool logic, int v1, int v2=0) { return logic ? v1 : v2; }
 /// @brief 分支逻辑判断

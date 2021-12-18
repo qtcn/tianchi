@@ -1,7 +1,7 @@
 # ===========================================================================
 # 2013.04.17    XChinux created
 # 2014.01.13	XChinux	added msvc2012-x86_64 support
-# 2021.12.17    XChinux added Qt6 msvc2019-x64 support
+# 2021.12.17    XChinux added Qt6 msvc2019-x64/mingw64-900 support
 #
 # ===========================================================================
 TEMPLATE = lib
